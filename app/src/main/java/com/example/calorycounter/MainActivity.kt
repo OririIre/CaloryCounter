@@ -1,25 +1,21 @@
 package com.example.calorycounter
 
-import android.Manifest
-import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
+import android.R.attr.data
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
     private lateinit var adapter: FragmentPageAdapter
+    private var caloriesFile = "calLog.txt"
 //    val CHANNEL_ID = "Channel_ID_1"
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -27,31 +23,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-
-//        Notificationstuff
-
-//        var hasNotificationPermission = false
-//
-//        val channel = NotificationChannel(
-//            CHANNEL_ID,
-//            "High priority notifications",
-//            NotificationManager.IMPORTANCE_HIGH
-//        )
-//
-//        val requestPermission =  registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-//                hasNotificationPermission = true
-//            }
-//
-//
-//        if (!hasNotificationPermission) {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//                requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
-//            }
-//        }
-//
-//        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//        notificationManager.createNotificationChannel(channel)
-
 
 //        TabLayoutStuff
 
@@ -91,10 +62,43 @@ class MainActivity : AppCompatActivity() {
                 tabLayout.selectTab(tabLayout.getTabAt(position))
             }
         })
+
+        //get data from db and send it to other class
+        val chartDataCalories = dataHandler.loadData(this, caloriesFile)
+        val serMap = HashMap(chartDataCalories)
+        val chartActivityIntent: Intent = Intent(this, Chart::class.java)
+        chartActivityIntent.putExtra("caloriesData", serMap)
+        startActivity(chartActivityIntent)
+    }
+}
+
+//        Notificationstuff
+
+//        var hasNotificationPermission = false
+//
+//        val channel = NotificationChannel(
+//            CHANNEL_ID,
+//            "High priority notifications",
+//            NotificationManager.IMPORTANCE_HIGH
+//        )
+//
+//        val requestPermission =  registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+//                hasNotificationPermission = true
+//            }
+//
+//
+//        if (!hasNotificationPermission) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+//            }
+//        }
+//
+//        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//        notificationManager.createNotificationChannel(channel)
 //
 //        ReminderManager.startReminder(this)
 
-    }
+
 
 //    private fun workerStuffForMaybeUse(){
 //        //        val inputData: Data = Data.Builder().putInt("DBEventIDTag", 10).build()
@@ -111,4 +115,3 @@ class MainActivity : AppCompatActivity() {
 //
 //        WorkManager.getInstance(this).enqueue(work)
 //    }
-}

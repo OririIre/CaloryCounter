@@ -2,10 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkestgrey"
     tools:context=".Home">
 
     <RelativeLayout
@@ -21,7 +19,6 @@
         app:layout_constraintTop_toTopOf="@+id/progressBar3">
 
         <TextView
-            android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -43,7 +40,6 @@
         app:layout_constraintBottom_toBottomOf="@id/progressBar3">
 
         <ImageView
-            android:id="@+id/speech"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -65,7 +61,6 @@
         app:layout_constraintBottom_toBottomOf="@id/progressBar3">
 
         <ImageView
-            android:id="@+id/nodrink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -92,13 +87,11 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <RelativeLayout
-            android:id="@+id/relativeLayout2"
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:layout_marginBottom="10dp">
 
             <TextView
-                android:id="@+id/Remaining"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -196,7 +189,6 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <RelativeLayout
-            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -237,7 +229,7 @@
                     app:tint="@color/somedarkestgrey"/>
 
                 <TextView
-                    android:id="@+id/value_meal_1"
+                    android:id="@+id/valueMeal1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/meal1_icon"
@@ -280,7 +272,7 @@
                     app:tint="@color/somedarkestgrey"/>
 
                 <TextView
-                    android:id="@+id/value_meal_2"
+                    android:id="@+id/valueMeal2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/meal2_icon"
@@ -324,7 +316,7 @@
                     app:tint="@color/somedarkestgrey"/>
 
                 <TextView
-                    android:id="@+id/value_meal_3"
+                    android:id="@+id/valueMeal3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/meal3_icon"
@@ -367,7 +359,7 @@
                     app:tint="@color/somedarkestgrey"/>
 
                 <TextView
-                    android:id="@+id/value_meal_4"
+                    android:id="@+id/valueMeal4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/meal4_icon"
@@ -410,7 +402,7 @@
                     app:tint="@color/somedarkestgrey"/>
 
                 <TextView
-                    android:id="@+id/value_meal_5"
+                    android:id="@+id/valueMeal5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/meal5_icon"
@@ -421,7 +413,7 @@
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_add_amount"
+                android:id="@+id/buttonAddAmount"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_below="@id/button_meal_two"
@@ -505,6 +497,17 @@
             android:fontFamily="sans-serif-black"/>
 
     </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/histroy"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_states_2"
+        android:text="@string/history"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout3" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/infoGroup"

@@ -1,0 +1,13 @@
+- Bottom Drawer fixen
+- History
+- Scroll für Meals
+- Evtl mehr meals?
+- Language selector für Appsprache einbauen
+- Spracheingabe für protein
+- Tutorial noch speichern ob schon gemacht wurde oder nicht -> Einbauen, dass es beim erstemal direkt Bubble 1 anzeigt
+- Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
+- Wenn nichts in meals bei button drück weiterleitung zu meals tab
+
+- Cheatday mode in settings rein (evtl)
+- Beschreibung für Alcohol Mode/Irgendwas damit machen was sinn macht
+- Benachrichtigungen (alcohol mode da rein)

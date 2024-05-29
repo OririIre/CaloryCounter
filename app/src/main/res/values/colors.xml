@@ -1,25 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
     <color name="white">#bababf</color>
-    <color name="dark">#505e73</color>
-    <color name="ghostlyBlue">#4b676e</color>
-    <color name="darkgrey">#4E545C</color>
     <color name="darkestgrey">#151517</color>
     <color name="almostdarkestgrey">#222225</color>
     <color name="somedarkestgrey">#3B3B40</color>
     <color name="transparent">#00ffffff</color>
-    <color name="ghostlyGreen">#3a4a3a</color>
-    <color name="ghostlyRed">#402424</color>
     <color name="progressBarBackground">#252529</color>
-    <color name="progressbarRed">#402929</color>
     <color name="primaryColor">#280861</color>
     <color name="primaryColor_transparent">#66280861</color>
-    <color name="iconcolor">#330E75</color>
-    <color name="secondaryColor">#3C18BC</color>
     <color name="secondaryColor2">#3B119E</color>
     <color name="tertiaryColor">#460861</color>
-    <color name="tertiaryColor2">#186108</color>
-    <color name="overlayColor">#33C3BEC3</color>
 
 </resources>

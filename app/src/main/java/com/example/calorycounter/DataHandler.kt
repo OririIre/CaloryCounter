@@ -1,13 +1,12 @@
 package com.example.calorycounter
 
 import android.content.Context
-import android.media.AudioMetadata.createMap
 import android.util.Log
 import java.io.File
 
 
 
-class DataHandler (){
+class DataHandler{
     fun saveData (context: Context?, fileName: String, key: String, value: String){
         val directory = File(context?.filesDir, "LogFiles")
         val file = File(directory, fileName)

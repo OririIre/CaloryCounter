@@ -14,9 +14,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -24,12 +22,10 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SwitchCompat
-import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.Group
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.calorycounter.databinding.FragmentHomeBinding
-import com.example.calorycounter.databinding.FragmentSettingsBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,7 +33,6 @@ import kotlinx.coroutines.async
 import org.jsoup.Jsoup
 import org.jsoup.internal.StringUtil.isNumeric
 import org.jsoup.nodes.Document
-import java.io.File
 import java.io.IOException
 import java.net.URL
 import java.util.Date
@@ -60,11 +55,15 @@ class Home : Fragment() {
     private val bnd get() = _bnd!!
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var usedCalories: TextView
+    private lateinit var usedProtein: TextView
+    private lateinit var dateView: TextView
     private lateinit var add2: Button
     private lateinit var kcal: EditText
     private lateinit var gramm: EditText
     private lateinit var custom: EditText
     private lateinit var dialog: BottomSheetDialog
+    private lateinit var history_dialog: BottomSheetDialog
     private lateinit var switch: SwitchCompat
     private lateinit var goals: MutableMap<String,String>
     private lateinit var checkBox: CheckBox
@@ -75,8 +74,8 @@ class Home : Fragment() {
     private var messages = arrayOf("Disappointed but not surprised...", "Nope not today", "Losing everything but weight",
         "They said you could do anything so you became a disappointment", "I was expecting too much...", "Again?!?!",
         "Your are letting me down like gravity", "Going as a disappointment for halloween again?", "Gave up on that summer body?",
-        "Hope you did enough of that workout!", "You should rethink your mindset", "Thats NOT the spirit", "Maybe another day, huh?")
-    private var rnds = (0..12).random()
+        "Hope you did enough of that workout!", "You should rethink your mindset", "That's NOT the spirit", "Maybe another day, huh?")
+    private var rnd = (0..12).random()
     private lateinit var badMessages: Toast
     private val caloriesFile = "calLog.txt"
     private val proteinFile = "protLog.txt"
@@ -318,7 +317,6 @@ class Home : Fragment() {
     private fun addFromSpeech(value: String, amount: String){
         if(isNumeric(amount.trim())) {
             var currentKcal = getCurrentValue(true)
-            println("Current Kcal Value" + currentKcal.toString())
             if (value != "" && amount != "") {
                 if (value.toDouble() > 0.0 && amount.trim().toDouble() > 0.0) {
                     currentKcal += (value.toDouble() * (amount.trim().toDouble() / 100))
@@ -416,8 +414,8 @@ class Home : Fragment() {
             bnd.usedKcal.text = calCons
             updateRemaining(currentKcalValue, Value.Calories)
             if(currentKcalValue > goals[Keys.Calories.toString()]!!.toDouble()){
-                rnds = (0..12).random()
-                badMessages = Toast.makeText(activity, messages[rnds], Toast.LENGTH_LONG)
+                rnd = (0..12).random()
+                badMessages = Toast.makeText(activity, messages[rnd], Toast.LENGTH_LONG)
                 badMessages.show()
             }
         }
@@ -445,6 +443,46 @@ class Home : Fragment() {
             }
         }
     }
+
+    @SuppressLint("InflateParams")
+    private fun showHistoryDialog() {
+        val bottomHistoryDialog = layoutInflater.inflate(R.layout.bottomsheetlayout, null)
+        history_dialog = BottomSheetDialog(requireActivity(), R.style.BottomSheetDialogTheme)
+        history_dialog.setContentView(bottomHistoryDialog)
+        history_dialog.show()
+    }
+
+    private fun createCards (parent: LinearLayout, date: String, calories: String, protein: String){
+        val inflater = layoutInflater
+        val myLayout: View = inflater.inflate(R.layout.card_layout, parent, true)
+
+        val formatString = java.text.SimpleDateFormat("yyyyMMdd")
+        val newdate = formatString.parse(date)
+        val newdateString = newdate.toString().removeRange(11, 30)
+
+        usedCalories = myLayout.findViewById(R.id.usedCalories)
+        usedProtein = myLayout.findViewById(R.id.usedProtein)
+        dateView = myLayout.findViewById(R.id.date)
+
+        usedCalories.id = View.generateViewId()
+        usedProtein.id = View.generateViewId()
+        dateView.id = View.generateViewId()
+
+        val param: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT)
+        param.setMargins(500,12,0,0)
+        param.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
+        param.addRule(RelativeLayout.BELOW, usedCalories.id)
+
+        usedProtein.layoutParams = param
+
+        usedCalories.text = calories
+        usedProtein.text = protein
+        dateView.text = newdateString
+    }
+
+}
 
     @SuppressLint("InflateParams")
     private fun showBottomDialog(){
@@ -528,15 +566,13 @@ class Home : Fragment() {
         if(!calProtSwitch) {
             val currentKcalValue = calcValue(add, true, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
             dataHandler.saveData(requireContext(), caloriesFile, currentDate, currentKcalValue.toString())
-            println(Keys.Calories.toString())
-            println(goals[Keys.Calories.toString()])
             changeProgressBar(goals[Keys.Calories.toString()]!!, currentKcalValue, true)
             val calCons = getCurrentValue(true).toInt().toString() + " kcal"
             bnd.usedKcal.text = calCons
             updateRemaining(currentKcalValue, Value.Calories)
             if(currentKcalValue > goals[Keys.Calories.toString()]!!.toDouble()){
-                rnds = (0..12).random()
-                badMessages = Toast.makeText(activity, messages[rnds], Toast.LENGTH_LONG)
+                rnd = (0..12).random()
+                badMessages = Toast.makeText(activity, messages[rnd], Toast.LENGTH_LONG)
                 badMessages.show()
             }
         }
@@ -581,7 +617,6 @@ class Home : Fragment() {
     }
 
     private fun getCurrentValue(cal: Boolean): Double {
-        var currentValue = 0.0
         val filePath = if(cal){
             "calLog.txt"
         } else{
@@ -589,12 +624,11 @@ class Home : Fragment() {
         }
         val currentDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
                 val out = dataHandler.loadData(requireContext(), filePath)
-                if(out.containsKey(currentDate)){
-                    currentValue = out[currentDate]?.toDouble()!!
-                }
-                else{
-                    currentValue = 0.0
-                }
+        val currentValue = if(out.containsKey(currentDate)){
+            out[currentDate]?.toDouble()!!
+        } else{
+            0.0
+        }
         return currentValue
     }
 }

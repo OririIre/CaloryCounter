@@ -21,7 +21,7 @@ class Settings : Fragment()  {
     private var _bnd: FragmentSettingsBinding? = null
     private val bnd get() = _bnd!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _bnd = FragmentSettingsBinding.inflate(inflater, container, false)
         val view = bnd.root
         var toggleReset = true
@@ -38,7 +38,7 @@ class Settings : Fragment()  {
         val items = arrayOf("Phone Default", "German", "English", "French")
         val adapter: ArrayAdapter<String> =
             ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, items)
-        bnd.languageDropdown.setAdapter(adapter)
+        bnd.languageDropdown.adapter = adapter
 
         val language: Int = when (dataHandler.loadData(requireContext(), languageFile)[Keys.Language.toString()]){
             "German" -> {1}
@@ -85,7 +85,7 @@ class Settings : Fragment()  {
             }
         }        
 
-        bnd.buttonAndTextLanguage.setOnClickListener {
+        bnd.iconAndTextLanguage.setOnClickListener {
             if(toggleLanguage){
                 bnd.languageVisibility.visibility = View.VISIBLE
                 toggleLanguage = false

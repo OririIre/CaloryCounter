@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkestgrey"
     android:windowSoftInputMode="adjustResize"
     android:windowIsFloating="false">
 
@@ -79,7 +78,6 @@
                 android:id="@+id/edit_calories_meal_1"
                 android:layout_width="70dp"
                 android:layout_height="48dp"
-
                 android:layout_marginStart="10dp"
                 android:autofillHints=""
                 android:hint="@string/kacl"
@@ -89,7 +87,7 @@
                 android:layout_toEndOf="@+id/edit_name_meal_1"/>
 
             <EditText
-                android:id="@+id/edit_protein_meal_1"
+                android:id="@+id/editProteinMeal1"
                 android:layout_width="70dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
@@ -167,7 +165,6 @@
                 android:id="@+id/edit_calories_meal_2"
                 android:layout_width="70dp"
                 android:layout_height="48dp"
-
                 android:layout_marginStart="10dp"
                 android:autofillHints=""
                 android:hint="@string/kacl"
@@ -177,7 +174,7 @@
                 android:layout_toEndOf="@+id/edit_name_meal_2"/>
 
             <EditText
-                android:id="@+id/edit_protein_meal_2"
+                android:id="@+id/editProteinMeal2"
                 android:layout_width="70dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
@@ -254,7 +251,6 @@
                 android:id="@+id/edit_calories_meal_3"
                 android:layout_width="70dp"
                 android:layout_height="48dp"
-
                 android:layout_marginStart="10dp"
                 android:autofillHints=""
                 android:hint="@string/kacl"
@@ -264,7 +260,7 @@
                 android:layout_toEndOf="@+id/edit_name_meal_3"/>
 
             <EditText
-                android:id="@+id/edit_protein_meal_3"
+                android:id="@+id/editProteinMeal3"
                 android:layout_width="70dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
@@ -341,7 +337,6 @@
                 android:id="@+id/edit_calories_meal_4"
                 android:layout_width="70dp"
                 android:layout_height="48dp"
-
                 android:layout_marginStart="10dp"
                 android:autofillHints=""
                 android:hint="@string/kacl"
@@ -351,7 +346,7 @@
                 android:layout_toEndOf="@+id/edit_name_meal_4"/>
 
             <EditText
-                android:id="@+id/edit_protein_meal_4"
+                android:id="@+id/editProteinMeal4"
                 android:layout_width="70dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
@@ -367,91 +362,177 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/darkestgrey"
-        android:backgroundTint="@color/almostdarkestgrey"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="5dp"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="20dp"
-        app:cardPreventCornerOverlap="true">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/darkestgrey"
+                android:backgroundTint="@color/almostdarkestgrey"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="5dp"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardPreventCornerOverlap="true">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:padding="5dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:padding="5dp">
 
-            <RelativeLayout
-                android:id="@+id/button_meal_5"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="@drawable/button_states">
+                    <RelativeLayout
+                        android:id="@+id/button_meal_5"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/button_states">
 
-                <TextView
-                    android:id="@+id/name_meal_5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/name_meal_one"
-                    android:textSize="16sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@color/white"/>
+                        <TextView
+                            android:id="@+id/name_meal_5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/name_meal_one"
+                            android:textSize="16sp"
+                            android:layout_marginTop="20dp"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/white"/>
 
-                <TextView
-                    android:id="@+id/value_meal_5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/value_meal_one"
-                    android:textSize="12sp"
-                    android:layout_below="@+id/name_meal_5"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@color/white"/>
-            </RelativeLayout>
+                        <TextView
+                            android:id="@+id/value_meal_5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/value_meal_one"
+                            android:textSize="12sp"
+                            android:layout_below="@+id/name_meal_5"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/white"/>
+                    </RelativeLayout>
 
-            <EditText
-                android:id="@+id/edit_name_meal_5"
-                android:layout_width="120dp"
-                android:layout_height="48dp"
+                    <EditText
+                        android:id="@+id/edit_name_meal_5"
+                        android:layout_width="120dp"
+                        android:layout_height="48dp"
 
-                android:layout_marginStart="10dp"
-                android:autofillHints=""
-                android:hint="@string/Name"
-                android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:layout_toEndOf="@+id/button_meal_5"/>
+                        android:layout_marginStart="10dp"
+                        android:autofillHints=""
+                        android:hint="@string/Name"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:layout_toEndOf="@+id/button_meal_5"/>
 
-            <EditText
-                android:id="@+id/edit_calories_meal_5"
-                android:layout_width="70dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="10dp"
-                android:autofillHints=""
-                android:hint="@string/kacl"
-                android:inputType="number"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:layout_toEndOf="@+id/edit_name_meal_5"/>
+                    <EditText
+                        android:id="@+id/edit_calories_meal_5"
+                        android:layout_width="70dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="10dp"
+                        android:autofillHints=""
+                        android:hint="@string/kacl"
+                        android:inputType="number"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:layout_toEndOf="@+id/edit_name_meal_5"/>
 
-            <EditText
-                android:id="@+id/edit_protein_meal_5"
-                android:layout_width="70dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="10dp"
-                android:autofillHints=""
-                android:hint="@string/prot"
-                android:inputType="number"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:layout_below="@+id/edit_calories_meal_5"
-                android:layout_toEndOf="@+id/edit_name_meal_5"/>
+                    <EditText
+                        android:id="@+id/editProteinMeal5"
+                        android:layout_width="70dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="10dp"
+                        android:autofillHints=""
+                        android:hint="@string/prot"
+                        android:inputType="number"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:layout_below="@+id/edit_calories_meal_5"
+                        android:layout_toEndOf="@+id/edit_name_meal_5"/>
 
-        </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/darkestgrey"
+                android:backgroundTint="@color/almostdarkestgrey"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="5dp"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardPreventCornerOverlap="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:padding="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/button_meal_6"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/button_states">
+
+                        <TextView
+                            android:id="@+id/name_meal_6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/name_meal_one"
+                            android:textSize="16sp"
+                            android:layout_marginTop="20dp"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/white"/>
+
+                        <TextView
+                            android:id="@+id/value_meal_6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/value_meal_one"
+                            android:textSize="12sp"
+                            android:layout_below="@+id/name_meal_6"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/white"/>
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/edit_name_meal_6"
+                        android:layout_width="120dp"
+                        android:layout_height="48dp"
+
+                        android:layout_marginStart="10dp"
+                        android:autofillHints=""
+                        android:hint="@string/Name"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:layout_toEndOf="@+id/button_meal_6"/>
+
+                    <EditText
+                        android:id="@+id/edit_calories_meal_6"
+                        android:layout_width="70dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="10dp"
+                        android:autofillHints=""
+                        android:hint="@string/kacl"
+                        android:inputType="number"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:layout_toEndOf="@+id/edit_name_meal_6"/>
+
+                    <EditText
+                        android:id="@+id/editProteinMeal6"
+                        android:layout_width="70dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="10dp"
+                        android:autofillHints=""
+                        android:hint="@string/prot"
+                        android:inputType="number"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:layout_below="@+id/edit_calories_meal_6"
+                        android:layout_toEndOf="@+id/edit_name_meal_6"/>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
 
@@ -460,7 +541,7 @@
         android:layout_height="50dp">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_save1"
+        android:id="@+id/buttonSave1"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:background="@drawable/button_states_1"

@@ -1,15 +1,4 @@
 package com.example.calorycounter
-
-import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-
-
 // Simply too much at the moment for such a small project.
 // Keep it for other projects as example of how to use DataStore.
 
@@ -21,7 +10,7 @@ import kotlinx.coroutines.flow.map
 //}
 //private lateinit  var appContext: Context
 
-class DisregardedDataHandler (){
+class DisregardedDataHandler{
 
 //    suspend fun saveLanguage(context: Context, selectedLanguage: String) {
 //        println("Here$selectedLanguage")

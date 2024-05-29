@@ -5,13 +5,13 @@
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
 
-    <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/slide_in</item>
-        <item name="android:windowExitAnimation">@anim/slide_out</item>
-    </style>
+<!--    <style name="DialogAnimation">-->
+<!--        <item name="android:windowEnterAnimation">@anim/slide_in</item>-->
+<!--        <item name="android:windowExitAnimation">@anim/slide_out</item>-->
+<!--    </style>-->
 
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:background">@color/darkestgrey</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">

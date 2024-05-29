@@ -1,5 +1,7 @@
 package com.example.calorycounter
 
+import android.content.Intent
+import android.content.Intent.getIntent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +19,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import java.text.SimpleDateFormat
 
+
 class Chart : Fragment() {
     private var _bnd: FragmentChartBinding? = null
     private val bnd get() = _bnd!!
@@ -26,7 +29,7 @@ class Chart : Fragment() {
     private var caloriesFile = "calLog.txt"
     private var proteinFile = "protLog.txt"
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _bnd = FragmentChartBinding.inflate(inflater, container, false)
         val view = bnd.root
         buildUI()
@@ -46,6 +49,9 @@ class Chart : Fragment() {
         val caloriesArray:ArrayList<String> = ArrayList()
         val dateArray:ArrayList<String> = ArrayList()
         val xAxisValues:ArrayList<String> = ArrayList()
+        //ToDo Check this
+        val dataFromMain = Intent.EXTRA_FROM_STORAGE
+        println(dataFromMain)
 
 //        chartDataCalories = mutableMapOf("20240518" to "1400", "20240519" to "1300", "20240520" to "1200", "20240521" to "1100", "20240522" to "1000", "20240523" to "900", "20240524" to "800", "20240525" to "800", "20240526" to "800", "20240527" to "800", "20240528" to "800")
 
@@ -153,7 +159,7 @@ class Chart : Fragment() {
         usedProtein.id = View.generateViewId()
         dateView.id = View.generateViewId()
 
-        val param: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+        val param: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT)
         param.setMargins(500,12,0,0)
         param.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
         param.addRule(RelativeLayout.BELOW, usedCalories.id)

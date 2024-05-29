@@ -52,6 +52,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("org.jsoup:jsoup:1.17.2")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 }
