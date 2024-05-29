@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkestgrey"
+    tools:context=".Home">
+
+    <RelativeLayout
+        android:id="@+id/infoToggle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/button_states_1"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/progressBar3"
+        app:layout_constraintTop_toTopOf="@+id/progressBar3">
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="sans-serif-black"
+            android:text="i"
+            android:textColor="@color/white"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/speechAdd"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/button_states_1"
+        android:textColor="@color/white"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="@id/progressBar3"
+        app:layout_constraintBottom_toBottomOf="@id/progressBar3">
+
+        <ImageView
+            android:id="@+id/speech"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="22dp"
+            android:scaleX="2.2"
+            android:scaleY="2.2"
+            android:src="@drawable/speech_add"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/alcoholMode"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/button_states_1"
+        android:textColor="@color/white"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="@id/progressBar3"
+        app:layout_constraintBottom_toBottomOf="@id/progressBar3">
+
+        <ImageView
+            android:id="@+id/nodrink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:scaleX="1.4"
+            android:scaleY="1.4"
+            android:src="@drawable/no_drinks"/>
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkestgrey"
+        android:backgroundTint="@color/almostdarkestgrey"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/Remaining"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignBottom="@+id/progressBar"
+                android:layout_marginEnd="90dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="80dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="start"
+                android:text="@string/Remaining"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/leftKcal"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/progressBar"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="end"
+                android:text="@string/usedKcal"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_above="@+id/Remaining2"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:rotation="180"
+                android:progressDrawable="@drawable/progress_bar2" />
+
+            <TextView
+                android:id="@+id/Remaining2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignBottom="@+id/ProteinProgressBar"
+                android:layout_marginEnd="90dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="80dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="start"
+                android:text="@string/Remaining"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/leftProt"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ProteinProgressBar"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="end"
+                android:text="@string/usedProt"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <ProgressBar
+                android:id="@+id/ProteinProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_alignParentBottom="true"
+                android:rotation="180"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:progressDrawable="@drawable/progress_bar2" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkestgrey"
+        android:backgroundTint="@color/almostdarkestgrey"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="bottom">
+
+            <RelativeLayout
+                android:id="@+id/button_meal_one"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/button_states"
+                android:textColor="@color/white">
+
+                <androidx.wear.widget.CurvedTextView
+                    android:id="@+id/mealname1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:text="@string/Name"/>
+
+                <ImageView
+                    android:id="@+id/meal1_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/meal_icon"
+                    android:scaleX="1.4"
+                    android:scaleY="1.4"
+                    app:tint="@color/somedarkestgrey"/>
+
+                <TextView
+                    android:id="@+id/value_meal_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/meal1_icon"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/value_meal_one"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/button_meal_two"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/button_states"
+                android:textColor="@color/white">
+
+                <androidx.wear.widget.CurvedTextView
+                    android:id="@+id/mealname2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:text="@string/Name"/>
+
+                <ImageView
+                    android:id="@+id/meal2_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/meal_icon"
+                    android:scaleX="1.4"
+                    android:scaleY="1.4"
+                    app:tint="@color/somedarkestgrey"/>
+
+                <TextView
+                    android:id="@+id/value_meal_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/meal2_icon"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/value_meal_one"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/button_meal_three"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/button_states"
+                android:textColor="@color/white">
+
+                <androidx.wear.widget.CurvedTextView
+                    android:id="@+id/mealname3"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:text="@string/Name"/>
+
+                <ImageView
+                    android:id="@+id/meal3_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/meal_icon"
+                    android:scaleX="1.4"
+                    android:scaleY="1.4"
+                    app:tint="@color/somedarkestgrey"/>
+
+                <TextView
+                    android:id="@+id/value_meal_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/meal3_icon"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/value_meal_one"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/button_meal_four"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@id/button_meal_one"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="30dp"
+                android:background="@drawable/button_states"
+                android:textColor="@color/white">
+
+                <androidx.wear.widget.CurvedTextView
+                    android:id="@+id/mealname4"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:text="@string/Name"/>
+
+                <ImageView
+                    android:id="@+id/meal4_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/meal_icon"
+                    android:scaleX="1.4"
+                    android:scaleY="1.4"
+                    app:tint="@color/somedarkestgrey"/>
+
+                <TextView
+                    android:id="@+id/value_meal_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/meal4_icon"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/value_meal_one"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/button_meal_five"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@id/button_meal_three"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/button_states"
+                android:textColor="@color/white">
+
+                <androidx.wear.widget.CurvedTextView
+                    android:id="@+id/mealname5"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:text="@string/Name"/>
+
+                <ImageView
+                    android:id="@+id/meal5_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/meal_icon"
+                    android:scaleX="1.4"
+                    android:scaleY="1.4"
+                    app:tint="@color/somedarkestgrey"/>
+
+                <TextView
+                    android:id="@+id/value_meal_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/meal5_icon"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/value_meal_one"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_add_amount"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_below="@id/button_meal_two"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/button_states"
+                android:backgroundTint="@color/primaryColor"
+                android:text="@string/button_add"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_shape"
+        android:indeterminate="false"
+        android:layout_marginTop="15dp"
+        android:progressDrawable="@drawable/circular_progress2"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="27dp"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_shape"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/circular_progress"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/progressBar2">
+
+        <TextView
+            android:id="@+id/usedKcal"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="end"
+            android:text="@string/usedKcal"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:fontFamily="sans-serif-black"/>
+
+        <TextView
+            android:id="@+id/consumedProt"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/usedKcal"
+            android:gravity="end"
+            android:text="@string/usedProt"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:fontFamily="sans-serif-black"/>
+
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/infoGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="bubbleAlc, descAlc" />
+
+    <View
+        android:id="@+id/shading"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/bubbleAlc"
+        android:layout_width="170dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="15dp"
+        android:scaleX="1.6"
+        android:scaleY="1.2"
+        android:src="@drawable/baseline_chat_bubble_24"
+        app:layout_constraintBottom_toTopOf="@+id/alcoholMode"
+        app:layout_constraintStart_toStartOf="@+id/alcoholMode" />
+
+    <TextView
+        android:id="@+id/descAlc"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/alcDesc"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@+id/bubbleAlc"
+        app:layout_constraintTop_toTopOf="@+id/bubbleAlc" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/infoGroup2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="bubbleSpeech, descVoice" />
+
+    <ImageView
+        android:id="@+id/bubbleSpeech"
+        android:layout_width="170dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="20dp"
+        android:scaleX="-1.6"
+        android:scaleY="1.2"
+        android:src="@drawable/baseline_chat_bubble_24"
+        app:layout_constraintBottom_toTopOf="@+id/speechAdd"
+        app:layout_constraintEnd_toEndOf="@+id/speechAdd" />
+
+    <TextView
+        android:id="@+id/descVoice"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/voiceDesc"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="@+id/bubbleSpeech"
+        app:layout_constraintTop_toTopOf="@+id/bubbleSpeech" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/infoGroup3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="consumedAmount, descConsumedAmount" />
+
+    <ImageView
+        android:id="@+id/consumedAmount"
+        android:layout_width="170dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="-20dp"
+        android:scaleX="-1.8"
+        android:scaleY="0.8"
+        android:src="@drawable/baseline_chat_bubble_24"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout3"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar3"
+        app:layout_constraintStart_toStartOf="@+id/progressBar3" />
+
+    <TextView
+        android:id="@+id/descConsumedAmount"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/consumedDesc"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@+id/consumedAmount"
+        app:layout_constraintTop_toTopOf="@+id/consumedAmount"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/infoGroup4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="bubbleInfo, descInfo" />
+
+    <ImageView
+        android:id="@+id/bubbleInfo"
+        android:layout_width="140dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="15dp"
+        android:scaleX="1.6"
+        android:scaleY="-1"
+        android:src="@drawable/baseline_chat_bubble_24"
+        app:layout_constraintStart_toStartOf="@+id/infoToggle"
+        app:layout_constraintTop_toBottomOf="@+id/infoToggle" />
+
+    <TextView
+        android:id="@+id/descInfo"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/info"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@+id/bubbleInfo"
+        app:layout_constraintTop_toTopOf="@+id/bubbleInfo"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/infoGroup5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="bubbleMeals, descMeals" />
+
+    <ImageView
+        android:id="@+id/bubbleMeals"
+        android:layout_width="170dp"
+        android:layout_height="120dp"
+        android:scaleX="1.5"
+        android:scaleY="1"
+        android:src="@drawable/baseline_chat_bubble_24"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/descMeals"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/meals"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@+id/bubbleMeals"
+        app:layout_constraintTop_toTopOf="@+id/bubbleMeals"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/infoGroup6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="bubbleRemaining, descRemaining" />
+
+    <ImageView
+        android:id="@+id/bubbleRemaining"
+        android:layout_width="170dp"
+        android:layout_height="120dp"
+        android:scaleX="1.5"
+        android:scaleY="1"
+        android:src="@drawable/baseline_chat_bubble_24"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/descRemaining"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/remaining"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@+id/bubbleRemaining"
+        app:layout_constraintTop_toTopOf="@+id/bubbleRemaining"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

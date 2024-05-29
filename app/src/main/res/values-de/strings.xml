@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Calory Counter</string>
+    <string name="custom_calorie_value">Benutzerdefinierte Menge</string>
+    <string name="Charts">Tabelle</string>
+    <string name="Meals">Gerichte</string>
+    <string name="button_save">Speichern</string>
+    <string name="Remaining">Verbleibend:</string>
+    <string name="setGoal">Ziele eintragen</string>
+    <string name="caloriesGoal">Kalorien Ziel:</string>
+    <string name="proteinGoal">Protein Ziel:</string>
+    <string name="resetData">Daten zurücksetzen</string>
+    <string name="clearMeals">Gerichte löschen</string>
+    <string name="clearProtein">Protein löschen</string>
+    <string name="clearCalories">Kalorien löschen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="saveGoals">Ziele speichern</string>
+</resources>
