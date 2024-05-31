@@ -1,5 +1,7 @@
 package com.example.calorycounter
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
@@ -9,6 +11,7 @@ import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -16,6 +19,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -24,10 +28,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorycounter.databinding.FragmentHomeBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.internal.StringUtil.isNumeric
@@ -37,6 +43,8 @@ import java.net.URL
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.math.abs
+import kotlin.math.min
 import kotlin.math.round
 
 
@@ -48,6 +56,7 @@ private const val ARG_PARAM2 = "param2"
 internal enum class Value {
     Protein, Calories
 }
+const val MIN_SWIPE_DISTANCE = 250
 
 class Home : Fragment() {
 
@@ -65,6 +74,7 @@ class Home : Fragment() {
     private lateinit var dialog: BottomSheetDialog
     private lateinit var historyDialog: BottomSheetDialog
     private lateinit var layoutHistoryCards: LinearLayout
+    private lateinit var historyScrollView: ScrollView
     private lateinit var switch: SwitchCompat
     private lateinit var goals: MutableMap<String, String>
     private lateinit var checkBox: CheckBox
@@ -96,6 +106,8 @@ class Home : Fragment() {
     private val goalsFile = "goals.txt"
     private val historyFile = "history.txt"
     private val currentDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -501,26 +513,67 @@ class Home : Fragment() {
         historyDialog.setContentView(bottomHistoryDialog)
         historyDialog.show()
         layoutHistoryCards = historyDialog.findViewById(R.id.layoutHistoryCards)!!
+        historyScrollView = historyDialog.findViewById(R.id.historyScrollView)!!
 
         val historyValues = dataHandler.loadData(requireContext(), historyFile)
 
         for (item in historyValues) {
             println(item.key + " " + item.value)
-            createCards(layoutHistoryCards, currentDate,item.key, item.value)
+            createCards(layoutHistoryCards, currentDate,item.key, item.value, historyScrollView)
         }
     }
 
-    private fun createCards(parent: LinearLayout, date: String, calories: String, protein: String) {
+    private fun createCards(parent: LinearLayout, date: String, calories: String, protein: String, scrollView: ScrollView) {
         val inflater = layoutInflater
-        val myLayout: View = inflater.inflate(R.layout.card_layout, parent, true)
+        val card: View = inflater.inflate(R.layout.card_layout, parent, true)
 
         val formatString = java.text.SimpleDateFormat("yyyyMMdd", Locale.getDefault())
         val newDate = formatString.parse(date)
         val newDateString = newDate?.toString()?.removeRange(11, 30)
+        var startX = 0f
+        card.setOnTouchListener(
+            View.OnTouchListener { view, event ->
+                val displayMetrics = resources.displayMetrics
+                val maxWidth = displayMetrics.widthPixels.toFloat()
 
-        usedCalories = myLayout.findViewById(R.id.usedCalories)
-        usedProtein = myLayout.findViewById(R.id.usedProtein)
-        dateView = myLayout.findViewById(R.id.date)
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        startX = event.rawX
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        val newX = event.rawX
+                        // carry out swipe if motion is bigger than 25 dp and to the right
+                        if (newX - startX > 25) {
+                            scrollView.requestDisallowInterceptTouchEvent(true)
+                            card.animate()
+                                .x(abs(newX) - abs(startX))
+                                .setDuration(0)
+                                .start()
+                        }
+                        if (maxWidth - newX < 25) {
+                            scrollView.removeView(card)
+                        }
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        scrollView.requestDisallowInterceptTouchEvent(false)
+                        if (card.x > MIN_SWIPE_DISTANCE) {
+                            // Add logic to load a new quote if swiped adequately
+                            scrollView.removeView(card)
+                        }
+                        else {
+                            card.translationX = 0f
+                        }
+                    }
+                }
+                // required to by-pass lint warning
+                view.performClick()
+                return@OnTouchListener true
+            }
+        )
+
+        usedCalories = card.findViewById(R.id.usedCalories)
+        usedProtein = card.findViewById(R.id.usedProtein)
+        dateView = card.findViewById(R.id.date)
 
         usedCalories.id = View.generateViewId()
         usedProtein.id = View.generateViewId()

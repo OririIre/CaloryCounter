@@ -14,6 +14,7 @@
         android:layout_height="400dp">
 
             <ScrollView
+                android:id="@+id/historyScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

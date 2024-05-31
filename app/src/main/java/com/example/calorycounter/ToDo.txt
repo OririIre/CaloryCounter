@@ -8,6 +8,7 @@
 - Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
 - Wenn nichts in meals bei button drück weiterleitung zu meals tab
 - Data loading in oncreate via Intent put Extra
+- Bottom Sheet switch zwischen bereczhnung und custom, hier evtl ausklappbar oder so
 
 
 
