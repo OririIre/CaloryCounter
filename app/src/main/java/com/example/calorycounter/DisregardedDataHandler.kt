@@ -10,7 +10,7 @@ package com.example.calorycounter
 //}
 //private lateinit  var appContext: Context
 
-class DisregardedDataHandler{
+class DisregardedDataHandler {
 
 //    suspend fun saveLanguage(context: Context, selectedLanguage: String) {
 //        println("Here$selectedLanguage")

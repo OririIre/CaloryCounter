@@ -5,9 +5,8 @@ import android.util.Log
 import java.io.File
 
 
-
-class DataHandler{
-    fun saveData (context: Context?, fileName: String, key: String, value: String){
+class DataHandler {
+    fun saveData(context: Context?, fileName: String, key: String, value: String) {
         val directory = File(context?.filesDir, "LogFiles")
         val file = File(directory, fileName)
         if (!directory.exists()) {
@@ -15,21 +14,18 @@ class DataHandler{
         }
         if (file.exists()) {
             val out = loadData(context, fileName)
-            print("What is loaded in save:${out}")
-            if(out.containsKey(key)){
+            if (out.containsKey(key)) {
                 out[key] = value
-            }
-            else{
+            } else {
                 out += mapOf(key to value)
             }
             file.writeText(out.toString())
-        }
-        else{
+        } else {
             file.writeText(mutableMapOf(key to value).toString())
         }
     }
 
-    fun saveMapData(context: Context?, fileName: String, outputMap:MutableMap<String, String>) {
+    fun saveMapData(context: Context?, fileName: String, outputMap: MutableMap<String, String>) {
         val directory = File(context?.filesDir, "LogFiles")
         val file = File(directory, fileName)
         if (!directory.exists()) {
@@ -37,16 +33,15 @@ class DataHandler{
         }
         if (file.exists()) {
             file.writeText(outputMap.toString())
-        }
-        else{
+        } else {
             file.writeText(outputMap.toString())
         }
     }
 
-    fun loadData (context: Context?, fileName: String): MutableMap<String, String> {
+    fun loadData(context: Context?, fileName: String): MutableMap<String, String> {
         val directory = File(context?.filesDir, "LogFiles")
         val file = File(directory, fileName)
-        var output = mutableMapOf<String,String>()
+        var output = mutableMapOf<String, String>()
         if (directory.exists()) {
             if (file.exists()) {
                 var contents = file.readText(Charsets.UTF_8)
@@ -54,7 +49,8 @@ class DataHandler{
                 contents = contents.replace("}", "")
                 contents = contents.replace(" ", "")
                 output = contents.split(",")
-                    .map { it.split("=") }.associate { it.first().toString() to it.last().toString() }.toMutableMap()
+                    .map { it.split("=") }
+                    .associate { it.first().toString() to it.last().toString() }.toMutableMap()
             }
         }
         return output
@@ -64,7 +60,9 @@ class DataHandler{
         val directory = File(context?.filesDir, "LogFiles")
         if (directory.exists()) {
             val file = File(directory, fileName)
-            if(file.exists()){file.delete()}
+            if (file.exists()) {
+                file.delete()
+            }
             Log.d("Content", "File was deleted")
         }
     }

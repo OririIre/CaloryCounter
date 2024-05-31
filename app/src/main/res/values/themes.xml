@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.CaloryCounter" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -8,13 +8,13 @@
     <style name="Theme.CaloryCounter" parent="Base.Theme.CaloryCounter" />
 
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@color/darkestgrey</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
         <item name="android:fitsSystemWindows">true</item>
-<!--        <item name="android:windowIsFloating">false</item>-->
+        <!--        <item name="android:windowIsFloating">false</item>-->
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 

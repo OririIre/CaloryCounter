@@ -30,7 +30,7 @@
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sw_calculation"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
         <!--            android:src="@drawable/ic_baseline_whatshot_24"-->
 
         <EditText
@@ -58,35 +58,31 @@
             android:layout_width="110dp"
             android:layout_height="48dp"
             android:hint="@string/amountG"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:autofillHints=""
             android:layout_marginEnd="10dp"
-            android:imeOptions="actionSend"/>
+            android:imeOptions="actionSend" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/x"
             android:textColor="@color/white"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="10dp" />
 
         <EditText
             android:id="@+id/gramm"
             android:layout_width="60dp"
             android:layout_height="48dp"
             android:hint="@string/gramm"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:autofillHints=""
             android:layout_marginEnd="10dp"
-            android:imeOptions="actionSend"/>
-
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:imeOptions="actionSend" />
 
     </LinearLayout>
 
@@ -100,7 +96,7 @@
             android:layout_height="wrap_content"
             android:text="@string/CaloriesAmount"
             android:textColor="@color/white"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="10dp" />
 
     </LinearLayout>
 
@@ -115,11 +111,11 @@
             android:layout_width="180dp"
             android:layout_height="48dp"
             android:hint="@string/custom_calorie_value"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:autofillHints=""
-            android:imeOptions="actionSend"/>
+            android:imeOptions="actionSend" />
 
         <CheckBox
             android:id="@+id/checkBox"
@@ -128,7 +124,7 @@
             android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:text="Remove mode"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -151,7 +147,7 @@
             android:background="@drawable/button_states_1"
             android:text="@string/button_add_amount"
             android:textColor="@color/white"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true" />
 
     </RelativeLayout>
 </LinearLayout>

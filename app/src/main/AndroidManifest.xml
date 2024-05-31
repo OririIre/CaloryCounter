@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
@@ -18,10 +18,10 @@
         android:theme="@style/Theme.CaloryCounter"
         android:windowSoftInputMode="adjustResize"
         tools:targetApi="31">
-<!--        <receiver-->
-<!--            android:name="com.example.calorycounter.AlarmReceiver"-->
-<!--            android:process=":remote" >  &lt;!&ndash; this line is important &ndash;&gt;-->
-<!--        </receiver>-->
+        <!--        <receiver-->
+        <!--            android:name="com.example.calorycounter.AlarmReceiver"-->
+        <!--            android:process=":remote" >  &lt;!&ndash; this line is important &ndash;&gt;-->
+        <!--        </receiver>-->
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -15,7 +15,7 @@
             android:centerColor="@color/secondaryColor2"
             android:endColor="@color/primaryColor"
             android:type="linear"
-            android:useLevel="false"/>
+            android:useLevel="false" />
 
     </shape>
 

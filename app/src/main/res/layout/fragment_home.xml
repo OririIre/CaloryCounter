@@ -25,7 +25,7 @@
             android:fontFamily="sans-serif-black"
             android:text="i"
             android:textColor="@color/white"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -46,7 +46,7 @@
             android:layout_marginTop="22dp"
             android:scaleX="2.2"
             android:scaleY="2.2"
-            android:src="@drawable/speech_add"/>
+            android:src="@drawable/speech_add" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -67,7 +67,7 @@
             android:layout_marginTop="20dp"
             android:scaleX="1.4"
             android:scaleY="1.4"
-            android:src="@drawable/no_drinks"/>
+            android:src="@drawable/no_drinks" />
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
@@ -215,7 +215,7 @@
                     android:layout_marginEnd="3dp"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:text="@string/Name"/>
+                    android:text="@string/Name" />
 
                 <ImageView
                     android:id="@+id/meal1_icon"
@@ -226,7 +226,7 @@
                     android:src="@drawable/meal_icon"
                     android:scaleX="1.4"
                     android:scaleY="1.4"
-                    app:tint="@color/somedarkestgrey"/>
+                    app:tint="@color/somedarkestgrey" />
 
                 <TextView
                     android:id="@+id/valueMeal1"
@@ -236,7 +236,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/value_meal_one"
                     android:textSize="12sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
             </RelativeLayout>
 
@@ -258,7 +258,7 @@
                     android:layout_marginEnd="3dp"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:text="@string/Name"/>
+                    android:text="@string/Name" />
 
                 <ImageView
                     android:id="@+id/meal2_icon"
@@ -269,7 +269,7 @@
                     android:src="@drawable/meal_icon"
                     android:scaleX="1.4"
                     android:scaleY="1.4"
-                    app:tint="@color/somedarkestgrey"/>
+                    app:tint="@color/somedarkestgrey" />
 
                 <TextView
                     android:id="@+id/valueMeal2"
@@ -279,7 +279,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/value_meal_one"
                     android:textSize="12sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
             </RelativeLayout>
 
 
@@ -302,7 +302,7 @@
                     android:layout_marginEnd="3dp"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:text="@string/Name"/>
+                    android:text="@string/Name" />
 
                 <ImageView
                     android:id="@+id/meal3_icon"
@@ -313,7 +313,7 @@
                     android:src="@drawable/meal_icon"
                     android:scaleX="1.4"
                     android:scaleY="1.4"
-                    app:tint="@color/somedarkestgrey"/>
+                    app:tint="@color/somedarkestgrey" />
 
                 <TextView
                     android:id="@+id/valueMeal3"
@@ -323,7 +323,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/value_meal_one"
                     android:textSize="12sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -345,7 +345,7 @@
                     android:layout_marginEnd="3dp"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:text="@string/Name"/>
+                    android:text="@string/Name" />
 
                 <ImageView
                     android:id="@+id/meal4_icon"
@@ -356,7 +356,7 @@
                     android:src="@drawable/meal_icon"
                     android:scaleX="1.4"
                     android:scaleY="1.4"
-                    app:tint="@color/somedarkestgrey"/>
+                    app:tint="@color/somedarkestgrey" />
 
                 <TextView
                     android:id="@+id/valueMeal4"
@@ -366,7 +366,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/value_meal_one"
                     android:textSize="12sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -388,7 +388,7 @@
                     android:layout_marginEnd="3dp"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:text="@string/Name"/>
+                    android:text="@string/Name" />
 
                 <ImageView
                     android:id="@+id/meal5_icon"
@@ -399,7 +399,7 @@
                     android:src="@drawable/meal_icon"
                     android:scaleX="1.4"
                     android:scaleY="1.4"
-                    app:tint="@color/somedarkestgrey"/>
+                    app:tint="@color/somedarkestgrey" />
 
                 <TextView
                     android:id="@+id/valueMeal5"
@@ -409,7 +409,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/value_meal_one"
                     android:textSize="12sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -482,7 +482,7 @@
             android:text="@string/usedKcal"
             android:textColor="@color/white"
             android:textSize="25sp"
-            android:fontFamily="sans-serif-black"/>
+            android:fontFamily="sans-serif-black" />
 
         <TextView
             android:id="@+id/consumedProt"
@@ -494,7 +494,7 @@
             android:text="@string/usedProt"
             android:textColor="@color/white"
             android:textSize="25sp"
-            android:fontFamily="sans-serif-black"/>
+            android:fontFamily="sans-serif-black" />
 
     </RelativeLayout>
 
@@ -502,6 +502,7 @@
         android:id="@+id/histroy"
         android:layout_width="100dp"
         android:layout_height="30dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/button_states_2"
         android:text="@string/history"
         android:textColor="@color/white"
@@ -524,7 +525,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/bubbleAlc"
@@ -612,7 +613,7 @@
         android:textColor="@color/white"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@+id/consumedAmount"
-        app:layout_constraintTop_toTopOf="@+id/consumedAmount"/>
+        app:layout_constraintTop_toTopOf="@+id/consumedAmount" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/infoGroup4"
@@ -643,7 +644,7 @@
         android:textColor="@color/white"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@+id/bubbleInfo"
-        app:layout_constraintTop_toTopOf="@+id/bubbleInfo"/>
+        app:layout_constraintTop_toTopOf="@+id/bubbleInfo" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/infoGroup5"
@@ -674,7 +675,7 @@
         android:textColor="@color/white"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@+id/bubbleMeals"
-        app:layout_constraintTop_toTopOf="@+id/bubbleMeals"/>
+        app:layout_constraintTop_toTopOf="@+id/bubbleMeals" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/infoGroup6"
@@ -705,7 +706,7 @@
         android:textColor="@color/white"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@+id/bubbleRemaining"
-        app:layout_constraintTop_toTopOf="@+id/bubbleRemaining"/>
+        app:layout_constraintTop_toTopOf="@+id/bubbleRemaining" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

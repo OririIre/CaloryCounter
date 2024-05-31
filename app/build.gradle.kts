@@ -33,7 +33,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -50,8 +50,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    //noinspection UseTomlInstead
     implementation("org.jsoup:jsoup:1.17.2")
+    //noinspection UseTomlInstead
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    //noinspection UseTomlInstead
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    //noinspection UseTomlInstead
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 }

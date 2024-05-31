@@ -16,12 +16,16 @@ internal enum class Keys {
     Protein, Calories, Language
 }
 
-class Settings : Fragment()  {
+class Settings : Fragment() {
 
     private var _bnd: FragmentSettingsBinding? = null
     private val bnd get() = _bnd!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _bnd = FragmentSettingsBinding.inflate(inflater, container, false)
         val view = bnd.root
         var toggleReset = true
@@ -40,99 +44,124 @@ class Settings : Fragment()  {
             ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, items)
         bnd.languageDropdown.adapter = adapter
 
-        val language: Int = when (dataHandler.loadData(requireContext(), languageFile)[Keys.Language.toString()]){
-            "German" -> {1}
-            "English" -> {2}
-            "French" -> {3}
-            else -> {0}
-        }
+        val language: Int =
+            when (dataHandler.loadData(requireContext(), languageFile)[Keys.Language.toString()]) {
+                "German" -> {
+                    1
+                }
+
+                "English" -> {
+                    2
+                }
+
+                "French" -> {
+                    3
+                }
+
+                else -> {
+                    0
+                }
+            }
         bnd.languageDropdown.setSelection(language)
 
         bnd.saveGoals.setOnClickListener {
             val calories = bnd.enterCalorieGoal.text.toString()
             val protein = bnd.enterProteinGoal.text.toString()
-            if(calories.isNotEmpty()){
-                dataHandler.saveData(requireContext(), goalsFile,
-                    Keys.Calories.toString(), calories)
+            if (calories.isNotEmpty()) {
+                dataHandler.saveData(
+                    requireContext(), goalsFile,
+                    Keys.Calories.toString(), calories
+                )
             }
-            if(protein.isNotEmpty()){
-                dataHandler.saveData(requireContext(), goalsFile,
-                    Keys.Protein.toString(), protein)
+            if (protein.isNotEmpty()) {
+                dataHandler.saveData(
+                    requireContext(), goalsFile,
+                    Keys.Protein.toString(), protein
+                )
             }
             bnd.enterCalorieGoal.text?.clear()
             bnd.enterProteinGoal.text.clear()
         }
 
         bnd.iconAndTextGoal.setOnClickListener {
-            if(toggleGoals){
+            if (toggleGoals) {
                 bnd.goalVisibility.visibility = View.VISIBLE
                 toggleGoals = false
-            }
-            else {
+            } else {
                 bnd.goalVisibility.visibility = View.GONE
                 toggleGoals = true
             }
         }
 
         bnd.iconAndTextReset.setOnClickListener {
-            if(toggleReset){
+            if (toggleReset) {
                 bnd.clearVisibility.visibility = View.VISIBLE
                 toggleReset = false
-            }
-            else {
+            } else {
                 bnd.clearVisibility.visibility = View.GONE
                 toggleReset = true
             }
-        }        
+        }
 
         bnd.iconAndTextLanguage.setOnClickListener {
-            if(toggleLanguage){
+            if (toggleLanguage) {
                 bnd.languageVisibility.visibility = View.VISIBLE
                 toggleLanguage = false
-            }
-            else {
+            } else {
                 bnd.languageVisibility.visibility = View.GONE
                 toggleLanguage = true
             }
         }
 
         bnd.clearCalories.setOnClickListener {
-            dataHandler.deleteFiles(requireContext(),"calLog.txt")
+            dataHandler.deleteFiles(requireContext(), "calLog.txt")
+            dataHandler.deleteFiles(requireContext(), "history.txt")
         }
 
         bnd.clearProtein.setOnClickListener {
-            dataHandler.deleteFiles(requireContext(),"protLog.txt")
+            dataHandler.deleteFiles(requireContext(), "protLog.txt")
         }
 
         bnd.clearMeals.setOnClickListener {
-            dataHandler.deleteFiles(requireContext(),"meals.txt")
+            dataHandler.deleteFiles(requireContext(), "meals.txt")
         }
 
         bnd.clearGoals.setOnClickListener {
-            dataHandler.deleteFiles(requireContext(),"goals.txt")
+            dataHandler.deleteFiles(requireContext(), "goals.txt")
         }
 
         bnd.clearAll.setOnClickListener {
-            dataHandler.deleteFiles(requireContext(),"calLog.txt")
-            dataHandler.deleteFiles(requireContext(),"protLog.txt")
-            dataHandler.deleteFiles(requireContext(),"meals.txt")
-            dataHandler.deleteFiles(requireContext(),"goals.txt")
-            dataHandler.deleteFiles(requireContext(),"language.txt")
+            dataHandler.deleteFiles(requireContext(), "calLog.txt")
+            dataHandler.deleteFiles(requireContext(), "protLog.txt")
+            dataHandler.deleteFiles(requireContext(), "meals.txt")
+            dataHandler.deleteFiles(requireContext(), "goals.txt")
+            dataHandler.deleteFiles(requireContext(), "language.txt")
         }
 
-        bnd.languageDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        bnd.languageDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedItem = parent?.getItemAtPosition(position).toString()
-                selectedLanguage= selectedItem
+                selectedLanguage = selectedItem
             }
         }
 
         bnd.saveLanguage.setOnClickListener {
-            if(selectedLanguage != ""){
-                dataHandler.saveData(requireContext(), languageFile, Keys.Language.toString(), selectedLanguage)
+            if (selectedLanguage != "") {
+                dataHandler.saveData(
+                    requireContext(),
+                    languageFile,
+                    Keys.Language.toString(),
+                    selectedLanguage
+                )
             }
         }
 

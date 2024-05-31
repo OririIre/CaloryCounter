@@ -1,11 +1,8 @@
 package com.example.calorycounter
 
-import android.R.attr.data
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 
@@ -18,8 +15,7 @@ class MainActivity : AppCompatActivity() {
     private var caloriesFile = "calLog.txt"
 //    val CHANNEL_ID = "Channel_ID_1"
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -40,9 +36,9 @@ class MainActivity : AppCompatActivity() {
         viewPager2.currentItem = 1
         tabLayout.selectTab(tabLayout.getTabAt(1))
 
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                if(tab != null) {
+                if (tab != null) {
                     viewPager2.currentItem = tab.position
                 }
             }
@@ -56,19 +52,20 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 tabLayout.selectTab(tabLayout.getTabAt(position))
             }
         })
 
-        //get data from db and send it to other class
-        val chartDataCalories = dataHandler.loadData(this, caloriesFile)
-        val serMap = HashMap(chartDataCalories)
-        val chartActivityIntent: Intent = Intent(this, Chart::class.java)
-        chartActivityIntent.putExtra("caloriesData", serMap)
-        startActivity(chartActivityIntent)
+        //ToDo get data from db and send it to other class check this again later
+//        val chartDataCalories = dataHandler.loadData(this, caloriesFile)
+//        val serMap = HashMap(chartDataCalories)
+////        val c = Chart::class
+//        val chartActivityIntent = Intent(this, Chart::class.java)
+//        chartActivityIntent.putExtra("caloriesData", serMap)
+//        startActivity(chartActivityIntent)
     }
 }
 
@@ -97,7 +94,6 @@ class MainActivity : AppCompatActivity() {
 //        notificationManager.createNotificationChannel(channel)
 //
 //        ReminderManager.startReminder(this)
-
 
 
 //    private fun workerStuffForMaybeUse(){
