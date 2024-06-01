@@ -16,8 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CaloryCounter"
-        android:windowSoftInputMode="adjustResize"
         tools:targetApi="31">
+        <!--        android:windowSoftInputMode="adjustResize"-->
         <!--        <receiver-->
         <!--            android:name="com.example.calorycounter.AlarmReceiver"-->
         <!--            android:process=":remote" >  &lt;!&ndash; this line is important &ndash;&gt;-->

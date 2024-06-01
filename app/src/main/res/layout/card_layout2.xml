@@ -30,7 +30,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/calories"
+                android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="63dp"
@@ -40,18 +40,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/protein"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/calories"
-                android:paddingStart="50dp"
-                android:text="@string/Protein"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/usedCalories"
+                android:id="@+id/value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -59,14 +48,6 @@
                 android:textColor="@color/white"
                 android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/usedProtein"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="@string/usedKcal"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
         </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

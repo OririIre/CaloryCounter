@@ -31,8 +31,24 @@ class DataHandler {
         if (!directory.exists()) {
             directory.mkdirs()
         }
-        if (file.exists()) {
+        if(outputMap.isEmpty()) {
+            file.delete()
+        }
+        else{
             file.writeText(outputMap.toString())
+        }
+    }
+
+    fun saveMapDataNO(context: Context?, fileName: String, outputMap: MutableMap<String, String>) {
+        val directory = File(context?.filesDir, "LogFiles")
+        val file = File(directory, fileName)
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+        if (file.exists()) {
+            val loadedMap = loadData(context, fileName)
+            val out = loadedMap + outputMap
+            file.writeText(out.toString())
         } else {
             file.writeText(outputMap.toString())
         }
@@ -64,6 +80,20 @@ class DataHandler {
                 file.delete()
             }
             Log.d("Content", "File was deleted")
+        }
+    }
+
+    fun deleteEntriesWithValue(context: Context?, fileName: String, value: String) {
+        val directory = File(context?.filesDir, "LogFiles")
+        if (directory.exists()) {
+            val file = File(directory, fileName)
+            if (file.exists()) {
+                val loadedMap = loadData(context, fileName)
+                if(loadedMap.containsValue(value)){
+                    loadedMap.remove(loadedMap.filterValues { it == value }.keys.first())
+                }
+                saveMapData(context,fileName, loadedMap)
+            }
         }
     }
 }

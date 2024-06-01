@@ -1,7 +1,5 @@
 package com.example.calorycounter
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
@@ -28,12 +26,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import com.example.calorycounter.databinding.FragmentHomeBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.internal.StringUtil.isNumeric
@@ -44,7 +42,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import kotlin.math.abs
-import kotlin.math.min
 import kotlin.math.round
 
 
@@ -62,10 +59,6 @@ class Home : Fragment() {
 
     private var _bnd: FragmentHomeBinding? = null
     private val bnd get() = _bnd!!
-    private var param1: String? = null
-    private var param2: String? = null
-    private lateinit var usedCalories: TextView
-    private lateinit var usedProtein: TextView
     private lateinit var dateView: TextView
     private lateinit var add2: Button
     private lateinit var kcal: EditText
@@ -109,11 +102,19 @@ class Home : Fragment() {
 
 
 
+    @SuppressLint("DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        //ToDO I need to test if this does not crash the app
+        val historyValues = dataHandler.loadData(requireContext(), historyFile)
+        val calendar  = Calendar.getInstance()
+        val currentTime = String.format("%02d.%02d",
+            calendar.get(Calendar.DAY_OF_MONTH),
+            calendar.get(Calendar.MONTH)+1)
+        for(items in historyValues){
+            if(!items.key.contains(currentTime)){
+                dataHandler.deleteFiles(requireContext(), historyFile)
+            }
         }
 
     }
@@ -185,7 +186,6 @@ class Home : Fragment() {
         }
 
         bnd.shading.setOnClickListener {
-            println(speechBubble)
             when (speechBubble) {
                 1 -> bnd.infoGroup.visibility = View.VISIBLE
                 2 -> {
@@ -367,25 +367,32 @@ class Home : Fragment() {
         return value
     }
 
+    @SuppressLint("DefaultLocale")
     private fun addFromSpeech(value: String, amount: String) {
+        val historyMap = mutableMapOf<String, String>()
+        val calendar  = Calendar.getInstance()
+        val currentTime = String.format("%02d.%02d%02d:%02d:%02d",
+            calendar.get(Calendar.DAY_OF_MONTH),
+            calendar.get(Calendar.MONTH)+1,
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            calendar.get(Calendar.SECOND))
         if (isNumeric(amount.trim())) {
             var currentKcal = getCurrentValue(true)
+            var consumed = 0.0
             if (value != "" && amount != "") {
                 if (value.toDouble() > 0.0 && amount.trim().toDouble() > 0.0) {
-                    currentKcal += (value.toDouble() * (amount.trim().toDouble() / 100))
+                    consumed = (value.toDouble() * (amount.trim().toDouble() / 100))
+                    currentKcal += consumed
                 }
             }
-            dataHandler.saveData(
-                requireContext(),
-                caloriesFile,
-                currentDate,
-                currentKcal.toString()
-            )
-            dataHandler.saveData(requireContext(), historyFile, currentDate, currentKcal.toString())
+            dataHandler.saveData(requireContext(), caloriesFile, currentDate, currentKcal.toString())
+            historyMap += mutableMapOf((currentTime + "_calo") to consumed.toString())
             changeProgressBar(goals[Keys.Calories.toString()]!!, currentKcal, true)
             val calCons = getCurrentValue(true).toInt().toString() + " kcal"
             bnd.usedKcal.text = calCons
             updateRemaining(currentKcal, Value.Calories)
+            dataHandler.saveMapDataNO(requireContext(), historyFile, historyMap)
         }
     }
 
@@ -465,11 +472,20 @@ class Home : Fragment() {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private fun addMeal(mealKcal: String, mealProt: String) {
+        val historyMap = mutableMapOf<String, String>()
+        val calendar  = Calendar.getInstance()
+        val currentTime = String.format("%02d.%02d%02d:%02d:%02d",
+            calendar.get(Calendar.DAY_OF_MONTH),
+            calendar.get(Calendar.MONTH+1),
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            calendar.get(Calendar.SECOND))
         if (mealKcal != "value" && mealKcal != "") {
             val currentKcalValue = getCurrentValue(true) + mealKcal.toDouble()
             dataHandler.saveData(requireContext(), caloriesFile, currentDate, currentKcalValue.toString())
-//            dataHandler.saveData(requireContext(), historyFile, currentDate, currentKcalValue.toString())
+            historyMap += mutableMapOf((currentTime + "_calo") to mealKcal)
             changeProgressBar(goals[Keys.Calories.toString()]!!, currentKcalValue, true)
             val calCons = "$currentKcalValue kcal"
             bnd.usedKcal.text = calCons
@@ -483,12 +499,13 @@ class Home : Fragment() {
         if (mealProt != "value" && mealProt != "") {
             val currentProteinValue = getCurrentValue(false) + mealProt.toDouble()
             dataHandler.saveData(requireContext(), proteinFile, currentDate, currentProteinValue.toString())
-            dataHandler.saveData(requireContext(), historyFile, currentDate, currentProteinValue.toString())
+            historyMap += mutableMapOf((currentTime + "_prot") to mealProt)
             changeProgressBar(goals[Keys.Protein.toString()]!!, currentProteinValue, false)
             val protCons = "$currentProteinValue g"
             bnd.consumedProt.text = protCons
             updateRemaining(currentProteinValue, Value.Protein)
         }
+        dataHandler.saveMapDataNO(requireContext(), historyFile, historyMap)
     }
 
     private fun changeProgressBar(setAmount: String, consumed: Double, cal: Boolean) {
@@ -516,26 +533,53 @@ class Home : Fragment() {
         historyScrollView = historyDialog.findViewById(R.id.historyScrollView)!!
 
         val historyValues = dataHandler.loadData(requireContext(), historyFile)
-
-        for (item in historyValues) {
-            println(item.key + " " + item.value)
-            createCards(layoutHistoryCards, currentDate,item.key, item.value, historyScrollView)
+        if(historyValues.isNotEmpty()){
+            for (item in historyValues) {
+                createCards(layoutHistoryCards, item.key, item.value, historyScrollView)
+            }
         }
     }
 
-    private fun createCards(parent: LinearLayout, date: String, calories: String, protein: String, scrollView: ScrollView) {
+    private fun createCards(parent: LinearLayout, time: String, value: String, scrollView: ScrollView) {
         val inflater = layoutInflater
-        val card: View = inflater.inflate(R.layout.card_layout, parent, true)
-
-        val formatString = java.text.SimpleDateFormat("yyyyMMdd", Locale.getDefault())
-        val newDate = formatString.parse(date)
-        val newDateString = newDate?.toString()?.removeRange(11, 30)
+        val card: View = inflater.inflate(R.layout.card_layout2, parent, false)
+        val descriptionText:TextView = card.findViewById(R.id.description)
+        val historyValue:TextView = card.findViewById(R.id.value)
         var startX = 0f
+        card.id = View.generateViewId()
+
+        var newTime = ""
+        var calOrProt = true
+        if(time.contains("_calo")){
+            newTime = time.takeLast(13).replace("_calo", "")
+            calOrProt = true
+        } else if (time.contains("_prot")){
+            newTime = time.takeLast(13).replace("_prot", "")
+            calOrProt = false
+        }
+
+        if(calOrProt){
+            historyValue.id = View.generateViewId()
+            historyValue.text = value
+            descriptionText.text = getString(R.string.Calories)
+        }
+        else{
+            historyValue.id = View.generateViewId()
+            historyValue.text = value
+            descriptionText.text = getString(R.string.Protein)
+        }
+
+        dateView = card.findViewById(R.id.date)
+        dateView.id = View.generateViewId()
+        dateView.text = newTime
+
+        val transition = ChangeBounds()
+        transition.setDuration(200)
+
         card.setOnTouchListener(
             View.OnTouchListener { view, event ->
                 val displayMetrics = resources.displayMetrics
                 val maxWidth = displayMetrics.widthPixels.toFloat()
-
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         startX = event.rawX
@@ -551,14 +595,17 @@ class Home : Fragment() {
                                 .start()
                         }
                         if (maxWidth - newX < 25) {
-                            scrollView.removeView(card)
+                            TransitionManager.beginDelayedTransition(parent, transition)
+                            parent.removeView(card)
+                            removeHistoryItem(descriptionText.text.toString(), historyValue.text.toString())
                         }
                     }
                     MotionEvent.ACTION_UP -> {
                         scrollView.requestDisallowInterceptTouchEvent(false)
                         if (card.x > MIN_SWIPE_DISTANCE) {
-                            // Add logic to load a new quote if swiped adequately
-                            scrollView.removeView(card)
+                            TransitionManager.beginDelayedTransition(parent, transition)
+                            parent.removeView(card)
+                            removeHistoryItem(descriptionText.text.toString(), historyValue.text.toString())
                         }
                         else {
                             card.translationX = 0f
@@ -571,27 +618,39 @@ class Home : Fragment() {
             }
         )
 
-        usedCalories = card.findViewById(R.id.usedCalories)
-        usedProtein = card.findViewById(R.id.usedProtein)
-        dateView = card.findViewById(R.id.date)
+        parent.addView(card)
+    }
 
-        usedCalories.id = View.generateViewId()
-        usedProtein.id = View.generateViewId()
-        dateView.id = View.generateViewId()
+    private fun removeHistoryItem(valueType: String, value: String){
 
-        val param: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        )
-        param.setMargins(500, 12, 0, 0)
-        param.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
-        param.addRule(RelativeLayout.BELOW, usedCalories.id)
-
-        usedProtein.layoutParams = param
-
-        usedCalories.text = calories
-        usedProtein.text = protein
-        dateView.text = newDateString
+        if(valueType == "Calories"){
+            var currentKcal = getCurrentValue(true)
+            if (value != "") {
+                if (value.toDouble() > 0.0) {
+                    currentKcal -= value.toDouble()
+                }
+            }
+            dataHandler.saveData(requireContext(), caloriesFile, currentDate, currentKcal.toString())
+            changeProgressBar(goals[Keys.Calories.toString()]!!, currentKcal, true)
+            val calCons = getCurrentValue(true).toInt().toString() + " kcal"
+            bnd.usedKcal.text = calCons
+            updateRemaining(currentKcal, Value.Calories)
+            dataHandler.deleteEntriesWithValue(requireContext(), historyFile, value)
+        }
+        else{
+            var currentProt = getCurrentValue(false)
+            if (value != "") {
+                if (value.toDouble() > 0.0) {
+                    currentProt -= value.toDouble()
+                }
+            }
+            dataHandler.saveData(requireContext(), proteinFile, currentDate, currentProt.toString())
+            changeProgressBar(goals[Keys.Protein.toString()]!!, currentProt, false)
+            val protCons = getCurrentValue(false).toInt().toString() + " g"
+            bnd.consumedProt.text = protCons
+            updateRemaining(currentProt, Value.Protein)
+            dataHandler.deleteEntriesWithValue(requireContext(), historyFile, value)
+        }
     }
 
     @SuppressLint("InflateParams")
@@ -667,15 +726,20 @@ class Home : Fragment() {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private fun addSub(calProtSwitch: Boolean, add: Boolean) {
+        val historyMap = mutableMapOf<String, String>()
+        val calendar  = Calendar.getInstance()
+        val currentTime = String.format("%02d.%02d%02d:%02d:%02d",
+            calendar.get(Calendar.DAY_OF_MONTH),
+            calendar.get(Calendar.MONTH)+1,
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            calendar.get(Calendar.SECOND))
         if (!calProtSwitch) {
             val currentKcalValue = calcValue(add, true, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
-            dataHandler.saveData(requireContext(), caloriesFile, currentDate, currentKcalValue.toString())
-            val calendar  = Calendar.getInstance()
-            val currentTime = calendar.get(Calendar.HOUR_OF_DAY).toString() +
-                    ":" + calendar.get(Calendar.MINUTE).toString() +
-                    ":" + calendar.get(Calendar.SECOND).toString()
-            dataHandler.saveData(requireContext(), historyFile, currentTime, custom.text.toString())
+            dataHandler.saveData(requireContext(), caloriesFile, currentDate, custom.text.toString())
+            historyMap += mutableMapOf((currentTime + "_calo") to currentKcalValue.toString())
             changeProgressBar(goals[Keys.Calories.toString()]!!, currentKcalValue, true)
             val calCons = getCurrentValue(true).toInt().toString() + " kcal"
             bnd.usedKcal.text = calCons
@@ -686,44 +750,24 @@ class Home : Fragment() {
                 badMessages.show()
             }
         } else {
-            val currentProteinValue = calcValue(
-                add,
-                false,
-                kcal.text.toString(),
-                gramm.text.toString(),
-                custom.text.toString()
-            )
-            dataHandler.saveData(
-                requireContext(),
-                proteinFile,
-                currentDate,
-                currentProteinValue.toString()
-            )
-            dataHandler.saveData(
-                requireContext(),
-                historyFile,
-                currentDate,
-                currentProteinValue.toString()
-            )
+            val currentProteinValue = calcValue(add,false, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
+            dataHandler.saveData(requireContext(), proteinFile, currentDate, currentProteinValue.toString())
+            historyMap += mutableMapOf((currentTime + "_prot") to custom.text.toString())
             changeProgressBar(goals[Keys.Protein.toString()]!!, currentProteinValue, false)
             val protCons = getCurrentValue(false).toInt().toString() + " g"
             bnd.consumedProt.text = protCons
             updateRemaining(currentProteinValue, Value.Protein)
+        }
+        if(add){
+            dataHandler.saveMapDataNO(requireContext(), historyFile, historyMap)
         }
         kcal.text.clear()
         gramm.text.clear()
         custom.text.clear()
     }
 
-    private fun calcValue(
-        add: Boolean,
-        cal: Boolean,
-        value: String,
-        gramm: String,
-        custom: String
-    ): Double {
-        val toast =
-            Toast.makeText(activity, "Alcohol mode is on! Nothing is added!", Toast.LENGTH_LONG)
+    private fun calcValue(add: Boolean, cal: Boolean, value: String, gramm: String, custom: String): Double {
+        val toast = Toast.makeText(activity, "Alcohol mode is on! Nothing is added!", Toast.LENGTH_LONG)
         var currentKcal = getCurrentValue(cal)
         if (!alcoholToggle) {
             if (custom != "") {
