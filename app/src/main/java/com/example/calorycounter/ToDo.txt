@@ -1,6 +1,4 @@
 - Bottom Drawer fixen
-- History
-- Scroll für Meals
 - Evtl mehr meals?
 - Language selector für Appsprache einbauen
 - Spracheingabe für protein
@@ -8,11 +6,12 @@
 - Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
 - Wenn nichts in meals bei button drück weiterleitung zu meals tab
 - Data loading in oncreate via Intent put Extra
-- Bottom Sheet switch zwischen bereczhnung und custom, hier evtl ausklappbar oder so
 - Implement Snackbar instead of Toast:
 https://m2.material.io/components/snackbars/android#using-snackbars
 https://www.digitalocean.com/community/tutorials/android-snackbar-example-tutorial
-
+- Hinzufügen von sachen ist überall anders mal Int mal Double -> Einheitlich machen
+- Add Funktionen überarbeiten in diesem zuge
+- Clear History Button machen
 
 
 - Cheatday mode in settings rein (evtl)

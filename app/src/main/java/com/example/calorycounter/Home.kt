@@ -78,7 +78,6 @@ class Home : Fragment() {
     private lateinit var additionalSettings: RelativeLayout
     private lateinit var document: Document
     private var alcoholToggle = false
-    private var toggleSettings = true
     private var messages = arrayOf(
         "Disappointed but not surprised...",
         "Nope not today",
@@ -655,6 +654,7 @@ class Home : Fragment() {
     private fun showBottomDialog() {
         val bottomDialog = layoutInflater.inflate(R.layout.bottomsheetlayout, null)
         var calProtSwitch = true
+        var toggleSettings = true
 //        val transition = ChangeBounds()
 //        transition.setDuration(200)
         dialog = BottomSheetDialog(requireActivity(), R.style.BottomSheetDialogTheme)
@@ -741,10 +741,19 @@ class Home : Fragment() {
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
             calendar.get(Calendar.SECOND))
+        val caloriesString = kcal.text.toString()
+        val grammString = gramm.text.toString()
         if (calProtSwitch) {
             val currentKcalValue = calcValue(true, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
             dataHandler.saveData(requireContext(), caloriesFile, currentDate, currentKcalValue.toString())
-            historyMap += mutableMapOf((currentTime + "_calo") to currentKcalValue.toString())
+            if (custom.text.toString() != "") {
+                historyMap += mutableMapOf((currentTime + "_calo") to custom.text.toString())
+            }
+            else if (kcal.text.toString() != "" && gramm.text.toString() != "") {
+                val caloriesDouble = caloriesString.toDouble()
+                val grammDouble = grammString.toDouble()
+                historyMap += mutableMapOf((currentTime + "_calo") to (caloriesDouble * (grammDouble / 100)).toString())
+            }
             changeProgressBar(goals[Keys.Calories.toString()]!!, currentKcalValue, true)
             val calCons = getCurrentValue(true).toInt().toString() + " kcal"
             bnd.usedKcal.text = calCons
@@ -757,7 +766,14 @@ class Home : Fragment() {
         } else {
             val currentProteinValue = calcValue(false, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
             dataHandler.saveData(requireContext(), proteinFile, currentDate, currentProteinValue.toString())
-            historyMap += mutableMapOf((currentTime + "_prot") to custom.text.toString())
+            if (custom.text.toString() != "") {
+                historyMap += mutableMapOf((currentTime + "_prot") to custom.text.toString())
+            }
+            else if (kcal.text.toString() != "" && gramm.text.toString() != "") {
+                val caloriesDouble = caloriesString.toDouble()
+                val grammDouble = grammString.toDouble()
+                historyMap += mutableMapOf((currentTime + "_prot") to (caloriesDouble * (grammDouble / 100)).toString())
+            }
             changeProgressBar(goals[Keys.Protein.toString()]!!, currentProteinValue, false)
             val protCons = getCurrentValue(false).toInt().toString() + " g"
             bnd.consumedProt.text = protCons
