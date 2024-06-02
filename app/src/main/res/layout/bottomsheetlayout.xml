@@ -1,142 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dialogbkg"
-    android:paddingBottom="30dp">
+    android:id="@+id/mainLayout"
+    android:background="@color/darkestgrey">
 
-    <LinearLayout
-        android:id="@+id/layoutCalories"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="25dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/CalculateCalories"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/Calories"
-            android:textColor="@color/white" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sw_calculation"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/Protein"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <FrameLayout
+        android:id="@+id/headlineLayout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <!--            android:src="@drawable/ic_baseline_whatshot_24"-->
-
-        <EditText
-            android:id="@+id/kcal"
-            android:layout_width="110dp"
-            android:layout_height="48dp"
-            android:hint="@string/amountG"
-            android:inputType="numberDecimal"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:autofillHints=""
-            android:layout_marginEnd="10dp"
-            android:imeOptions="actionSend" />
+        android:background="@color/almostdarkestgrey">
 
         <TextView
+            android:id="@+id/headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/x"
+            android:layout_marginStart="10dp"
+            android:text="@string/add"
+            android:textSize="20sp"
             android:textColor="@color/white"
-            android:layout_marginEnd="10dp" />
+            android:padding="15dp"
+            android:drawablePadding="10dp"
+            android:background="@color/almostdarkestgrey"
+            app:drawableStartCompat="@drawable/baseline_add_meal_24"/>
 
-        <EditText
-            android:id="@+id/gramm"
-            android:layout_width="60dp"
-            android:layout_height="48dp"
-            android:hint="@string/gramm"
-            android:inputType="numberDecimal"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:autofillHints=""
-            android:layout_marginEnd="10dp"
-            android:imeOptions="actionSend" />
+    </FrameLayout>
 
-    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/layoutCalories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
 
-    <LinearLayout
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/caloriesSwitcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Calories"
+                android:textColor="@color/white"
+                android:padding="8dp"
+                android:background="@drawable/custom_textview_border"/>
+
+            <TextView
+                android:id="@+id/proteinSwitcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Protein"
+                android:textColor="@color/white"
+                android:padding="8dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <EditText
+            android:id="@+id/enter_calorie_amount"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:hint="@string/amountHint"
+            android:inputType="numberDecimal"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:layout_centerInParent="true"
+            android:autofillHints=""
+            android:drawableStart="@drawable/baseline_add_circle_24"
+            android:background="@drawable/custom_edit_text"
+            android:drawablePadding="12dp"
+            android:imeOptions="actionSend"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
         <TextView
+            android:id="@+id/button_additional_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/CaloriesAmount"
+            android:layout_marginTop="5dp"
+            android:text="@string/additional_settings"
             android:textColor="@color/white"
-            android:layout_marginStart="10dp" />
+            android:drawablePadding="5dp"
+            app:drawableStartCompat="@drawable/baseline_keyboard_arrow_down_24" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/layoutAdditionalSettings"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="5dp"
+        android:visibility="gone"
+        android:layout_gravity="center">
+
 
         <EditText
-            android:id="@+id/enter_calorie_amount"
-            android:layout_width="180dp"
+            android:id="@+id/kcal"
+            android:layout_width="120dp"
             android:layout_height="48dp"
-            android:hint="@string/custom_calorie_value"
+            android:hint="@string/amountHint"
             android:inputType="numberDecimal"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:autofillHints=""
-            android:imeOptions="actionSend" />
+            android:drawableStart="@drawable/baseline_data_saver_off_24"
+            android:background="@drawable/custom_edit_text"
+            android:drawablePadding="12dp"
+            android:imeOptions="actionSend"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/multiplicationSign"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/kcal"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:text="Remove mode"
-            android:textColor="@color/white" />
+            android:text="@string/x"
+            android:textColor="@color/white"/>
 
-    </LinearLayout>
+        <EditText
+            android:id="@+id/gramm"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:layout_toEndOf="@+id/multiplicationSign"
+            android:hint="@string/amountHint"
+            android:inputType="numberDecimal"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:autofillHints=""
+            android:drawableStart="@drawable/baseline_monitor_weight_24"
+            android:background="@drawable/custom_edit_text"
+            android:drawablePadding="12dp"
+            android:imeOptions="actionSend"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/kcalDescription"
+            android:textColor="@color/white"
+            android:layout_below="@+id/kcal"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/grammDescription"
+            android:textColor="@color/white"
+            android:layout_alignStart="@+id/gramm"
+            android:layout_below="@+id/gramm"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"/>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-
-        android:paddingLeft="10dp"
         android:paddingTop="5dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="5dp">
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="20dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_add2"
@@ -150,4 +198,5 @@
             android:layout_centerInParent="true" />
 
     </RelativeLayout>
+
 </LinearLayout>

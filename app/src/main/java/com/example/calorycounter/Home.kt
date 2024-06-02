@@ -1,5 +1,6 @@
 package com.example.calorycounter
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
@@ -13,7 +14,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -24,6 +24,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.transition.ChangeBounds
@@ -68,13 +69,16 @@ class Home : Fragment() {
     private lateinit var historyDialog: BottomSheetDialog
     private lateinit var layoutHistoryCards: LinearLayout
     private lateinit var historyScrollView: ScrollView
-    private lateinit var switch: SwitchCompat
+    private lateinit var caloriesSwitch: TextView
+    private lateinit var proteinSwitch: TextView
     private lateinit var goals: MutableMap<String, String>
-    private lateinit var checkBox: CheckBox
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var amount: Array<String>
+    private lateinit var additionalInfoButton: TextView
+    private lateinit var additionalSettings: RelativeLayout
     private lateinit var document: Document
     private var alcoholToggle = false
+    private var toggleSettings = true
     private var messages = arrayOf(
         "Disappointed but not surprised...",
         "Nope not today",
@@ -105,7 +109,6 @@ class Home : Fragment() {
     @SuppressLint("DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //ToDO I need to test if this does not crash the app
         val historyValues = dataHandler.loadData(requireContext(), historyFile)
         val calendar  = Calendar.getInstance()
         val currentTime = String.format("%02d.%02d",
@@ -175,46 +178,41 @@ class Home : Fragment() {
             showHistoryDialog()
         }
 
-        bnd.alcoholMode.setOnClickListener {
-            if (!alcoholToggle) {
-                alcoholToggle = true
-                bnd.alcoholMode.background.setTint(Color.parseColor("#7C0D34"))
-            } else {
-                alcoholToggle = false
-                bnd.alcoholMode.background.setTint(Color.parseColor("#280861"))
-            }
-        }
+//        bnd.alcoholMode.setOnClickListener {
+//            if (!alcoholToggle) {
+//                alcoholToggle = true
+//                bnd.alcoholMode.background.setTint(Color.parseColor("#7C0D34"))
+//            } else {
+//                alcoholToggle = false
+//                bnd.alcoholMode.background.setTint(Color.parseColor("#280861"))
+//            }
+//        }
 
         bnd.shading.setOnClickListener {
             when (speechBubble) {
-                1 -> bnd.infoGroup.visibility = View.VISIBLE
+//                1 -> bnd.infoGroup.visibility = View.VISIBLE
                 2 -> {
                     bnd.infoGroup2.visibility = View.VISIBLE
-                    bnd.infoGroup.visibility = View.GONE
+//                    bnd.infoGroup.visibility = View.GONE
                 }
-
                 3 -> {
                     bnd.infoGroup3.visibility = View.VISIBLE
                     bnd.infoGroup2.visibility = View.GONE
                 }
-
                 4 -> {
                     bnd.infoGroup4.visibility = View.VISIBLE
                     bnd.infoGroup3.visibility = View.GONE
                 }
-
                 5 -> {
                     bnd.cardView.visibility = View.INVISIBLE
                     bnd.infoGroup5.visibility = View.VISIBLE
                     bnd.infoGroup4.visibility = View.GONE
                 }
-
                 6 -> {
                     bnd.cardView.visibility = View.VISIBLE
                     bnd.infoGroup6.visibility = View.VISIBLE
                     bnd.infoGroup5.visibility = View.GONE
                 }
-
                 7 -> {
                     bnd.infoGroup6.visibility = View.GONE
                 }
@@ -656,7 +654,9 @@ class Home : Fragment() {
     @SuppressLint("InflateParams")
     private fun showBottomDialog() {
         val bottomDialog = layoutInflater.inflate(R.layout.bottomsheetlayout, null)
-        var calProtSwitch = false
+        var calProtSwitch = true
+//        val transition = ChangeBounds()
+//        transition.setDuration(200)
         dialog = BottomSheetDialog(requireActivity(), R.style.BottomSheetDialogTheme)
         dialog.setContentView(bottomDialog)
         dialog.show()
@@ -665,16 +665,34 @@ class Home : Fragment() {
         kcal = dialog.findViewById(R.id.kcal)!!
         gramm = dialog.findViewById(R.id.gramm)!!
         custom = dialog.findViewById(R.id.enter_calorie_amount)!!
-        switch = dialog.findViewById(R.id.sw_calculation)!!
-        checkBox = dialog.findViewById(R.id.checkBox)!!
+        caloriesSwitch = dialog.findViewById(R.id.caloriesSwitcher)!!
+        proteinSwitch = dialog.findViewById(R.id.proteinSwitcher)!!
+
+        additionalInfoButton = dialog.findViewById<TextView>(R.id.button_additional_settings)!!
+        additionalSettings = dialog.findViewById(R.id.layoutAdditionalSettings)!!
+//        mainLayout = dialog.findViewById(R.id.mainLayout)!!
+//        mainLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGE_DISAPPEARING)
+
+//        val transition = LayoutTransition()
+//        transition.setAnimateParentHierarchy(false)
+//        transition.setDuration(100)
+//        mainLayout.layoutTransition = transition
+
+        additionalInfoButton.setOnClickListener {
+            if (toggleSettings) {
+//                TransitionManager.beginDelayedTransition(mainLayout)
+                additionalSettings.visibility = View.VISIBLE
+                toggleSettings = false
+            } else {
+
+                additionalSettings.visibility = View.GONE
+                toggleSettings = true
+            }
+        }
 
         custom.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == 4) {
-                if (checkBox.isChecked) {
-                    addSub(calProtSwitch, false)
-                } else {
-                    addSub(calProtSwitch, true)
-                }
+                addSub(calProtSwitch)
                 true
             } else {
                 false
@@ -683,51 +701,38 @@ class Home : Fragment() {
 
         gramm.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == 4) {
-                if (checkBox.isChecked) {
-                    addSub(calProtSwitch, false)
-                } else {
-                    addSub(calProtSwitch, true)
-                }
+                addSub(calProtSwitch)
                 true
             } else {
                 false
             }
         }
 
-        switch.setOnCheckedChangeListener { _, isChecked ->
-            calProtSwitch = isChecked
-            if (isChecked) {
-                kcal.hint = "gramm/100g"
-                gramm.text.clear()
-                kcal.text.clear()
-                custom.text.clear()
-            } else {
-                kcal.hint = "kcal/100g"
-                gramm.text.clear()
-                kcal.text.clear()
-                custom.text.clear()
-            }
+         caloriesSwitch.setOnClickListener {
+            calProtSwitch = true
+            gramm.text.clear()
+            kcal.text.clear()
+            custom.text.clear()
+            caloriesSwitch.background = ResourcesCompat.getDrawable(resources, R.drawable.custom_textview_border, null)
+            proteinSwitch.background = null
+         }
+
+        proteinSwitch.setOnClickListener {
+            calProtSwitch = false
+            gramm.text.clear()
+            kcal.text.clear()
+            custom.text.clear()
+            proteinSwitch.background = ResourcesCompat.getDrawable(resources, R.drawable.custom_textview_border, null)
+            caloriesSwitch.background = null
         }
 
         add2.setOnClickListener {
-            if (checkBox.isChecked) {
-                addSub(calProtSwitch, false)
-            } else {
-                addSub(calProtSwitch, true)
-            }
-        }
-
-        checkBox.setOnClickListener {
-            if (checkBox.isChecked) {
-                add2.text = "Remove Amount"
-            } else {
-                add2.text = "Add Amount"
-            }
+            addSub(calProtSwitch)
         }
     }
 
     @SuppressLint("DefaultLocale")
-    private fun addSub(calProtSwitch: Boolean, add: Boolean) {
+    private fun addSub(calProtSwitch: Boolean) {
         val historyMap = mutableMapOf<String, String>()
         val calendar  = Calendar.getInstance()
         val currentTime = String.format("%02d.%02d%02d:%02d:%02d",
@@ -736,9 +741,9 @@ class Home : Fragment() {
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
             calendar.get(Calendar.SECOND))
-        if (!calProtSwitch) {
-            val currentKcalValue = calcValue(add, true, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
-            dataHandler.saveData(requireContext(), caloriesFile, currentDate, custom.text.toString())
+        if (calProtSwitch) {
+            val currentKcalValue = calcValue(true, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
+            dataHandler.saveData(requireContext(), caloriesFile, currentDate, currentKcalValue.toString())
             historyMap += mutableMapOf((currentTime + "_calo") to currentKcalValue.toString())
             changeProgressBar(goals[Keys.Calories.toString()]!!, currentKcalValue, true)
             val calCons = getCurrentValue(true).toInt().toString() + " kcal"
@@ -750,7 +755,7 @@ class Home : Fragment() {
                 badMessages.show()
             }
         } else {
-            val currentProteinValue = calcValue(add,false, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
+            val currentProteinValue = calcValue(false, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
             dataHandler.saveData(requireContext(), proteinFile, currentDate, currentProteinValue.toString())
             historyMap += mutableMapOf((currentTime + "_prot") to custom.text.toString())
             changeProgressBar(goals[Keys.Protein.toString()]!!, currentProteinValue, false)
@@ -758,31 +763,22 @@ class Home : Fragment() {
             bnd.consumedProt.text = protCons
             updateRemaining(currentProteinValue, Value.Protein)
         }
-        if(add){
-            dataHandler.saveMapDataNO(requireContext(), historyFile, historyMap)
-        }
+        dataHandler.saveMapDataNO(requireContext(), historyFile, historyMap)
         kcal.text.clear()
         gramm.text.clear()
         custom.text.clear()
     }
 
-    private fun calcValue(add: Boolean, cal: Boolean, value: String, gramm: String, custom: String): Double {
+    private fun calcValue(cal: Boolean, value: String, gramm: String, custom: String): Double {
         val toast = Toast.makeText(activity, "Alcohol mode is on! Nothing is added!", Toast.LENGTH_LONG)
         var currentKcal = getCurrentValue(cal)
         if (!alcoholToggle) {
             if (custom != "") {
-                if (add)
-                    currentKcal += custom.toDouble()
-                else
-                    currentKcal -= custom.toDouble()
-            } else {
-                if (value != "" && gramm != "") {
-                    if (value.toDouble() > 0.0 && gramm.toDouble() > 0.0) {
-                        if (add)
-                            currentKcal += (value.toDouble() * (gramm.toDouble() / 100))
-                        else
-                            currentKcal -= (value.toDouble() * (gramm.toDouble() / 100))
-                    }
+               currentKcal += custom.toDouble()
+            }
+            else if (value != "" && gramm != "") {
+                if (value.toDouble() > 0.0 && gramm.toDouble() > 0.0) {
+                    currentKcal += (value.toDouble() * (gramm.toDouble() / 100))
                 }
             }
         } else {

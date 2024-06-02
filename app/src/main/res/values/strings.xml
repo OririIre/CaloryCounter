@@ -40,4 +40,9 @@
     <string name="meals">Here you can find you meals which you can add with an click. To customize your meals go to the \"Meals\" tab.</string>
     <string name="remaining">Here you can see how much Calories you have left and how much Protein you still have to eat to reach your goal</string>
     <string name="history">Histroy</string>
+    <string name="add">Free add</string>
+    <string name="amountHint">0</string>
+    <string name="grammDescription">Amount (g)</string>
+    <string name="kcalDescription">Calories per 100g</string>
+    <string name="additional_settings">Additional Input Type</string>
 </resources>

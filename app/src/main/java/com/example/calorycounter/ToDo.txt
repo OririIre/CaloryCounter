@@ -9,6 +9,9 @@
 - Wenn nichts in meals bei button drück weiterleitung zu meals tab
 - Data loading in oncreate via Intent put Extra
 - Bottom Sheet switch zwischen bereczhnung und custom, hier evtl ausklappbar oder so
+- Implement Snackbar instead of Toast:
+https://m2.material.io/components/snackbars/android#using-snackbars
+https://www.digitalocean.com/community/tutorials/android-snackbar-example-tutorial
 
 
 

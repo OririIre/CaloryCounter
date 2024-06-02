@@ -4,8 +4,30 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dialogbkg"
-    android:paddingBottom="30dp">
+    android:paddingBottom="30dp"
+    android:background="@color/darkestgrey">
+
+    <FrameLayout
+        android:id="@+id/headlineLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/almostdarkestgrey">
+
+        <TextView
+            android:id="@+id/headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/history"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:padding="15dp"
+            android:drawablePadding="10dp"
+            android:background="@color/almostdarkestgrey"
+            app:drawableStartCompat="@drawable/baseline_history_24"/>
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/transparentLayout"

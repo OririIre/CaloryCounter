@@ -11,11 +11,11 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
         android:layout_alignParentStart="true"
         android:background="@drawable/button_states_1"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/progressBar3"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar3"
         app:layout_constraintTop_toTopOf="@+id/progressBar3">
 
         <TextView
@@ -49,26 +49,26 @@
             android:src="@drawable/speech_add" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/alcoholMode"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:background="@drawable/button_states_1"
-        android:textColor="@color/white"
-        android:layout_marginStart="20dp"
-        app:layout_constraintStart_toStartOf="@id/progressBar3"
-        app:layout_constraintBottom_toBottomOf="@id/progressBar3">
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/alcoholMode"-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:background="@drawable/button_states_1"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        app:layout_constraintStart_toStartOf="@id/progressBar3"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/progressBar3">-->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="20dp"
-            android:scaleX="1.4"
-            android:scaleY="1.4"
-            android:src="@drawable/no_drinks" />
-    </RelativeLayout>
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:scaleX="1.4"-->
+<!--            android:scaleY="1.4"-->
+<!--            android:src="@drawable/no_drinks" />-->
+<!--    </RelativeLayout>-->
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -89,7 +89,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:background="@color/transparent">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -193,7 +194,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:gravity="bottom">
+            android:gravity="bottom"
+            android:background="@color/transparent">
 
             <RelativeLayout
                 android:id="@+id/button_meal_one"
@@ -466,7 +468,7 @@
 
     <RelativeLayout
         android:id="@+id/relativeLayout3"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/progressBar2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -510,12 +512,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout3" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/infoGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="bubbleAlc, descAlc" />
+<!--    <androidx.constraintlayout.widget.Group-->
+<!--        android:id="@+id/infoGroup"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        app:constraint_referenced_ids="bubbleAlc, descAlc" />-->
 
     <View
         android:id="@+id/shading"
@@ -527,29 +529,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/bubbleAlc"
-        android:layout_width="170dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="15dp"
-        android:scaleX="1.6"
-        android:scaleY="1.2"
-        android:src="@drawable/baseline_chat_bubble_24"
-        app:layout_constraintBottom_toTopOf="@+id/alcoholMode"
-        app:layout_constraintStart_toStartOf="@+id/alcoholMode" />
+<!--    <ImageView-->
+<!--        android:id="@+id/bubbleAlc"-->
+<!--        android:layout_width="170dp"-->
+<!--        android:layout_height="120dp"-->
+<!--        android:layout_marginStart="15dp"-->
+<!--        android:scaleX="1.6"-->
+<!--        android:scaleY="1.2"-->
+<!--        android:src="@drawable/baseline_chat_bubble_24"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/alcoholMode"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/alcoholMode" />-->
 
-    <TextView
-        android:id="@+id/descAlc"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/alcDesc"
-        android:textColor="@color/white"
-        android:textSize="11sp"
-        app:layout_constraintStart_toStartOf="@+id/bubbleAlc"
-        app:layout_constraintTop_toTopOf="@+id/bubbleAlc" />
+<!--    <TextView-->
+<!--        android:id="@+id/descAlc"-->
+<!--        android:layout_width="140dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="15dp"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:fontFamily="sans-serif-black"-->
+<!--        android:text="@string/alcDesc"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="11sp"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/bubbleAlc"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/bubbleAlc" />-->
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/infoGroup2"
