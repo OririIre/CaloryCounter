@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.ScrollView
@@ -32,6 +33,7 @@ import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.example.calorycounter.databinding.FragmentHomeBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import jp.wasabeef.blurry.Blurry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -78,6 +80,7 @@ class Home : Fragment() {
     private lateinit var additionalInfoButton: TextView
     private lateinit var additionalSettings: RelativeLayout
     private lateinit var document: Document
+    private var isAllFabsVisible: Boolean = false
     private var alcoholToggle = false
     private var messages = arrayOf(
         "Disappointed but not surprised...",
@@ -148,6 +151,43 @@ class Home : Fragment() {
 //        bnd.buttonAddAmount.setOnClickListener {
 //            showBottomDialog()
 //        }
+
+        bnd.fb.setOnClickListener(View.OnClickListener {
+            (if (!isAllFabsVisible) {
+                Blurry.with(requireContext()).capture(view).into(bnd.blurView)
+                bnd.fbCustom.show()
+                bnd.fbMeals.show()
+                bnd.addFreeText.visibility = View.VISIBLE
+                bnd.addMealText.visibility = View.VISIBLE
+                true
+            } else {
+                bnd.blurView.setImageDrawable(null)
+                bnd.fbCustom.hide()
+                bnd.fbMeals.hide()
+                bnd.addFreeText.visibility = View.GONE
+                bnd.addMealText.visibility = View.GONE
+                false
+            }).also { isAllFabsVisible = it }
+        })
+
+        bnd.fbCustom.setOnClickListener {
+            bnd.blurView.setImageDrawable(null)
+            bnd.fbCustom.hide()
+            bnd.fbMeals.hide()
+            bnd.addFreeText.visibility = View.GONE
+            bnd.addMealText.visibility = View.GONE
+            isAllFabsVisible = false
+            showBottomDialog()
+        }
+
+        bnd.fbMeals.setOnClickListener {
+            bnd.blurView.setImageDrawable(null)
+            bnd.fbCustom.hide()
+            bnd.fbMeals.hide()
+            bnd.addFreeText.visibility = View.GONE
+            bnd.addMealText.visibility = View.GONE
+            isAllFabsVisible = false
+        }
 
         bnd.histroy.setOnClickListener {
             showHistoryDialog()
@@ -406,19 +446,31 @@ class Home : Fragment() {
     private fun updateMeals() {
         val meals = dataHandler.loadData(requireContext(), mealsFile)
         bnd.linearLayoutMeals.removeAllViews()
-        println(meals)
         var i = 1
         for(items in meals){
             val name = i.toString() + "Name"
             val value = i.toString() + "Cal"
+            val protValue = i.toString() + "Prot"
             if(items.key.contains(name) && items.value != "value"){
                 val currentMealName = items.value
+                var currentMealValue = ""
+                var currentMealProt = ""
+                var calFound = false
+                var protFound = false
                 for(item in meals) {
                     if(item.key.contains(value)) {
-                        println(currentMealName)
-                        println(item.value)
-                        createMealUI (currentMealName, item.value)
+                        currentMealValue = item.value
+                        calFound = true
+                    }
+                    if(item.key.contains(protValue)) {
+                        currentMealProt = item.value
+                        protFound = true
+                    }
+                    if(calFound && protFound){
+                        createMealUI (currentMealName, currentMealValue, currentMealProt)
                         i++
+                        calFound = false
+                        protFound = false
                     }
                 }
             }
@@ -451,24 +503,29 @@ class Home : Fragment() {
         }
     }
 
-    private fun createMealUI (mealName: String, mealValue: String){
+    @SuppressLint("ClickableViewAccessibility")
+    private fun createMealUI (mealName: String, mealValue: String, mealprot: String){
         val parentLayout = bnd.linearLayoutMeals
         val relativeLayout = RelativeLayout(requireContext())
         val mealsName = TextView(requireContext())
         val mealsValue = TextView(requireContext())
         val divider = View(requireContext())
+        mealsName.id = View.generateViewId()
+        mealsValue.id = View.generateViewId()
+        relativeLayout.id = View.generateViewId()
 
         val layoutParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT
         )
         relativeLayout.layoutParams = layoutParam
-        relativeLayout.setPadding(10,10,10,10)
+        relativeLayout.setPadding(20,20,20,20)
         relativeLayout.gravity = Gravity.CENTER
-        relativeLayout.id = View.generateViewId()
+        relativeLayout.focusable = View.FOCUSABLE
+        relativeLayout.isFocusableInTouchMode = true
 
         val mealsValueParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-            180,
+            220,
             RelativeLayout.LayoutParams.WRAP_CONTENT
         )
         mealsValueParam.addRule(RelativeLayout.ALIGN_PARENT_END)
@@ -479,15 +536,16 @@ class Home : Fragment() {
         mealsValue.isSingleLine = true
         mealsValue.setTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
         mealsValue.layoutParams = mealsValueParam
-        mealsValue.id = View.generateViewId()
         mealsValue.gravity = Gravity.END
+        mealsValue.setCompoundDrawablesWithIntrinsicBounds(null,null,ResourcesCompat.getDrawable(resources, R.drawable.baseline_add_circle_outline_24, null),null)
+        mealsValue.compoundDrawablePadding = 15
 
         val mealsNameParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.WRAP_CONTENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT
         )
         mealsNameParam.addRule(RelativeLayout.ALIGN_PARENT_START)
-        mealsNameParam.addRule(RelativeLayout.START_OF)
+        mealsNameParam.addRule(RelativeLayout.START_OF, mealsName.id)
 
         mealsName.text = mealName
         mealsName.textSize = 15f
@@ -495,13 +553,12 @@ class Home : Fragment() {
         mealsName.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(resources, R.drawable.baseline_ramen_dining_24, null),null,null,null)
         mealsName.compoundDrawablePadding = 15
         mealsName.layoutParams = mealsNameParam
-        mealsName.id = View.generateViewId()
 
         val dividerParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT,
             1
         )
-        dividerParam.addRule(RelativeLayout.BELOW)
+        dividerParam.addRule(RelativeLayout.BELOW, mealsName.id)
         divider.layoutParams = dividerParam
         divider.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.white_low_transparency, null))
         divider.id = View.generateViewId()
@@ -512,48 +569,10 @@ class Home : Fragment() {
 
         val transition = ChangeBounds()
         transition.setDuration(200)
-//
-//        card.setOnTouchListener(
-//            View.OnTouchListener { view, event ->
-//                val displayMetrics = resources.displayMetrics
-//                val maxWidth = displayMetrics.widthPixels.toFloat()
-//                when (event.action) {
-//                    MotionEvent.ACTION_DOWN -> {
-//                        startX = event.rawX
-//                    }
-//                    MotionEvent.ACTION_MOVE -> {
-//                        val newX = event.rawX
-//                        // carry out swipe if motion is bigger than 25 dp and to the right
-//                        if (newX - startX > 25) {
-//                            scrollView.requestDisallowInterceptTouchEvent(true)
-//                            card.animate()
-//                                .x(abs(newX) - abs(startX))
-//                                .setDuration(0)
-//                                .start()
-//                        }
-//                        if (maxWidth - newX < 25) {
-//                            TransitionManager.beginDelayedTransition(parent, transition)
-//                            parent.removeView(card)
-//                            removeHistoryItem(descriptionText.text.toString(), historyValue.text.toString())
-//                        }
-//                    }
-//                    MotionEvent.ACTION_UP -> {
-//                        scrollView.requestDisallowInterceptTouchEvent(false)
-//                        if (card.x > MIN_SWIPE_DISTANCE) {
-//                            TransitionManager.beginDelayedTransition(parent, transition)
-//                            parent.removeView(card)
-//                            removeHistoryItem(descriptionText.text.toString(), historyValue.text.toString())
-//                        }
-//                        else {
-//                            card.translationX = 0f
-//                        }
-//                    }
-//                }
-//                // required to by-pass lint warning
-//                view.performClick()
-//                return@OnTouchListener true
-//            }
-//        )
+
+        mealsValue.setOnClickListener{
+            addMeal(mealValue, mealprot)
+        }
 
         parentLayout.addView(relativeLayout)
     }
@@ -592,6 +611,7 @@ class Home : Fragment() {
             updateRemaining(currentProteinValue, Value.Protein)
         }
         dataHandler.saveMapDataNO(requireContext(), historyFile, historyMap)
+
     }
 
     private fun changeProgressBar(setAmount: String, consumed: Double, cal: Boolean) {

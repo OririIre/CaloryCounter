@@ -1,6 +1,8 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.CaloryCounter" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
+        <item name="colorAccent">@color/primaryColor</item>
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
@@ -19,5 +21,13 @@
         <item name="android:fitsSystemWindows">true</item>
         <!--        <item name="android:windowIsFloating">false</item>-->
         <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <style name="FloatingActionButtonStyle" parent="Widget.Design.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/FABShape</item>
+    </style>
+
+    <style name="FABShape" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerSize">50%</item>
     </style>
 </resources>

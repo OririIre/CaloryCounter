@@ -58,4 +58,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     //noinspection UseTomlInstead
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+    //noinspection UseTomlInstead
+    implementation("jp.wasabeef:blurry:4.0.1")
 }
