@@ -525,7 +525,7 @@ class Home : Fragment() {
         relativeLayout.isFocusableInTouchMode = true
 
         val mealsValueParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-            220,
+            280,
             RelativeLayout.LayoutParams.WRAP_CONTENT
         )
         mealsValueParam.addRule(RelativeLayout.ALIGN_PARENT_END)
