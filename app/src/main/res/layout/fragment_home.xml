@@ -82,7 +82,7 @@
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
         app:cardPreventCornerOverlap="true"
-        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintBottom_toTopOf="@+id/layoutMealButtons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -179,261 +179,295 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+    <ScrollView
+        android:id="@+id/layoutMealButtons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/darkestgrey"
-        android:backgroundTint="@color/almostdarkestgrey"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="10dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        app:cardPreventCornerOverlap="true"
+        android:layout_height="210dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/linearLayoutMeals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:gravity="bottom"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:gravity="center"
+            android:orientation="vertical"
             android:background="@color/transparent">
 
-            <RelativeLayout
-                android:id="@+id/button_meal_one"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/button_states"
-                android:textColor="@color/white">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:padding="5dp">-->
 
-                <androidx.wear.widget.CurvedTextView
-                    android:id="@+id/mealname1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:text="@string/Name" />
+<!--                <TextView-->
+<!--                    android:id="@+id/mealname1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_alignParentStart="true"-->
+<!--                    android:layout_toStartOf="@+id/valueMeal1"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="15sp"-->
+<!--                    android:text="@string/Name"-->
+<!--                    android:drawablePadding="8dp"-->
+<!--                    app:drawableStartCompat="@drawable/baseline_ramen_dining_24"/>-->
 
-                <ImageView
-                    android:id="@+id/meal1_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/meal_icon"
-                    android:scaleX="1.4"
-                    android:scaleY="1.4"
-                    app:tint="@color/somedarkestgrey"
-                    android:background="@color/transparent"/>
+<!--                <TextView-->
+<!--                    android:id="@+id/valueMeal1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_width="100dp"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="15sp"-->
+<!--                    android:gravity="end"-->
+<!--                    android:text="750 kcal"-->
+<!--                    android:layout_alignParentEnd="true"/>-->
 
-                <TextView
-                    android:id="@+id/valueMeal1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/meal1_icon"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/value_meal_one"
-                    android:textSize="12sp"
-                    android:textColor="@color/white" />
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_below="@id/mealname1"-->
+<!--                    android:background="@color/white_low_transparency"/>-->
 
-            </RelativeLayout>
+<!--            </RelativeLayout>-->
 
-            <RelativeLayout
-                android:id="@+id/button_meal_two"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:background="@drawable/button_states"
-                android:textColor="@color/white">
+        </LinearLayout>
 
-                <androidx.wear.widget.CurvedTextView
-                    android:id="@+id/mealname2"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:text="@string/Name" />
-
-                <ImageView
-                    android:id="@+id/meal2_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/meal_icon"
-                    android:scaleX="1.4"
-                    android:scaleY="1.4"
-                    app:tint="@color/somedarkestgrey" />
-
-                <TextView
-                    android:id="@+id/valueMeal2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/meal2_icon"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/value_meal_one"
-                    android:textSize="12sp"
-                    android:textColor="@color/white" />
-            </RelativeLayout>
+    </ScrollView>
 
 
-            <RelativeLayout
-                android:id="@+id/button_meal_three"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="30dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/button_states"
-                android:textColor="@color/white">
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/button_meal_one"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_marginStart="30dp"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            android:layout_marginBottom="15dp"-->
+<!--            android:background="@drawable/button_states"-->
+<!--            android:textColor="@color/white">-->
 
-                <androidx.wear.widget.CurvedTextView
-                    android:id="@+id/mealname3"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:text="@string/Name" />
+<!--            <androidx.wear.widget.CurvedTextView-->
+<!--                android:id="@+id/mealname1"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginStart="3dp"-->
+<!--                android:layout_marginEnd="3dp"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="12sp"-->
+<!--                android:text="@string/Name" />-->
 
-                <ImageView
-                    android:id="@+id/meal3_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/meal_icon"
-                    android:scaleX="1.4"
-                    android:scaleY="1.4"
-                    app:tint="@color/somedarkestgrey" />
+<!--            <ImageView-->
+<!--                android:id="@+id/meal1_icon"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginTop="25dp"-->
+<!--                android:src="@drawable/meal_icon"-->
+<!--                android:scaleX="1.4"-->
+<!--                android:scaleY="1.4"-->
+<!--                app:tint="@color/somedarkestgrey"-->
+<!--                android:background="@color/transparent"/>-->
 
-                <TextView
-                    android:id="@+id/valueMeal3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/meal3_icon"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/value_meal_one"
-                    android:textSize="12sp"
-                    android:textColor="@color/white" />
-            </RelativeLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/valueMeal1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/meal1_icon"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:text="@string/value_meal_one"-->
+<!--                android:textSize="12sp"-->
+<!--                android:textColor="@color/white" />-->
 
-            <RelativeLayout
-                android:id="@+id/button_meal_four"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_below="@id/button_meal_one"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="30dp"
-                android:background="@drawable/button_states"
-                android:textColor="@color/white">
+<!--        </RelativeLayout>-->
 
-                <androidx.wear.widget.CurvedTextView
-                    android:id="@+id/mealname4"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:text="@string/Name" />
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/button_meal_two"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginBottom="25dp"-->
+<!--            android:background="@drawable/button_states"-->
+<!--            android:textColor="@color/white">-->
 
-                <ImageView
-                    android:id="@+id/meal4_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/meal_icon"
-                    android:scaleX="1.4"
-                    android:scaleY="1.4"
-                    app:tint="@color/somedarkestgrey" />
+<!--            <androidx.wear.widget.CurvedTextView-->
+<!--                android:id="@+id/mealname2"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginStart="3dp"-->
+<!--                android:layout_marginEnd="3dp"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="12sp"-->
+<!--                android:text="@string/Name" />-->
 
-                <TextView
-                    android:id="@+id/valueMeal4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/meal4_icon"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/value_meal_one"
-                    android:textSize="12sp"
-                    android:textColor="@color/white" />
-            </RelativeLayout>
+<!--            <ImageView-->
+<!--                android:id="@+id/meal2_icon"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginTop="25dp"-->
+<!--                android:src="@drawable/meal_icon"-->
+<!--                android:scaleX="1.4"-->
+<!--                android:scaleY="1.4"-->
+<!--                app:tint="@color/somedarkestgrey" />-->
 
-            <RelativeLayout
-                android:id="@+id/button_meal_five"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_below="@id/button_meal_three"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/button_states"
-                android:textColor="@color/white">
+<!--            <TextView-->
+<!--                android:id="@+id/valueMeal2"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/meal2_icon"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:text="@string/value_meal_one"-->
+<!--                android:textSize="12sp"-->
+<!--                android:textColor="@color/white" />-->
+<!--        </RelativeLayout>-->
 
-                <androidx.wear.widget.CurvedTextView
-                    android:id="@+id/mealname5"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:text="@string/Name" />
 
-                <ImageView
-                    android:id="@+id/meal5_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/meal_icon"
-                    android:scaleX="1.4"
-                    android:scaleY="1.4"
-                    app:tint="@color/somedarkestgrey" />
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/button_meal_three"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginEnd="30dp"-->
+<!--            android:layout_marginBottom="15dp"-->
+<!--            android:background="@drawable/button_states"-->
+<!--            android:textColor="@color/white">-->
 
-                <TextView
-                    android:id="@+id/valueMeal5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/meal5_icon"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/value_meal_one"
-                    android:textSize="12sp"
-                    android:textColor="@color/white" />
-            </RelativeLayout>
+<!--            <androidx.wear.widget.CurvedTextView-->
+<!--                android:id="@+id/mealname3"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginStart="3dp"-->
+<!--                android:layout_marginEnd="3dp"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="12sp"-->
+<!--                android:text="@string/Name" />-->
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonAddAmount"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_below="@id/button_meal_two"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/button_states"
-                android:backgroundTint="@color/primaryColor"
-                android:text="@string/button_add"
-                android:textColor="@color/white" />
+<!--            <ImageView-->
+<!--                android:id="@+id/meal3_icon"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginTop="25dp"-->
+<!--                android:src="@drawable/meal_icon"-->
+<!--                android:scaleX="1.4"-->
+<!--                android:scaleY="1.4"-->
+<!--                app:tint="@color/somedarkestgrey" />-->
 
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+<!--            <TextView-->
+<!--                android:id="@+id/valueMeal3"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/meal3_icon"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:text="@string/value_meal_one"-->
+<!--                android:textSize="12sp"-->
+<!--                android:textColor="@color/white" />-->
+<!--        </RelativeLayout>-->
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/button_meal_four"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:layout_below="@id/button_meal_one"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_marginStart="30dp"-->
+<!--            android:background="@drawable/button_states"-->
+<!--            android:textColor="@color/white">-->
+
+<!--            <androidx.wear.widget.CurvedTextView-->
+<!--                android:id="@+id/mealname4"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginStart="3dp"-->
+<!--                android:layout_marginEnd="3dp"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="12sp"-->
+<!--                android:text="@string/Name" />-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/meal4_icon"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginTop="25dp"-->
+<!--                android:src="@drawable/meal_icon"-->
+<!--                android:scaleX="1.4"-->
+<!--                android:scaleY="1.4"-->
+<!--                app:tint="@color/somedarkestgrey" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/valueMeal4"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/meal4_icon"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:text="@string/value_meal_one"-->
+<!--                android:textSize="12sp"-->
+<!--                android:textColor="@color/white" />-->
+<!--        </RelativeLayout>-->
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/button_meal_five"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:layout_below="@id/button_meal_three"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginEnd="30dp"-->
+<!--            android:background="@drawable/button_states"-->
+<!--            android:textColor="@color/white">-->
+
+<!--            <androidx.wear.widget.CurvedTextView-->
+<!--                android:id="@+id/mealname5"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginStart="3dp"-->
+<!--                android:layout_marginEnd="3dp"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="12sp"-->
+<!--                android:text="@string/Name" />-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/meal5_icon"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginTop="25dp"-->
+<!--                android:src="@drawable/meal_icon"-->
+<!--                android:scaleX="1.4"-->
+<!--                android:scaleY="1.4"-->
+<!--                app:tint="@color/somedarkestgrey" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/valueMeal5"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/meal5_icon"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:text="@string/value_meal_one"-->
+<!--                android:textSize="12sp"-->
+<!--                android:textColor="@color/white" />-->
+<!--        </RelativeLayout>-->
+
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/buttonAddAmount"-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_below="@id/button_meal_two"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:background="@drawable/button_states"-->
+<!--            android:backgroundTint="@color/primaryColor"-->
+<!--            android:text="@string/button_add"-->
+<!--            android:textColor="@color/white" />-->
 
 
     <ProgressBar
@@ -669,7 +703,7 @@
         android:scaleX="1.5"
         android:scaleY="1"
         android:src="@drawable/baseline_chat_bubble_24"
-        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

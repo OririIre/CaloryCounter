@@ -533,23 +533,22 @@
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonSave1"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/button_states_1"
+                    android:text="@string/button_save"
+                    android:textColor="@color/white"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonSave1"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:background="@drawable/button_states_1"
-            android:text="@string/button_save"
-            android:textColor="@color/white"
-            android:layout_centerInParent="true" />
-
-    </RelativeLayout>
-
 
 </LinearLayout>

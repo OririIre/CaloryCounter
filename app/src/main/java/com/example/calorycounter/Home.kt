@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -139,39 +140,14 @@ class Home : Fragment() {
         updateDaily()
         val meals = dataHandler.loadData(requireContext(), mealsFile)
 
-        bnd.buttonMealOne.setOnClickListener {
-            if (meals.isNotEmpty()) {
-                addMeal(meals["Meal1Cal"]!!, meals["Meal1Prot"]!!)
-            }
-        }
-        bnd.buttonMealTwo.setOnClickListener {
-            if (meals.isNotEmpty()) {
-                addMeal(meals["Meal2Cal"]!!, meals["Meal2Prot"]!!)
-            }
-        }
-        bnd.buttonMealThree.setOnClickListener {
-            if (meals.isNotEmpty()) {
-                addMeal(meals["Meal3Cal"]!!, meals["Meal3Prot"]!!)
-            }
-        }
-        bnd.buttonMealFour.setOnClickListener {
-            if (meals.isNotEmpty()) {
-                addMeal(meals["Meal4Cal"]!!, meals["Meal4Prot"]!!)
-            }
-        }
-        bnd.buttonMealFive.setOnClickListener {
-            if (meals.isNotEmpty()) {
-                addMeal(meals["Meal5Cal"]!!, meals["Meal5Prot"]!!)
-            }
-        }
-
         bnd.infoToggle.setOnClickListener {
             bnd.shading.visibility = View.VISIBLE
         }
 
-        bnd.buttonAddAmount.setOnClickListener {
-            showBottomDialog()
-        }
+        //ToDo Floating add amount button einbauen
+//        bnd.buttonAddAmount.setOnClickListener {
+//            showBottomDialog()
+//        }
 
         bnd.histroy.setOnClickListener {
             showHistoryDialog()
@@ -429,17 +405,23 @@ class Home : Fragment() {
 
     private fun updateMeals() {
         val meals = dataHandler.loadData(requireContext(), mealsFile)
-        if (meals.isNotEmpty()) {
-            bnd.valueMeal1.text = meals["Meal1Cal"]
-            bnd.valueMeal2.text = meals["Meal2Cal"]
-            bnd.valueMeal3.text = meals["Meal3Cal"]
-            bnd.valueMeal4.text = meals["Meal4Cal"]
-            bnd.valueMeal5.text = meals["Meal5Cal"]
-            bnd.mealname1.text = meals["Meal1Name"].toString().take(4)
-            bnd.mealname2.text = meals["Meal2Name"].toString().take(4)
-            bnd.mealname3.text = meals["Meal3Name"].toString().take(4)
-            bnd.mealname4.text = meals["Meal4Name"].toString().take(4)
-            bnd.mealname5.text = meals["Meal5Name"].toString().take(4)
+        bnd.linearLayoutMeals.removeAllViews()
+        println(meals)
+        var i = 1
+        for(items in meals){
+            val name = i.toString() + "Name"
+            val value = i.toString() + "Cal"
+            if(items.key.contains(name) && items.value != "value"){
+                val currentMealName = items.value
+                for(item in meals) {
+                    if(item.key.contains(value)) {
+                        println(currentMealName)
+                        println(item.value)
+                        createMealUI (currentMealName, item.value)
+                        i++
+                    }
+                }
+            }
         }
     }
 
@@ -467,6 +449,113 @@ class Home : Fragment() {
                 bnd.leftProt.text = 0.0.toString()
             }
         }
+    }
+
+    private fun createMealUI (mealName: String, mealValue: String){
+        val parentLayout = bnd.linearLayoutMeals
+        val relativeLayout = RelativeLayout(requireContext())
+        val mealsName = TextView(requireContext())
+        val mealsValue = TextView(requireContext())
+        val divider = View(requireContext())
+
+        val layoutParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        )
+        relativeLayout.layoutParams = layoutParam
+        relativeLayout.setPadding(10,10,10,10)
+        relativeLayout.gravity = Gravity.CENTER
+        relativeLayout.id = View.generateViewId()
+
+        val mealsValueParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            180,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        )
+        mealsValueParam.addRule(RelativeLayout.ALIGN_PARENT_END)
+
+        val valueText = "$mealValue kcal"
+        mealsValue.text = valueText
+        mealsValue.textSize = 15f
+        mealsValue.isSingleLine = true
+        mealsValue.setTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
+        mealsValue.layoutParams = mealsValueParam
+        mealsValue.id = View.generateViewId()
+        mealsValue.gravity = Gravity.END
+
+        val mealsNameParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        )
+        mealsNameParam.addRule(RelativeLayout.ALIGN_PARENT_START)
+        mealsNameParam.addRule(RelativeLayout.START_OF)
+
+        mealsName.text = mealName
+        mealsName.textSize = 15f
+        mealsName.setTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
+        mealsName.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(resources, R.drawable.baseline_ramen_dining_24, null),null,null,null)
+        mealsName.compoundDrawablePadding = 15
+        mealsName.layoutParams = mealsNameParam
+        mealsName.id = View.generateViewId()
+
+        val dividerParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT,
+            1
+        )
+        dividerParam.addRule(RelativeLayout.BELOW)
+        divider.layoutParams = dividerParam
+        divider.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.white_low_transparency, null))
+        divider.id = View.generateViewId()
+
+        relativeLayout.addView(mealsValue)
+        relativeLayout.addView(mealsName)
+        relativeLayout.addView(divider)
+
+        val transition = ChangeBounds()
+        transition.setDuration(200)
+//
+//        card.setOnTouchListener(
+//            View.OnTouchListener { view, event ->
+//                val displayMetrics = resources.displayMetrics
+//                val maxWidth = displayMetrics.widthPixels.toFloat()
+//                when (event.action) {
+//                    MotionEvent.ACTION_DOWN -> {
+//                        startX = event.rawX
+//                    }
+//                    MotionEvent.ACTION_MOVE -> {
+//                        val newX = event.rawX
+//                        // carry out swipe if motion is bigger than 25 dp and to the right
+//                        if (newX - startX > 25) {
+//                            scrollView.requestDisallowInterceptTouchEvent(true)
+//                            card.animate()
+//                                .x(abs(newX) - abs(startX))
+//                                .setDuration(0)
+//                                .start()
+//                        }
+//                        if (maxWidth - newX < 25) {
+//                            TransitionManager.beginDelayedTransition(parent, transition)
+//                            parent.removeView(card)
+//                            removeHistoryItem(descriptionText.text.toString(), historyValue.text.toString())
+//                        }
+//                    }
+//                    MotionEvent.ACTION_UP -> {
+//                        scrollView.requestDisallowInterceptTouchEvent(false)
+//                        if (card.x > MIN_SWIPE_DISTANCE) {
+//                            TransitionManager.beginDelayedTransition(parent, transition)
+//                            parent.removeView(card)
+//                            removeHistoryItem(descriptionText.text.toString(), historyValue.text.toString())
+//                        }
+//                        else {
+//                            card.translationX = 0f
+//                        }
+//                    }
+//                }
+//                // required to by-pass lint warning
+//                view.performClick()
+//                return@OnTouchListener true
+//            }
+//        )
+
+        parentLayout.addView(relativeLayout)
     }
 
     @SuppressLint("DefaultLocale")
