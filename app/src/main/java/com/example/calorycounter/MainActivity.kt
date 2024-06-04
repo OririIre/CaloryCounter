@@ -67,6 +67,11 @@ class MainActivity : AppCompatActivity() {
 //        chartActivityIntent.putExtra("caloriesData", serMap)
 //        startActivity(chartActivityIntent)
     }
+    fun setCurrentTab(position: Int){
+
+        viewPager2.currentItem = position //your viewpager object
+
+    }
 }
 
 //        Notificationstuff

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="30dp"
+    android:background="@color/darkestgrey">
+
+    <FrameLayout
+        android:id="@+id/headlineLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/almostdarkestgrey">
+
+        <TextView
+            android:id="@+id/headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/mealsHeadline"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:padding="15dp"
+            android:drawablePadding="10dp"
+            android:background="@color/almostdarkestgrey"
+            app:drawableStartCompat="@drawable/baseline_ramen_dining_24"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/mealsNameAndIcon"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/enterMealName"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:hint="@string/nameHint"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:autofillHints=""
+            android:drawableStart="@drawable/baseline_add_circle_24"
+            android:background="@drawable/custom_edit_text"
+            android:drawablePadding="12dp"
+            android:imeOptions="actionSend"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/mealsCaloriesAndProtein"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/enterMealCalories"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:hint="@string/amountHint"
+            android:inputType="numberDecimal"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:autofillHints=""
+            android:drawableStart="@drawable/baseline_data_saver_off_24"
+            android:background="@drawable/custom_edit_text"
+            android:drawablePadding="12dp"
+            android:imeOptions="actionSend"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_marginEnd="10dp"/>
+
+        <EditText
+            android:id="@+id/enterMealProtein"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:layout_toEndOf="@+id/enterMealCalories"
+            android:hint="@string/amountHint"
+            android:inputType="numberDecimal"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:autofillHints=""
+            android:drawableStart="@drawable/baseline_monitor_weight_24"
+            android:background="@drawable/custom_edit_text"
+            android:drawablePadding="12dp"
+            android:imeOptions="actionSend"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/caloriesDescription"
+            android:textColor="@color/white"
+            android:layout_below="@+id/enterMealCalories"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/proteinDescription"
+            android:textColor="@color/white"
+            android:layout_alignStart="@+id/enterMealProtein"
+            android:layout_below="@+id/enterMealProtein"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"/>
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonSaveMeal"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/button_states_1"
+        android:text="@string/button_save"
+        android:textColor="@color/white"
+        tools:ignore="TouchTargetSizeCheck" />
+
+
+
+</LinearLayout>

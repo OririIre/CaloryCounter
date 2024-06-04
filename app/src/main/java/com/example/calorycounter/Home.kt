@@ -60,7 +60,6 @@ internal enum class Value {
 const val MIN_SWIPE_DISTANCE = 250
 
 class Home : Fragment() {
-
     private var _bnd: FragmentHomeBinding? = null
     private val bnd get() = _bnd!!
     private lateinit var dateView: TextView
@@ -70,6 +69,7 @@ class Home : Fragment() {
     private lateinit var custom: EditText
     private lateinit var dialog: BottomSheetDialog
     private lateinit var historyDialog: BottomSheetDialog
+    private lateinit var mealsDialog: BottomSheetDialog
     private lateinit var layoutHistoryCards: LinearLayout
     private lateinit var historyScrollView: ScrollView
     private lateinit var caloriesSwitch: TextView
@@ -503,7 +503,7 @@ class Home : Fragment() {
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+
     private fun createMealUI (mealName: String, mealValue: String, mealprot: String){
         val parentLayout = bnd.linearLayoutMeals
         val relativeLayout = RelativeLayout(requireContext())
@@ -576,6 +576,7 @@ class Home : Fragment() {
 
         parentLayout.addView(relativeLayout)
     }
+
 
     @SuppressLint("DefaultLocale")
     private fun addMeal(mealKcal: String, mealProt: String) {
@@ -757,6 +758,22 @@ class Home : Fragment() {
             updateRemaining(currentProt, Value.Protein)
             dataHandler.deleteEntriesWithValue(requireContext(), historyFile, value)
         }
+    }
+
+    @SuppressLint("InflateParams")
+    private fun showMealsDialog() {
+        val bottomHistoryDialog = layoutInflater.inflate(R.layout.meals_layout, null)
+        mealsDialog = BottomSheetDialog(requireActivity(), R.style.BottomSheetDialogTheme)
+        mealsDialog.setContentView(bottomHistoryDialog)
+        mealsDialog.show()
+//        layoutHistoryCards = mealsDialog.findViewById(R.id.layoutHistoryCards)!!
+//        historyScrollView = mealsDialog.findViewById(R.id.historyScrollView)!!
+
+        val save: Button = mealsDialog.findViewById(R.id.buttonSaveMeal)!!
+        val caloriesField: EditText = mealsDialog.findViewById(R.id.enterMealCalories)!!
+        val proteinField: EditText = mealsDialog.findViewById(R.id.enterMealProtein)!!
+        val nameField: EditText = mealsDialog.findViewById(R.id.enterMealName)!!
+
     }
 
     @SuppressLint("InflateParams")
