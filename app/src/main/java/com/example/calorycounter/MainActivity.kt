@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setText("Settings"))
         tabLayout.addTab(tabLayout.newTab().setText("Home"))
         tabLayout.addTab(tabLayout.newTab().setText("Chart"))
-        tabLayout.addTab(tabLayout.newTab().setText("Meals"))
 
         viewPager2.adapter = adapter
         viewPager2.currentItem = 1

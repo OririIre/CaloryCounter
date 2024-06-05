@@ -1,10 +1,10 @@
 - Bottom Drawer fixen
-- Evtl mehr meals?
 - Language selector für Appsprache einbauen
 - Spracheingabe für protein
+- Spracheingabe auch andersrum z.b. Nudeln 500g
+- Spracheingabe mit z.b. 1 Flasche oder 1 Bier
 - Tutorial noch speichern ob schon gemacht wurde oder nicht -> Einbauen, dass es beim erstemal direkt Bubble 1 anzeigt
 - Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
-- Wenn nichts in meals bei button drück weiterleitung zu meals tab
 - Data loading in oncreate via Intent put Extra
 - Implement Snackbar instead of Toast:
 https://m2.material.io/components/snackbars/android#using-snackbars
@@ -12,6 +12,8 @@ https://www.digitalocean.com/community/tutorials/android-snackbar-example-tutori
 - Hinzufügen von sachen ist überall anders mal Int mal Double -> Einheitlich machen
 - Add Funktionen überarbeiten in diesem zuge
 - Clear History Button machen
+- Bottom Drawer bug dass alles schwarz wird
+- Icons in add meal
 
 
 - Cheatday mode in settings rein (evtl)

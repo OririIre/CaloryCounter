@@ -141,18 +141,13 @@ class Home : Fragment() {
 
         updateGoals()
         updateDaily()
-        val meals = dataHandler.loadData(requireContext(), mealsFile)
 
         bnd.infoToggle.setOnClickListener {
             bnd.shading.visibility = View.VISIBLE
         }
 
-        //ToDo Floating add amount button einbauen
-//        bnd.buttonAddAmount.setOnClickListener {
-//            showBottomDialog()
-//        }
 
-        bnd.fb.setOnClickListener(View.OnClickListener {
+        bnd.fb.setOnClickListener {
             (if (!isAllFabsVisible) {
                 Blurry.with(requireContext()).capture(view).into(bnd.blurView)
                 bnd.fbCustom.show()
@@ -168,7 +163,7 @@ class Home : Fragment() {
                 bnd.addMealText.visibility = View.GONE
                 false
             }).also { isAllFabsVisible = it }
-        })
+        }
 
         bnd.fbCustom.setOnClickListener {
             bnd.blurView.setImageDrawable(null)
@@ -187,6 +182,7 @@ class Home : Fragment() {
             bnd.addFreeText.visibility = View.GONE
             bnd.addMealText.visibility = View.GONE
             isAllFabsVisible = false
+            showMealsDialog(0)
         }
 
         bnd.histroy.setOnClickListener {
@@ -467,7 +463,7 @@ class Home : Fragment() {
                         protFound = true
                     }
                     if(calFound && protFound){
-                        createMealUI (currentMealName, currentMealValue, currentMealProt)
+                        createMealUI (currentMealName, currentMealValue, currentMealProt, i)
                         i++
                         calFound = false
                         protFound = false
@@ -504,13 +500,13 @@ class Home : Fragment() {
     }
 
 
-    private fun createMealUI (mealName: String, mealValue: String, mealprot: String){
+    private fun createMealUI (mealName: String, mealValue: String, mealprot: String, buttonID: Int){
         val parentLayout = bnd.linearLayoutMeals
         val relativeLayout = RelativeLayout(requireContext())
         val mealsName = TextView(requireContext())
         val mealsValue = TextView(requireContext())
         val divider = View(requireContext())
-        mealsName.id = View.generateViewId()
+        mealsName.id = buttonID
         mealsValue.id = View.generateViewId()
         relativeLayout.id = View.generateViewId()
 
@@ -572,6 +568,10 @@ class Home : Fragment() {
 
         mealsValue.setOnClickListener{
             addMeal(mealValue, mealprot)
+        }
+
+        mealsName.setOnClickListener{
+            showMealsDialog(mealsName.id)
         }
 
         parentLayout.addView(relativeLayout)
@@ -761,7 +761,7 @@ class Home : Fragment() {
     }
 
     @SuppressLint("InflateParams")
-    private fun showMealsDialog() {
+    private fun showMealsDialog(mealNumber: Int) {
         val bottomHistoryDialog = layoutInflater.inflate(R.layout.meals_layout, null)
         mealsDialog = BottomSheetDialog(requireActivity(), R.style.BottomSheetDialogTheme)
         mealsDialog.setContentView(bottomHistoryDialog)
@@ -774,6 +774,79 @@ class Home : Fragment() {
         val proteinField: EditText = mealsDialog.findViewById(R.id.enterMealProtein)!!
         val nameField: EditText = mealsDialog.findViewById(R.id.enterMealName)!!
 
+        var currentMeals = dataHandler.loadData(requireContext(), mealsFile)
+
+        if(mealNumber != 0){
+           val keyName = "Meal" + mealNumber.toString() +"Name"
+           val mealName = currentMeals[keyName]
+           nameField.setText(mealName)
+           val keyCal = "Meal" + mealNumber.toString() +"Cal"
+           val mealCalories = currentMeals[keyCal]
+           caloriesField.setText(mealCalories)
+           val keyProt = "Meal" + mealNumber.toString() +"Prot"
+           val mealProtein = currentMeals[keyProt]
+           proteinField.setText(mealProtein)
+        }
+
+        save.setOnClickListener{
+            currentMeals = dataHandler.loadData(requireContext(), mealsFile)
+            val mealsCount = ((currentMeals.count()/3) + 1)
+            if(mealNumber == 0) {
+                if (nameField.text.toString() != "") {
+                    val keyName = "Meal" + mealsCount.toString() + "Name"
+                    val mealNameMap = mutableMapOf(keyName to nameField.text.toString())
+                    dataHandler.saveMapDataNO(requireContext(), mealsFile, mealNameMap)
+                    val keyCal = "Meal" + mealsCount.toString() + "Cal"
+                    if (caloriesField.text.toString() != "") {
+                        val mealCaloriesMap = mutableMapOf(keyCal to caloriesField.text.toString())
+                        dataHandler.saveMapDataNO(requireContext(), mealsFile, mealCaloriesMap)
+                    } else {
+                        val mealCaloriesMap = mutableMapOf(keyCal to "0")
+                        dataHandler.saveMapDataNO(requireContext(), mealsFile, mealCaloriesMap)
+                    }
+                    val keyProt = "Meal" + mealsCount.toString() + "Prot"
+                    if (proteinField.text.toString() != "") {
+                        val mealProteinMap = mutableMapOf(keyProt to proteinField.text.toString())
+                        dataHandler.saveMapDataNO(requireContext(), mealsFile, mealProteinMap)
+                    } else {
+                        val mealProteinMap = mutableMapOf(keyProt to "0")
+                        dataHandler.saveMapDataNO(requireContext(), mealsFile, mealProteinMap)
+                    }
+                }
+            }
+            else{
+                if (nameField.text.toString() != "") {
+                    val keyName = "Meal" + mealNumber.toString() + "Name"
+                    val mealNameMap = mutableMapOf(keyName to nameField.text.toString())
+                    dataHandler.saveMapDataNO(requireContext(), mealsFile, mealNameMap)
+                    val keyCal = "Meal" + mealNumber.toString() + "Cal"
+                    if (caloriesField.text.toString() != "") {
+                        val mealCaloriesMap = mutableMapOf(keyCal to caloriesField.text.toString())
+                        dataHandler.saveMapDataNO(requireContext(), mealsFile, mealCaloriesMap)
+                    } else {
+                        val mealCaloriesMap = mutableMapOf(keyCal to "0")
+                        dataHandler.saveMapDataNO(requireContext(), mealsFile, mealCaloriesMap)
+                    }
+                    val keyProt = "Meal" + mealNumber.toString() + "Prot"
+                    if (proteinField.text.toString() != "") {
+                        val mealProteinMap = mutableMapOf(keyProt to proteinField.text.toString())
+                        dataHandler.saveMapDataNO(requireContext(), mealsFile, mealProteinMap)
+                    } else {
+                        val mealProteinMap = mutableMapOf(keyProt to "0")
+                        dataHandler.saveMapDataNO(requireContext(), mealsFile, mealProteinMap)
+                    }
+                }
+                updateMeals()
+                nameField.text.clear()
+                caloriesField.text.clear()
+                proteinField.text.clear()
+                mealsDialog.dismiss()
+            }
+            updateMeals()
+            nameField.text.clear()
+            caloriesField.text.clear()
+            proteinField.text.clear()
+        }
     }
 
     @SuppressLint("InflateParams")
