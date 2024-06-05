@@ -27,9 +27,9 @@ class MainActivity : AppCompatActivity() {
 
         adapter = FragmentPageAdapter(supportFragmentManager, lifecycle)
 
-        tabLayout.addTab(tabLayout.newTab().setText("Settings"))
-        tabLayout.addTab(tabLayout.newTab().setText("Home"))
-        tabLayout.addTab(tabLayout.newTab().setText("Chart"))
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_settings_24))
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_home_24))
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_insert_chart_outlined_24))
 
         viewPager2.adapter = adapter
         viewPager2.currentItem = 1

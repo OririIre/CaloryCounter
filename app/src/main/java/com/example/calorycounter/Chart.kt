@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -17,6 +18,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
+import com.google.android.material.tabs.TabLayoutMediator
 import java.text.SimpleDateFormat
 import java.util.Collections.min
 import java.util.Locale
@@ -28,6 +30,7 @@ class Chart : Fragment() {
     private lateinit var usedCalories: TextView
     private lateinit var usedProtein: TextView
     private lateinit var dateView: TextView
+    private lateinit var adapter: Adapter
     private var caloriesFile = "calLog.txt"
     private var proteinFile = "protLog.txt"
 
@@ -49,7 +52,7 @@ class Chart : Fragment() {
     }
 
     private fun buildUI() {
-        var chartDataCalories = dataHandler.loadData(requireContext(), caloriesFile)
+        val chartDataCalories = dataHandler.loadData(requireContext(), caloriesFile)
         val chartDataProtein = dataHandler.loadData(requireContext(), proteinFile)
         val list: ArrayList<Entry> = ArrayList()
         val caloriesArray: ArrayList<Float> = ArrayList()
@@ -59,7 +62,7 @@ class Chart : Fragment() {
 //        val dataFromMain = Intent.EXTRA_FROM_STORAGE
 //        println(dataFromMain)
 
-        chartDataCalories = mutableMapOf("20240518" to "1400", "20240519" to "1300", "20240520" to "1200", "20240521" to "1100", "20240522" to "1000", "20240523" to "900", "20240524" to "800", "20240525" to "800", "20240526" to "800", "20240527" to "800", "20240528" to "800")
+//        chartDataCalories = mutableMapOf("20240518" to "1400", "20240519" to "1300", "20240520" to "1200", "20240521" to "1100", "20240522" to "1000", "20240523" to "900", "20240524" to "800", "20240525" to "800", "20240526" to "800", "20240527" to "800", "20240528" to "800")
 
         var x = 0
         for (item in chartDataCalories.toSortedMap(reverseOrder())) {
@@ -120,16 +123,17 @@ class Chart : Fragment() {
 
 
         val lineDataSet = LineDataSet(list, "kcal")
-        lineDataSet.setColors(Color.argb(100, 59, 17, 158))
+        lineDataSet.setColors(Color.argb(100, 93, 139, 212))
         lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
         lineDataSet.setDrawFilled(true)
-        lineDataSet.setFillColor(Color.argb(100, 59, 17, 158))
+        lineDataSet.setFillColor(Color.argb(100, 93, 139, 212))
         lineDataSet.lineWidth = 3f
         lineDataSet.valueTextSize = 12f
         lineDataSet.valueTextColor = Color.WHITE
-        lineDataSet.setCircleColor(Color.argb(100, 59, 17, 158))
+        lineDataSet.setCircleColor(Color.argb(100, 93, 139, 212))
         lineDataSet.setDrawCircleHole(false)
         lineDataSet.setDrawHighlightIndicators(false)
+        lineDataSet.color
 
         val lineData = LineData(lineDataSet)
 
@@ -160,7 +164,7 @@ class Chart : Fragment() {
         bnd.chart.axisRight.isEnabled = false
         bnd.chart.axisLeft.labelCount = 4
         bnd.chart.axisLeft.setDrawGridLines(false)
-
+        bnd.chart.legend.textColor = Color.WHITE
 
         bnd.chart.marker = object : MarkerView(context, R.layout.chart_marker) {
             override fun refreshContent(e: Entry, highlight: Highlight) {

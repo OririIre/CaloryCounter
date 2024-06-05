@@ -51,4 +51,8 @@
     <string name="nameHint">Name</string>
     <string name="proteinDescription">Protein (g)</string>
     <string name="caloriesDescription">Calories (g)</string>
+    <string name="appLanguage">Change the app language</string>
+    <string name="caloriesGoalHint">Calories Goal</string>
+    <string name="proteinGoalHint">Protein Goal</string>
+    <string name="clearHistory">Clear History</string>
 </resources>

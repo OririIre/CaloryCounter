@@ -43,17 +43,24 @@
                 android:text="@string/caloriesGoal"
                 android:textColor="@color/white" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/enterCalorieGoal"
+            <EditText
+                android:id="@+id/enterCaloriesGoal"
                 android:layout_width="180dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="50dp"
-                android:hint="@string/custom_calorie_value"
-                android:textSize="15sp"
-                android:inputType="number"
+                android:layout_height="50dp"
+                android:hint="@string/caloriesGoalHint"
+                android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:autofillHints="" />
+                android:layout_marginStart="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:autofillHints=""
+                android:drawableStart="@drawable/baseline_text_snippet_24"
+                android:background="@drawable/custom_edit_text"
+                android:drawablePadding="12dp"
+                android:imeOptions="actionSend"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -65,14 +72,21 @@
             <EditText
                 android:id="@+id/enterProteinGoal"
                 android:layout_width="180dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="50dp"
-                android:hint="@string/custom_calorie_value"
-                android:inputType="number"
+                android:layout_height="50dp"
+                android:hint="@string/proteinGoalHint"
+                android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="15sp"
-                android:autofillHints="" />
+                android:layout_marginStart="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:autofillHints=""
+                android:drawableStart="@drawable/baseline_text_snippet_24"
+                android:background="@drawable/custom_edit_text"
+                android:drawablePadding="12dp"
+                android:imeOptions="actionSend"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/saveGoals"
@@ -215,6 +229,20 @@
 
             <Spinner
                 android:id="@+id/languageDropdown"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:text="@string/appLanguage"
+                android:textColor="@color/white" />
+
+            <Spinner
+                android:id="@+id/appLanguageDropdown"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"

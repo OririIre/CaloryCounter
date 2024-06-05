@@ -65,7 +65,7 @@ class Settings : Fragment() {
         bnd.languageDropdown.setSelection(language)
 
         bnd.saveGoals.setOnClickListener {
-            val calories = bnd.enterCalorieGoal.text.toString()
+            val calories = bnd.enterCaloriesGoal.text.toString()
             val protein = bnd.enterProteinGoal.text.toString()
             if (calories.isNotEmpty()) {
                 dataHandler.saveData(
@@ -79,7 +79,7 @@ class Settings : Fragment() {
                     Keys.Protein.toString(), protein
                 )
             }
-            bnd.enterCalorieGoal.text?.clear()
+            bnd.enterCaloriesGoal.text?.clear()
             bnd.enterProteinGoal.text.clear()
         }
 
@@ -115,7 +115,6 @@ class Settings : Fragment() {
 
         bnd.clearCalories.setOnClickListener {
             dataHandler.deleteFiles(requireContext(), "calLog.txt")
-            dataHandler.deleteFiles(requireContext(), "history.txt")
         }
 
         bnd.clearProtein.setOnClickListener {
@@ -136,6 +135,7 @@ class Settings : Fragment() {
             dataHandler.deleteFiles(requireContext(), "meals.txt")
             dataHandler.deleteFiles(requireContext(), "goals.txt")
             dataHandler.deleteFiles(requireContext(), "language.txt")
+            dataHandler.deleteFiles(requireContext(), "history.txt")
         }
 
         bnd.languageDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

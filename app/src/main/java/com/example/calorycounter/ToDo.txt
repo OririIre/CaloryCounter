@@ -11,9 +11,7 @@ https://m2.material.io/components/snackbars/android#using-snackbars
 https://www.digitalocean.com/community/tutorials/android-snackbar-example-tutorial
 - Hinzufügen von sachen ist überall anders mal Int mal Double -> Einheitlich machen
 - Add Funktionen überarbeiten in diesem zuge
-- Clear History Button machen
 - Bottom Drawer bug dass alles schwarz wird
-- Icons in add meal
 
 
 - Cheatday mode in settings rein (evtl)

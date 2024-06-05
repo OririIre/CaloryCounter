@@ -1,6 +1,7 @@
 package com.example.calorycounter
 
 import android.animation.LayoutTransition
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
@@ -28,6 +29,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.lifecycleScope
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
@@ -134,10 +136,10 @@ class Home : Fragment() {
         val view = bnd.root
         var speechBubble = 1
 
-        bnd.progressBar.max = 100
-        bnd.ProteinProgressBar.max = 100
-        bnd.progressBar2.max = 100
-        bnd.progressBar3.max = 100
+        bnd.progressBar.max = 1000
+        bnd.ProteinProgressBar.max = 1000
+        bnd.progressBar2.max = 1000
+        bnd.progressBar3.max = 1000
 
         updateGoals()
         updateDaily()
@@ -621,11 +623,27 @@ class Home : Fragment() {
             val progress = round(consumed / (goal / 100))
             val remaining = round(100 - (consumed / (goal / 100)))
             if (cal) {
-                bnd.progressBar.progress = remaining.toInt()
-                bnd.progressBar2.progress = progress.toInt()
+//                bnd.progressBar.progress = remaining.toInt()
+                val animator = ObjectAnimator.ofInt(bnd.progressBar, "progress", remaining.toInt()*10)
+                animator.setDuration(1000)
+                animator.interpolator = FastOutSlowInInterpolator()
+                animator.start()
+//                bnd.progressBar2.progress = progress.toInt()
+                val animator2 = ObjectAnimator.ofInt(bnd.progressBar2, "progress", progress.toInt()*10)
+                animator2.setDuration(1500)
+                animator2.interpolator = FastOutSlowInInterpolator()
+                animator2.start()
             } else {
-                bnd.ProteinProgressBar.progress = remaining.toInt()
-                bnd.progressBar3.progress = progress.toInt()
+//                bnd.ProteinProgressBar.progress = remaining.toInt()
+                val animator = ObjectAnimator.ofInt(bnd.ProteinProgressBar, "progress", remaining.toInt()*10)
+                animator.setDuration(1000)
+                animator.interpolator = FastOutSlowInInterpolator()
+                animator.start()
+//                bnd.progressBar3.progress = progress.toInt()
+                val animator2 = ObjectAnimator.ofInt(bnd.progressBar3, "progress", progress.toInt()*10)
+                animator2.setDuration(1500)
+                animator2.interpolator = FastOutSlowInInterpolator()
+                animator2.start()
             }
         }
     }

@@ -134,8 +134,7 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:progressDrawable="@drawable/progress_bar2"
-                android:rotation="180"
-                android:progress="50"/>
+                android:rotation="180"/>
         </LinearLayout>
 
             <TextView
