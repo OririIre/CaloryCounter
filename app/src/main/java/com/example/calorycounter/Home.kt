@@ -1,6 +1,5 @@
 package com.example.calorycounter
 
-import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
@@ -17,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.ScrollView
@@ -26,8 +24,8 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.lifecycleScope
@@ -49,12 +47,6 @@ import java.util.Date
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.round
-
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-//val dataHandler = DataHandler()
 
 internal enum class Value {
     Protein, Calories
@@ -82,7 +74,7 @@ class Home : Fragment() {
     private lateinit var additionalInfoButton: TextView
     private lateinit var additionalSettings: RelativeLayout
     private lateinit var document: Document
-    private var isAllFabsVisible: Boolean = false
+    private var isAllFabVisible: Boolean = false
     private var alcoholToggle = false
     private var messages = arrayOf(
         "Disappointed but not surprised...",
@@ -150,40 +142,44 @@ class Home : Fragment() {
 
 
         bnd.fb.setOnClickListener {
-            (if (!isAllFabsVisible) {
+            (if (!isAllFabVisible) {
+                bnd.blurView.setBackgroundColor(Color.argb(30,0,0,0))
                 Blurry.with(requireContext()).capture(view).into(bnd.blurView)
-                bnd.fbCustom.show()
-                bnd.fbMeals.show()
+                bnd.fbCustom.visibility = View.VISIBLE
+                bnd.fbMeals.visibility = View.VISIBLE
                 bnd.addFreeText.visibility = View.VISIBLE
                 bnd.addMealText.visibility = View.VISIBLE
                 true
             } else {
+                bnd.blurView.setBackgroundColor(Color.argb(0,0,0,0))
                 bnd.blurView.setImageDrawable(null)
-                bnd.fbCustom.hide()
-                bnd.fbMeals.hide()
+                bnd.fbCustom.visibility = View.GONE
+                bnd.fbMeals.visibility = View.GONE
                 bnd.addFreeText.visibility = View.GONE
                 bnd.addMealText.visibility = View.GONE
                 false
-            }).also { isAllFabsVisible = it }
+            }).also { isAllFabVisible = it }
         }
 
         bnd.fbCustom.setOnClickListener {
+            bnd.blurView.setBackgroundColor(Color.argb(0,0,0,0))
             bnd.blurView.setImageDrawable(null)
-            bnd.fbCustom.hide()
-            bnd.fbMeals.hide()
+            bnd.fbCustom.visibility = View.GONE
+            bnd.fbMeals.visibility = View.GONE
             bnd.addFreeText.visibility = View.GONE
             bnd.addMealText.visibility = View.GONE
-            isAllFabsVisible = false
+            isAllFabVisible = false
             showBottomDialog()
         }
 
         bnd.fbMeals.setOnClickListener {
+            bnd.blurView.setBackgroundColor(Color.argb(0,0,0,0))
             bnd.blurView.setImageDrawable(null)
-            bnd.fbCustom.hide()
-            bnd.fbMeals.hide()
+            bnd.fbCustom.visibility = View.GONE
+            bnd.fbMeals.visibility = View.GONE
             bnd.addFreeText.visibility = View.GONE
             bnd.addMealText.visibility = View.GONE
-            isAllFabsVisible = false
+            isAllFabVisible = false
             showMealsDialog(0)
         }
 
@@ -359,12 +355,12 @@ class Home : Fragment() {
                         rightSide = rightSide.replace(":", "")
                         rightSide = rightSide.trim()
                     }
-                    if (rightSide.take(3).contains(".")) {
-                        splitRightSide = rightSide.split(".")
+                    splitRightSide = if (rightSide.take(3).contains(".")) {
+                        rightSide.split(".")
                     } else if (rightSide.take(3).contains(",")) {
-                        splitRightSide = rightSide.split(",")
+                        rightSide.split(",")
                     } else
-                        splitRightSide = listOf(rightSide.take(3))
+                        listOf(rightSide.take(3))
                     if (isNumeric(leftSide)) {
                         value = leftSide
                         break
@@ -502,7 +498,7 @@ class Home : Fragment() {
     }
 
 
-    private fun createMealUI (mealName: String, mealValue: String, mealprot: String, buttonID: Int){
+    private fun createMealUI (mealName: String, mealValue: String, mealProt: String, buttonID: Int){
         val parentLayout = bnd.linearLayoutMeals
         val relativeLayout = RelativeLayout(requireContext())
         val mealsName = TextView(requireContext())
@@ -569,7 +565,7 @@ class Home : Fragment() {
         transition.setDuration(200)
 
         mealsValue.setOnClickListener{
-            addMeal(mealValue, mealprot)
+            addMeal(mealValue, mealProt)
         }
 
         mealsName.setOnClickListener{
@@ -653,7 +649,6 @@ class Home : Fragment() {
         val bottomHistoryDialog = layoutInflater.inflate(R.layout.history_layout, null)
         historyDialog = BottomSheetDialog(requireActivity(), R.style.BottomSheetDialogTheme)
         historyDialog.setContentView(bottomHistoryDialog)
-        historyDialog.show()
         layoutHistoryCards = historyDialog.findViewById(R.id.layoutHistoryCards)!!
         historyScrollView = historyDialog.findViewById(R.id.historyScrollView)!!
 
@@ -663,6 +658,7 @@ class Home : Fragment() {
                 createCards(layoutHistoryCards, item.key, item.value, historyScrollView)
             }
         }
+        historyDialog.show()
     }
 
     private fun createCards(parent: LinearLayout, time: String, value: String, scrollView: ScrollView) {
@@ -885,7 +881,7 @@ class Home : Fragment() {
         caloriesSwitch = dialog.findViewById(R.id.caloriesSwitcher)!!
         proteinSwitch = dialog.findViewById(R.id.proteinSwitcher)!!
 
-        additionalInfoButton = dialog.findViewById<TextView>(R.id.button_additional_settings)!!
+        additionalInfoButton = dialog.findViewById(R.id.button_additional_settings)!!
         additionalSettings = dialog.findViewById(R.id.layoutAdditionalSettings)!!
 //        mainLayout = dialog.findViewById(R.id.mainLayout)!!
 //        mainLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGE_DISAPPEARING)

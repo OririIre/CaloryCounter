@@ -136,8 +136,10 @@ class Chart : Fragment() {
         lineDataSet.color
 
         val lineData = LineData(lineDataSet)
-
-        var minValue = min(caloriesArray)
+        var minValue = 0f
+        if(caloriesArray.isNotEmpty()){
+            minValue = min(caloriesArray)
+        }
 
         if ((minValue - 200) > 0) {
             minValue -= 200
