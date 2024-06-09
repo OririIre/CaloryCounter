@@ -96,6 +96,20 @@ class DataHandler {
             }
         }
     }
+
+    fun deleteMapEntriesWithKeys(context: Context?, fileName: String, key: String) {
+        val directory = File(context?.filesDir, "LogFiles")
+        if (directory.exists()) {
+            val file = File(directory, fileName)
+            if (file.exists()) {
+                val loadedMap = loadData(context, fileName)
+                if(loadedMap.containsKey(key)){
+                    loadedMap.remove(loadedMap.filterKeys { it == key }.keys.first())
+                }
+                saveMapData(context,fileName, loadedMap)
+            }
+        }
+    }
 }
 
 

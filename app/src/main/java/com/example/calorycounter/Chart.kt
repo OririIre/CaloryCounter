@@ -82,7 +82,6 @@ class Chart : Fragment() {
                 } else {
                     list.add(Entry(i.toFloat(), 0f))
                 }
-
                 if (i == 0 || i == (caloriesArray.size - 1) || i == (caloriesArray.size / 3) || i == (caloriesArray.size * 2 / 3)) {
                     val sb = StringBuilder(key)
                     sb.insert(2, ".")
@@ -100,12 +99,7 @@ class Chart : Fragment() {
                 if (i < 30) {
                     i++
                     if (chartDataProtein.containsKey(item.key)) {
-                        createCards(
-                            bnd.layoutCalories,
-                            item.key,
-                            item.value,
-                            chartDataProtein[item.key]!!
-                        )
+                        createCards(bnd.layoutCalories, item.key, item.value, chartDataProtein[item.key]!!)
                     } else {
                         createCards(bnd.layoutCalories, item.key, item.value, "0")
                     }
@@ -203,8 +197,8 @@ class Chart : Fragment() {
 
         usedProtein.layoutParams = param
 
-        usedCalories.text = calories
-        usedProtein.text = protein
+        usedCalories.text = calories.toDouble().toInt().toString()
+        usedProtein.text = protein.toDouble().toInt().toString()
         dateView.text = newDateString
     }
 

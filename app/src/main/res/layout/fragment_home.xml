@@ -44,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:background="@color/transparent"
             android:layout_marginTop="22dp"
             android:scaleX="2.2"
             android:scaleY="2.2"
@@ -222,10 +223,11 @@
         android:id="@+id/add_meal_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:layout_marginEnd="8dp"
-        android:textSize="12dp"
+        android:textSize="14sp"
         android:textColor="@color/white"
-        android:text="Add Meal"
+        android:text="@string/add_meal_drink"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/fbMeals"
         app:layout_constraintEnd_toStartOf="@+id/fbMeals"
@@ -248,9 +250,11 @@
         android:id="@+id/add_free_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:layout_marginEnd="8dp"
+        android:textSize="14sp"
         android:textColor="@color/white"
-        android:text="Free Add"
+        android:text="@string/free_add"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/fbCustom"
         app:layout_constraintEnd_toStartOf="@+id/fbCustom"
@@ -505,17 +509,6 @@
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@+id/bubbleRemaining"
         app:layout_constraintTop_toTopOf="@+id/bubbleRemaining" />
-
-    <ImageView
-        android:id="@+id/blurView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </ImageView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

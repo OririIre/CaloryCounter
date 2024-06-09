@@ -55,4 +55,6 @@
     <string name="caloriesGoalHint">Calories Goal</string>
     <string name="proteinGoalHint">Protein Goal</string>
     <string name="clearHistory">Clear History</string>
+    <string name="add_meal_drink">Add Meal or Drink</string>
+    <string name="free_add">Free Add</string>
 </resources>

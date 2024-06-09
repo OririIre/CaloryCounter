@@ -9,10 +9,7 @@
 - Implement Snackbar instead of Toast:
 https://m2.material.io/components/snackbars/android#using-snackbars
 https://www.digitalocean.com/community/tutorials/android-snackbar-example-tutorial
-- Hinzufügen von sachen ist überall anders mal Int mal Double -> Einheitlich machen
-- Add Funktionen überarbeiten in diesem zuge
-- Bottom Drawer bug dass alles schwarz wird
-
+- animationen noch paar und shake für histroy
 
 - Cheatday mode in settings rein (evtl)
 - Beschreibung für Alcohol Mode/Irgendwas damit machen was sinn macht
