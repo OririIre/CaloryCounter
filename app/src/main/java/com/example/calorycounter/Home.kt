@@ -6,6 +6,7 @@ import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.Icon
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -14,12 +15,15 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.ScrollView
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -275,7 +279,7 @@ class Home : Fragment() {
         bnd.home.addView(imageView)
 
         bnd.fb.setOnClickListener {
-            (if (!isAllFabVisible) {
+            if (!isAllFabVisible) {
                 Blurry.with(requireContext()).capture(this.view).into(imageView)
                 imageView.visibility = View.VISIBLE
                 imageView.bringToFront()
@@ -285,15 +289,15 @@ class Home : Fragment() {
                 bnd.addFreeText.bringToFront()
                 bnd.addMealText.visibility = View.VISIBLE
                 bnd.addMealText.bringToFront()
-                true
+                isAllFabVisible = true
             } else {
                 imageView.visibility = View.GONE
                 bnd.fbCustom.visibility = View.GONE
                 bnd.fbMeals.visibility = View.GONE
                 bnd.addFreeText.visibility = View.GONE
                 bnd.addMealText.visibility = View.GONE
-                false
-            }).also { isAllFabVisible = it }
+                isAllFabVisible = false
+            }
         }
 
         bnd.fbCustom.setOnClickListener {
@@ -481,25 +485,25 @@ class Home : Fragment() {
     private fun updateRemaining(currentValue: Double, goal: Value) {
         if (goal == Value.Calories) {
             if (goals[Keys.Calories.toString()]!!.toDouble() != 0.0) {
-                var remaining = goals[Keys.Calories.toString()]!!.toDouble() - currentValue
+                var remaining = goals[Keys.Calories.toString()]!!.toInt() - currentValue.toInt()
                 if (remaining <= 0) {
-                    remaining = 0.0
+                    remaining = 0
                 }
                 val left = "$remaining kcal"
                 bnd.leftKcal.text = left
             } else if (goals[Keys.Calories.toString()]!!.toDouble() == 0.0) {
-                bnd.leftKcal.text = 0.0.toString()
+                bnd.leftKcal.text = 0.toString()
             }
         } else {
             if (goals[Keys.Protein.toString()]!!.toDouble() != 0.0) {
-                var remaining = goals[Keys.Protein.toString()]!!.toDouble() - currentValue
+                var remaining = goals[Keys.Protein.toString()]!!.toInt() - currentValue.toInt()
                 if (remaining <= 0) {
-                    remaining = 0.0
+                    remaining = 0
                 }
                 val left = "$remaining g"
                 bnd.leftProt.text = left
             } else if (goals[Keys.Protein.toString()]!!.toDouble() == 0.0) {
-                bnd.leftProt.text = 0.0.toString()
+                bnd.leftProt.text = 0.toString()
             }
         }
     }
@@ -681,6 +685,12 @@ class Home : Fragment() {
         val caloriesField: EditText = mealsDialog.findViewById(R.id.enterMealCalories)!!
         val proteinField: EditText = mealsDialog.findViewById(R.id.enterMealProtein)!!
         val nameField: EditText = mealsDialog.findViewById(R.id.enterMealName)!!
+        val iconDropdown: Spinner = mealsDialog.findViewById(R.id.iconSelection)!!
+
+        val items = arrayOf(R.drawable.baseline_ramen_dining_24, R.drawable.baseline_home_24)
+        val adapter: ArrayAdapter<Int> =
+            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, items)
+        iconDropdown.adapter = adapter
 
         var currentMeals = dataHandler.loadData(requireContext(), mealsFile)
 
@@ -694,6 +704,25 @@ class Home : Fragment() {
             val keyProt = "Meal" + mealNumber.toString() +"Prot"
             val mealProtein = currentMeals[keyProt]
             proteinField.setText(mealProtein)
+        }
+
+        var selectedIcon: Int
+
+        iconDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedItem = parent?.getItemAtPosition(position).toString()
+                selectedIcon = selectedItem.toInt()
+                println(selectedIcon)
+            }
         }
 
         save.setOnClickListener{

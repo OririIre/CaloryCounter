@@ -38,6 +38,12 @@
         android:gravity="center"
         android:padding="10dp">
 
+        <Spinner
+            android:id="@+id/iconSelection"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+
         <EditText
             android:id="@+id/enterMealName"
             android:layout_width="250dp"

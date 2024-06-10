@@ -213,7 +213,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:src="@drawable/baseline_playlist_add_24"
-        android:visibility="gone"
+        android:visibility="visible"
         app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@+id/fbCustom"
         app:layout_constraintEnd_toEndOf="@+id/fbCustom"
@@ -228,7 +228,7 @@
         android:textSize="14sp"
         android:textColor="@color/white"
         android:text="@string/add_meal_drink"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/fbMeals"
         app:layout_constraintEnd_toStartOf="@+id/fbMeals"
         app:layout_constraintTop_toTopOf="@+id/fbMeals" />
