@@ -6,7 +6,6 @@ import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.Icon
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -107,14 +106,11 @@ class Home : Fragment() {
     private val historyFile = "history.txt"
     private val currentDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
 
-
-
-    @SuppressLint("DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val historyValues = dataHandler.loadData(requireContext(), historyFile)
         val calendar  = Calendar.getInstance()
-        val currentTime = String.format("%02d.%02d",
+        val currentTime = String.format(Locale.getDefault(),"%02d.%02d",
             calendar.get(Calendar.DAY_OF_MONTH),
             calendar.get(Calendar.MONTH)+1)
         for(items in historyValues){
@@ -390,7 +386,6 @@ class Home : Fragment() {
         return value
     }
 
-    @SuppressLint("DefaultLocale")
     private fun addFromSpeech(value: String, amount: String) {
         val historyMap = mutableMapOf<String, String>()
         val currentTime = getCurrentDateTime()
@@ -605,7 +600,6 @@ class Home : Fragment() {
         parentLayout.addView(relativeLayout)
     }
 
-    @SuppressLint("DefaultLocale")
     private fun addMeal(mealKcal: String, mealProt: String) {
         val historyMap = mutableMapOf<String, String>()
         val currentTime = getCurrentDateTime()
@@ -687,11 +681,6 @@ class Home : Fragment() {
         val nameField: EditText = mealsDialog.findViewById(R.id.enterMealName)!!
         val iconDropdown: Spinner = mealsDialog.findViewById(R.id.iconSelection)!!
 
-        val items = arrayOf(R.drawable.baseline_ramen_dining_24, R.drawable.baseline_home_24)
-        val adapter: ArrayAdapter<Int> =
-            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, items)
-        iconDropdown.adapter = adapter
-
         var currentMeals = dataHandler.loadData(requireContext(), mealsFile)
 
         if(mealNumber != 0){
@@ -706,6 +695,15 @@ class Home : Fragment() {
             proteinField.setText(mealProtein)
         }
 
+        //ToDo Check for spinner regarding meal icons
+
+        val items: ArrayList<Int> = arrayListOf(R.drawable.baseline_ramen_dining_24, R.drawable.baseline_coffee_24,
+            R.drawable.baseline_dinner_dining_24, R.drawable.baseline_local_bar_24,
+            R.drawable.baseline_lunch_dining_24, R.drawable.baseline_wine_bar_24,
+            R.drawable.baseline_bakery_dining_24, R.drawable.baseline_breakfast_dining_24)
+        val adapter =  IconAdapter(requireContext(), R.layout.row, items)
+        iconDropdown.adapter = adapter
+
         var selectedIcon: Int
 
         iconDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -713,15 +711,10 @@ class Home : Fragment() {
 
             }
 
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedItem = parent?.getItemAtPosition(position).toString()
-                selectedIcon = selectedItem.toInt()
-                println(selectedIcon)
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedItem = parent?.getItemAtPosition(position)
+
+                println(selectedItem)
             }
         }
 
@@ -795,6 +788,7 @@ class Home : Fragment() {
         historyScrollView = historyDialog.findViewById(R.id.historyScrollView)!!
 
         val historyValues = dataHandler.loadData(requireContext(), historyFile)
+        println(historyValues)
         if(historyValues.isNotEmpty()){
             for (item in historyValues) {
                 createCards(layoutHistoryCards, item.key, item.value, historyScrollView)
@@ -823,12 +817,12 @@ class Home : Fragment() {
 
         if(calOrProt){
             historyValue.id = View.generateViewId()
-            historyValue.text = value.toInt().toString()
+            historyValue.text = String.format(Locale.getDefault(),"%.1f", value.toDouble())
             descriptionText.text = getString(R.string.Calories)
         }
         else{
             historyValue.id = View.generateViewId()
-            historyValue.text = value.toInt().toString()
+            historyValue.text = String.format(Locale.getDefault(),"%.1f", value.toDouble())
             descriptionText.text = getString(R.string.Protein)
         }
 
@@ -880,7 +874,6 @@ class Home : Fragment() {
                 return@OnTouchListener true
             }
         )
-
         parent.addView(card)
     }
 
@@ -1065,10 +1058,9 @@ class Home : Fragment() {
         }
     }
 
-    @SuppressLint("DefaultLocale")
     private fun getCurrentDateTime(): String {
         val calendar  = Calendar.getInstance()
-        val currentTime = String.format("%02d.%02d%02d:%02d:%02d",
+        val currentTime = String.format(Locale.getDefault(), "%02d.%02d%02d:%02d:%02d",
             calendar.get(Calendar.DAY_OF_MONTH),
             calendar.get(Calendar.MONTH)+1,
             calendar.get(Calendar.HOUR_OF_DAY),
