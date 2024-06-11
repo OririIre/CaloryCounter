@@ -28,6 +28,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -58,6 +59,19 @@ internal enum class Value {
 }
 const val MIN_SWIPE_DISTANCE = 250
 
+//ToDo Check out how this works? Do I pass Icon.Ramen(R.drawable.baseline_ramen_dining_24)?
+//ToDo Problem is that the resource IDs are probably not consistent, can be obfuscated
+enum class Icon(@DrawableRes val resourceId: Int) {
+    RAMEN(R.drawable.baseline_ramen_dining_24),
+    COFFEE(R.drawable.baseline_coffee_24),
+    DINNER(R.drawable.baseline_dinner_dining_24),
+    COCKTAIL(R.drawable.baseline_local_bar_24),
+    LUNCH(R.drawable.baseline_lunch_dining_24),
+    WINE(R.drawable.baseline_wine_bar_24),
+    BAKED(R.drawable.baseline_bakery_dining_24),
+    BREAKFAST(R.drawable.baseline_breakfast_dining_24)
+}
+
 class Home : Fragment() {
     private var _bnd: FragmentHomeBinding? = null
     private val bnd get() = _bnd!!
@@ -79,6 +93,8 @@ class Home : Fragment() {
     private lateinit var additionalInfoButton: TextView
     private lateinit var additionalSettings: RelativeLayout
     private lateinit var document: Document
+    private lateinit var deleteButton: TextView
+    private lateinit var relativeLayout: RelativeLayout
     private var isAllFabVisible: Boolean = false
     private var alcoholToggle = false
     private var messages = arrayOf(
@@ -104,6 +120,7 @@ class Home : Fragment() {
     private val mealsFile = "meals.txt"
     private val goalsFile = "goals.txt"
     private val historyFile = "history.txt"
+    private val iconFile = "icon.txt"
     private val currentDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -316,6 +333,12 @@ class Home : Fragment() {
             showMealsDialog(0)
         }
 
+//        bnd.home.setOnFocusChangeListener { v, b ->
+//            if(b){
+//                relativeLayout.removeView(deleteButton)
+//            }
+//        }
+
         return view
     }
 
@@ -444,6 +467,7 @@ class Home : Fragment() {
 
     private fun updateMeals() {
         val meals = dataHandler.loadData(requireContext(), mealsFile)
+        val icons = dataHandler.loadData(requireContext(), iconFile)
         println(meals)
         bnd.linearLayoutMeals.removeAllViews()
         var i = 1
@@ -451,10 +475,12 @@ class Home : Fragment() {
             val name = i.toString() + "Name"
             val value = i.toString() + "Cal"
             val protValue = i.toString() + "Prot"
+            val icon = i.toString() + "Icon"
             if(items.key.contains(name) && items.value != "value"){
                 val currentMealName = items.value
                 var currentMealValue = ""
                 var currentMealProt = ""
+                var currentIcon = ""
                 var calFound = false
                 var protFound = false
                 for(item in meals) {
@@ -466,8 +492,13 @@ class Home : Fragment() {
                         currentMealProt = item.value
                         protFound = true
                     }
+                    for(ic in icons) {
+                        if (ic.key.contains(icon)) {
+                            currentIcon = ic.value
+                        }
+                    }
                     if(calFound && protFound){
-                        createMealUI (currentMealName, currentMealValue, currentMealProt, i)
+                        createMealUI (currentMealName, currentMealValue, currentMealProt, i, currentIcon)
                         i++
                         calFound = false
                         protFound = false
@@ -504,9 +535,9 @@ class Home : Fragment() {
     }
 
 
-    private fun createMealUI (mealName: String, mealValue: String, mealProt: String, buttonID: Int){
+    private fun createMealUI (mealName: String, mealValue: String, mealProt: String, buttonID: Int, icon: String){
         val parentLayout = bnd.linearLayoutMeals
-        val relativeLayout = RelativeLayout(requireContext())
+        relativeLayout = RelativeLayout(requireContext())
         val mealsName = TextView(requireContext())
         val mealsValue = TextView(requireContext())
         val divider = View(requireContext())
@@ -537,7 +568,8 @@ class Home : Fragment() {
         mealsValue.setTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
         mealsValue.layoutParams = mealsValueParam
         mealsValue.gravity = Gravity.END
-        mealsValue.setCompoundDrawablesWithIntrinsicBounds(null,null,ResourcesCompat.getDrawable(resources, R.drawable.baseline_add_circle_outline_24, null),null)
+        println(icon)
+        mealsValue.setCompoundDrawablesWithIntrinsicBounds(null,null,ResourcesCompat.getDrawable(resources, R.drawable.baseline_add_circle_24, null),null)
         mealsValue.compoundDrawablePadding = 15
 
         val mealsNameParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
@@ -550,7 +582,15 @@ class Home : Fragment() {
         mealsName.text = mealName
         mealsName.textSize = 15f
         mealsName.setTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
-        mealsName.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(resources, R.drawable.baseline_ramen_dining_24, null),null,null,null)
+        if(icon != "") {
+            mealsName.setCompoundDrawablesWithIntrinsicBounds(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    icon.toInt(),
+                    null
+                ), null, null, null
+            )
+        }
         mealsName.compoundDrawablePadding = 15
         mealsName.layoutParams = mealsNameParam
 
@@ -579,7 +619,7 @@ class Home : Fragment() {
         }
 
         mealsName.setOnLongClickListener {
-            val deleteButton = TextView(requireContext())
+            deleteButton = TextView(requireContext())
             val buttonLayoutParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -594,6 +634,13 @@ class Home : Fragment() {
             deleteButton.setOnClickListener{
                 deleteMeal(mealsName.id)
                 relativeLayout.removeView(deleteButton)
+            }
+            deleteButton.setOnFocusChangeListener { v, b ->
+                println(b)
+                println("Does it work?")
+                if(!b){
+                    relativeLayout.removeView(deleteButton)
+                }
             }
             true
         }
@@ -631,6 +678,7 @@ class Home : Fragment() {
     }
 
     private fun deleteMeal(mealNumber: Int){
+        //ToDo Delete Meal Icon implementieren
         var keyName = ""
         var keyCal = ""
         var keyProt = ""
@@ -682,7 +730,9 @@ class Home : Fragment() {
         val iconDropdown: Spinner = mealsDialog.findViewById(R.id.iconSelection)!!
 
         var currentMeals = dataHandler.loadData(requireContext(), mealsFile)
+        var currentIcons = dataHandler.loadData(requireContext(), iconFile)
 
+        //ToDo check the selection of the Icon
         if(mealNumber != 0){
             val keyName = "Meal" + mealNumber.toString() +"Name"
             val mealName = currentMeals[keyName]
@@ -693,9 +743,13 @@ class Home : Fragment() {
             val keyProt = "Meal" + mealNumber.toString() +"Prot"
             val mealProtein = currentMeals[keyProt]
             proteinField.setText(mealProtein)
+            val keyIcon = "Meal" + mealNumber.toString() +"Icon"
+            val mealIcon = currentIcons[keyIcon]
+            println(mealIcon)
+            if (mealIcon != null) {
+                iconDropdown.setSelection(mealIcon.toInt())
+            }
         }
-
-        //ToDo Check for spinner regarding meal icons
 
         val items: ArrayList<Int> = arrayListOf(R.drawable.baseline_ramen_dining_24, R.drawable.baseline_coffee_24,
             R.drawable.baseline_dinner_dining_24, R.drawable.baseline_local_bar_24,
@@ -704,17 +758,15 @@ class Home : Fragment() {
         val adapter =  IconAdapter(requireContext(), R.layout.row, items)
         iconDropdown.adapter = adapter
 
-        var selectedIcon: Int
+        var selectedIcon = ""
 
         iconDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedItem = parent?.getItemAtPosition(position)
-
-                println(selectedItem)
+                selectedIcon = parent?.getItemAtPosition(position).toString()
+                println(selectedIcon)
             }
         }
 
@@ -724,9 +776,11 @@ class Home : Fragment() {
             if(mealNumber == 0) {
                 if (nameField.text.toString() != "") {
                     val keyName = "Meal" + mealsCount.toString() + "Name"
+                    val keyIcon = "Meal" + mealsCount.toString() + "Icon"
                     val mealNameMap = mutableMapOf(keyName to nameField.text.toString())
-                    dataHandler.saveMapDataNO(requireContext(), mealsFile, mealNameMap)
                     val keyCal = "Meal" + mealsCount.toString() + "Cal"
+                    dataHandler.saveMapDataNO(requireContext(), mealsFile, mealNameMap)
+                    dataHandler.saveData(requireContext(), iconFile, keyIcon, selectedIcon)
                     if (caloriesField.text.toString() != "") {
                         val mealCaloriesMap = mutableMapOf(keyCal to caloriesField.text.toString())
                         dataHandler.saveMapDataNO(requireContext(), mealsFile, mealCaloriesMap)
@@ -747,9 +801,11 @@ class Home : Fragment() {
             else{
                 if (nameField.text.toString() != "") {
                     val keyName = "Meal" + mealNumber.toString() + "Name"
+                    val keyIcon = "Meal" + mealNumber.toString() + "Icon"
+                    val keyCal = "Meal" + mealNumber.toString() + "Cal"
                     val mealNameMap = mutableMapOf(keyName to nameField.text.toString())
                     dataHandler.saveMapDataNO(requireContext(), mealsFile, mealNameMap)
-                    val keyCal = "Meal" + mealNumber.toString() + "Cal"
+                    dataHandler.saveData(requireContext(), iconFile, keyIcon, selectedIcon)
                     if (caloriesField.text.toString() != "") {
                         val mealCaloriesMap = mutableMapOf(keyCal to caloriesField.text.toString())
                         dataHandler.saveMapDataNO(requireContext(), mealsFile, mealCaloriesMap)
