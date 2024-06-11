@@ -468,7 +468,6 @@ class Home : Fragment() {
     private fun updateMeals() {
         val meals = dataHandler.loadData(requireContext(), mealsFile)
         val icons = dataHandler.loadData(requireContext(), iconFile)
-        println(meals)
         bnd.linearLayoutMeals.removeAllViews()
         var i = 1
         for(items in meals){
@@ -568,7 +567,6 @@ class Home : Fragment() {
         mealsValue.setTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
         mealsValue.layoutParams = mealsValueParam
         mealsValue.gravity = Gravity.END
-        println(icon)
         mealsValue.setCompoundDrawablesWithIntrinsicBounds(null,null,ResourcesCompat.getDrawable(resources, R.drawable.baseline_add_circle_24, null),null)
         mealsValue.compoundDrawablePadding = 15
 
@@ -678,21 +676,26 @@ class Home : Fragment() {
     }
 
     private fun deleteMeal(mealNumber: Int){
-        //ToDo Delete Meal Icon implementieren
         var keyName = ""
         var keyCal = ""
         var keyProt = ""
+        var keyIcons = ""
         if(mealNumber != 0){
             keyName = "Meal" + mealNumber.toString() +"Name"
             keyCal = "Meal" + mealNumber.toString() +"Cal"
             keyProt = "Meal" + mealNumber.toString() +"Prot"
+            keyIcons = "Meal" + mealNumber.toString() +"Icon"
         }
         dataHandler.deleteMapEntriesWithKeys(requireContext(), mealsFile, keyName)
         dataHandler.deleteMapEntriesWithKeys(requireContext(), mealsFile, keyCal)
         dataHandler.deleteMapEntriesWithKeys(requireContext(), mealsFile, keyProt)
+        dataHandler.deleteMapEntriesWithKeys(requireContext(), iconFile, keyIcons)
         val currentMeals = dataHandler.loadData(requireContext(), mealsFile)
-        val mealsCount = ((currentMeals.count()/3))
+        val currentIcons = dataHandler.loadData(requireContext(), iconFile)
+        val mealsCount = (currentMeals.count()/3)
+        val iconCount = currentIcons.count()
         val newMeals = mutableMapOf<String, String>()
+        val newIcons = mutableMapOf<String, String>()
         var i = 1
         for(items in currentMeals) {
             val name = "Meal" + i.toString() + "Name"
@@ -712,7 +715,21 @@ class Home : Fragment() {
                 break
             i++
         }
+        var x = 1
         dataHandler.saveMapData(requireContext(), mealsFile, newMeals)
+        for(items in currentIcons) {
+            val keyIcon = "Meal" + x.toString() +"Icon"
+            if (!items.key.contains(keyIcon)) {
+                newIcons += mutableMapOf(keyIcon to currentIcons["Meal" + (x+1).toString() + "Icon"].toString())
+            }
+            else if (items.key.contains(keyIcon)){
+                newIcons += mutableMapOf(keyIcon to currentIcons[keyIcon].toString())
+            }
+            if(x >= iconCount)
+                break
+            x++
+        }
+        dataHandler.saveMapData(requireContext(), iconFile, newIcons)
         updateMeals()
     }
 
@@ -730,9 +747,15 @@ class Home : Fragment() {
         val iconDropdown: Spinner = mealsDialog.findViewById(R.id.iconSelection)!!
 
         var currentMeals = dataHandler.loadData(requireContext(), mealsFile)
-        var currentIcons = dataHandler.loadData(requireContext(), iconFile)
+        val currentIcons = dataHandler.loadData(requireContext(), iconFile)
 
-        //ToDo check the selection of the Icon
+        val items: ArrayList<Int> = arrayListOf(R.drawable.baseline_ramen_dining_24, R.drawable.baseline_coffee_24,
+            R.drawable.baseline_dinner_dining_24, R.drawable.baseline_local_bar_24,
+            R.drawable.baseline_lunch_dining_24, R.drawable.baseline_wine_bar_24,
+            R.drawable.baseline_bakery_dining_24, R.drawable.baseline_local_pizza_24)
+        val adapter =  IconAdapter(requireContext(), R.layout.row, items)
+        iconDropdown.adapter = adapter
+
         if(mealNumber != 0){
             val keyName = "Meal" + mealNumber.toString() +"Name"
             val mealName = currentMeals[keyName]
@@ -747,16 +770,10 @@ class Home : Fragment() {
             val mealIcon = currentIcons[keyIcon]
             println(mealIcon)
             if (mealIcon != null) {
-                iconDropdown.setSelection(mealIcon.toInt())
+                val dropDownPosition = adapter.getPosition(mealIcon.toInt())
+                iconDropdown.setSelection(dropDownPosition)
             }
         }
-
-        val items: ArrayList<Int> = arrayListOf(R.drawable.baseline_ramen_dining_24, R.drawable.baseline_coffee_24,
-            R.drawable.baseline_dinner_dining_24, R.drawable.baseline_local_bar_24,
-            R.drawable.baseline_lunch_dining_24, R.drawable.baseline_wine_bar_24,
-            R.drawable.baseline_bakery_dining_24, R.drawable.baseline_breakfast_dining_24)
-        val adapter =  IconAdapter(requireContext(), R.layout.row, items)
-        iconDropdown.adapter = adapter
 
         var selectedIcon = ""
 
@@ -844,7 +861,6 @@ class Home : Fragment() {
         historyScrollView = historyDialog.findViewById(R.id.historyScrollView)!!
 
         val historyValues = dataHandler.loadData(requireContext(), historyFile)
-        println(historyValues)
         if(historyValues.isNotEmpty()){
             for (item in historyValues) {
                 createCards(layoutHistoryCards, item.key, item.value, historyScrollView)
