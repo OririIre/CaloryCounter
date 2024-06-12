@@ -1,15 +1,15 @@
-- Bottom Drawer fixen
-- Language selector für Appsprache einbauen
+- Bottom Drawer fixen (is maybe fixed test at home)
+- Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
+
+
+- Verschiedene Appsprache einbauen
+- animationen noch paar und shake für histroy
 - Spracheingabe für protein
 - Spracheingabe auch andersrum z.b. Nudeln 500g
 - Spracheingabe mit z.b. 1 Flasche oder 1 Bier
 - Tutorial neu machen und noch speichern ob schon gemacht wurde oder nicht -> Einbauen, dass es beim erstemal direkt Bubble 1 anzeigt
-- Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
 - Data loading in oncreate via Intent put Extra
-- Implement Snackbar instead of Toast:
-https://m2.material.io/components/snackbars/android#using-snackbars
-https://www.digitalocean.com/community/tutorials/android-snackbar-example-tutorial
-- animationen noch paar und shake für histroy
+
 
 Evtl Stuff?!
 - Cheatday mode in settings rein (evtl)

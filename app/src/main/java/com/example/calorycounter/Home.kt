@@ -15,9 +15,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -30,6 +30,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
@@ -53,6 +54,7 @@ import java.util.Date
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.round
+
 
 internal enum class Value {
     Protein, Calories
@@ -93,10 +95,11 @@ class Home : Fragment() {
     private lateinit var additionalInfoButton: TextView
     private lateinit var additionalSettings: RelativeLayout
     private lateinit var document: Document
-    private lateinit var deleteButton: TextView
+    private lateinit var mLayout: CoordinatorLayout
     private lateinit var relativeLayout: RelativeLayout
     private var isAllFabVisible: Boolean = false
     private var alcoholToggle = false
+    private var mealsDialogNew = MealsDialog(requireActivity())
     private var messages = arrayOf(
         "Disappointed but not surprised...",
         "Nope not today",
@@ -113,7 +116,6 @@ class Home : Fragment() {
         "Maybe another day, huh?"
     )
     private var rnd = (0..12).random()
-    private lateinit var badMessages: Toast
     private val caloriesFile = "calLog.txt"
     private val proteinFile = "protLog.txt"
     private val languageFile = "language.txt"
@@ -330,7 +332,9 @@ class Home : Fragment() {
             bnd.addFreeText.visibility = View.GONE
             bnd.addMealText.visibility = View.GONE
             isAllFabVisible = false
-            showMealsDialog(0)
+            mealsDialogNew.show(0)
+            updateMeals()
+//            showMealsDialog(0)
         }
 
 //        bnd.home.setOnFocusChangeListener { v, b ->
@@ -613,33 +617,19 @@ class Home : Fragment() {
         }
 
         mealsName.setOnClickListener{
-            showMealsDialog(mealsName.id)
+            mealsDialogNew.show(mealsName.id)
+            updateMeals()
+//            showMealsDialog(mealsName.id)
         }
 
         mealsName.setOnLongClickListener {
-            deleteButton = TextView(requireContext())
-            val buttonLayoutParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
-            )
-            buttonLayoutParam.marginStart = 20
-            buttonLayoutParam.addRule(RelativeLayout.END_OF, mealsName.id)
-            deleteButton.layoutParams = buttonLayoutParam
-            deleteButton.setPadding(20,5,20,5)
-            deleteButton.text = "Delete!"
-            deleteButton.background = ResourcesCompat.getDrawable(resources, R.drawable.button_states_3, null)
-            relativeLayout.addView(deleteButton)
-            deleteButton.setOnClickListener{
-                deleteMeal(mealsName.id)
-                relativeLayout.removeView(deleteButton)
-            }
-            deleteButton.setOnFocusChangeListener { v, b ->
-                println(b)
-                println("Does it work?")
-                if(!b){
-                    relativeLayout.removeView(deleteButton)
+            //ToDo Snackbar to delete Meals
+            Snackbar.make(bnd.home, "Delete Entry?", 4000)
+            .setAction("DELETE") {
+                    deleteMeal(mealsName.id)
                 }
-            }
+            .show()
+
             true
         }
         parentLayout.addView(relativeLayout)
@@ -658,8 +648,12 @@ class Home : Fragment() {
             updateRemaining(currentKcalValue, Value.Calories)
             if (currentKcalValue > goals[Keys.Calories.toString()]!!.toDouble()) {
                 rnd = (0..12).random()
-                badMessages = Toast.makeText(activity, messages[rnd], Toast.LENGTH_LONG)
-                badMessages.show()
+                val snack: Snackbar = Snackbar.make(bnd.home, messages[rnd], 4000)
+                val view = snack.view
+                val params = view.layoutParams as FrameLayout.LayoutParams
+                params.gravity = Gravity.TOP
+                view.layoutParams = params
+                snack.show()
             }
         }
         if (mealProt != "value" && mealProt != "") {
@@ -672,7 +666,6 @@ class Home : Fragment() {
             updateRemaining(currentProteinValue, Value.Protein)
         }
         dataHandler.saveMapDataNO(requireContext(), historyFile, historyMap)
-
     }
 
     private fun deleteMeal(mealNumber: Int){
@@ -1073,9 +1066,13 @@ class Home : Fragment() {
             updateRemaining(currentKcalValue, Value.Calories)
             if (currentKcalValue > goals[Keys.Calories.toString()]!!.toDouble()) {
                 rnd = (0..12).random()
-                Snackbar.make(this.requireView(), messages[rnd], Snackbar.LENGTH_LONG)
-                    .setAnchorView(bnd.progressBar2)
-                    .show()
+                mLayout = dialog.findViewById(R.id.mainLayoutBottom)!!
+                val snack: Snackbar = Snackbar.make(mLayout, messages[rnd], 4000)
+                val view = snack.view
+                val params = view.layoutParams as CoordinatorLayout.LayoutParams
+                params.gravity = Gravity.TOP
+                view.layoutParams = params
+                snack.show()
             }
         } else {
             val currentProteinValue = calcValue(proteinFile, valueString, grammString, customString)
