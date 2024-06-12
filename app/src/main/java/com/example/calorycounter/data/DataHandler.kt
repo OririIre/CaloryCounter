@@ -1,4 +1,4 @@
-package com.example.calorycounter
+package com.example.calorycounter.data
 
 import android.content.Context
 import android.util.Log

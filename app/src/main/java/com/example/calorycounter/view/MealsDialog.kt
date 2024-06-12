@@ -1,28 +1,24 @@
-package com.example.calorycounter
+package com.example.calorycounter.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import com.example.calorycounter.IconAdapter
+import com.example.calorycounter.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class MealsDialog (con: Context) {
     
     private val context = con
-    private val inflater = LayoutInflater.from(context)
     private val mealsFile = "meals.txt"
     private val iconFile = "icon.txt"
 
     @SuppressLint("InflateParams")
-    fun show(mealNumber: Int) {
-        val bottomMealsDialog = inflater.inflate(R.layout.meals_layout, null)
-        val mealsDialog = BottomSheetDialog(context, R.style.BottomSheetDialogTheme)
-        mealsDialog.setContentView(bottomMealsDialog)
-        mealsDialog.show()
+    fun show(mealNumber: Int, mealsDialog: BottomSheetDialog) {
 
         val save: Button = mealsDialog.findViewById(R.id.buttonSaveMeal)!!
         val caloriesField: EditText = mealsDialog.findViewById(R.id.enterMealCalories)!!
@@ -54,7 +50,6 @@ class MealsDialog (con: Context) {
             proteinField.setText(mealProtein)
             val keyIcon = "Meal" + mealNumber.toString() + "Icon"
             val mealIcon = currentIcons[keyIcon]
-            println(mealIcon)
             if (mealIcon != null) {
                 val dropDownPosition = adapter.getPosition(mealIcon.toInt())
                 iconDropdown.setSelection(dropDownPosition)
@@ -136,5 +131,6 @@ class MealsDialog (con: Context) {
             caloriesField.text.clear()
             proteinField.text.clear()
         }
+        mealsDialog.show()
     }
 }

@@ -1,4 +1,4 @@
-package com.example.calorycounter
+package com.example.calorycounter.view
 
 import android.graphics.Color
 import android.os.Bundle
@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.calorycounter.R
 import com.example.calorycounter.databinding.FragmentChartBinding
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.components.XAxis
@@ -18,7 +19,6 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
-import com.google.android.material.tabs.TabLayoutMediator
 import java.text.SimpleDateFormat
 import java.util.Collections.min
 import java.util.Locale
