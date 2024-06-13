@@ -61,6 +61,7 @@ class DataHandler {
         if (directory.exists()) {
             if (file.exists()) {
                 var contents = file.readText(Charsets.UTF_8)
+//                println(contents)
                 contents = contents.replace("{", "")
                 contents = contents.replace("}", "")
                 contents = contents.replace(" ", "")

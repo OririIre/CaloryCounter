@@ -35,6 +35,7 @@ class HistoryDialog (con: Context) {
 
         val historyValues = dataHandler.loadData(context, historyFile)
         if(historyValues.isNotEmpty()){
+            layoutHistoryCards.removeAllViews()
             for (item in historyValues) {
                 createCards(layoutHistoryCards, item.key, item.value, historyScrollView)
             }

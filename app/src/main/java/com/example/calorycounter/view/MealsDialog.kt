@@ -26,7 +26,7 @@ class MealsDialog (con: Context) {
         val nameField: EditText = mealsDialog.findViewById(R.id.enterMealName)!!
         val iconDropdown: Spinner = mealsDialog.findViewById(R.id.iconSelection)!!
 
-        val currentMeals = dataHandler.loadData(context, mealsFile)
+        var currentMeals = dataHandler.loadData(context, mealsFile)
         val currentIcons = dataHandler.loadData(context, iconFile)
 
         val items: ArrayList<Int> = arrayListOf(
@@ -72,6 +72,7 @@ class MealsDialog (con: Context) {
             }
         }
         save.setOnClickListener{
+            currentMeals = dataHandler.loadData(context, mealsFile)
             val mealsCount = ((currentMeals.count()/3) + 1)
             if(mealNumber == 0) {
                 if (nameField.text.toString() != "") {

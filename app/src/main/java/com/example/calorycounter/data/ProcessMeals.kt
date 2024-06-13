@@ -73,6 +73,7 @@ class ProcessMeals (con: Context){
                 newMeals += mutableMapOf(name to currentMeals["Meal" + (i+1).toString() + "Name"].toString())
                 newMeals += mutableMapOf(value to currentMeals["Meal" + (i+1).toString() + "Cal"].toString())
                 newMeals += mutableMapOf(protValue to currentMeals["Meal" + (i+1).toString() + "Prot"].toString())
+                i++
             }
             else if (items.key.contains(name)){
                 newMeals += mutableMapOf(name to currentMeals[name].toString())

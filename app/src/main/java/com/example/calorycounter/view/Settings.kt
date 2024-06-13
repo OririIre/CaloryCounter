@@ -124,6 +124,7 @@ class Settings : Fragment() {
 
         bnd.clearMeals.setOnClickListener {
             dataHandler.deleteFiles(requireContext(), "meals.txt")
+            dataHandler.deleteFiles(requireContext(), "icon.txt")
         }
 
         bnd.clearGoals.setOnClickListener {
@@ -137,6 +138,7 @@ class Settings : Fragment() {
             dataHandler.deleteFiles(requireContext(), "goals.txt")
             dataHandler.deleteFiles(requireContext(), "language.txt")
             dataHandler.deleteFiles(requireContext(), "history.txt")
+            dataHandler.deleteFiles(requireContext(), "icon.txt")
         }
 
         bnd.languageDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

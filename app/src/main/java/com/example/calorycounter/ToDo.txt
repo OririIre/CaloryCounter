@@ -1,6 +1,6 @@
 - Bottom Drawer fixen still not fixed that shit
 - Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
-
+- Delete Entry: Entry before becomes null
 
 - Verschiedene Appsprache einbauen
 - animationen noch paar und shake für histroy
@@ -9,6 +9,7 @@
 - Spracheingabe mit z.b. 1 Flasche oder 1 Bier
 - Tutorial neu machen und noch speichern ob schon gemacht wurde oder nicht -> Einbauen, dass es beim erstemal direkt Bubble 1 anzeigt
 - Data loading in oncreate via Intent put Extra
+- History namen der meals rein
 
 
 Evtl Stuff?!

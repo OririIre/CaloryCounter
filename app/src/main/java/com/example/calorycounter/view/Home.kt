@@ -328,6 +328,7 @@ class Home : Fragment(), UpdateListener {
         super.onResume()
         updateGoals()
         updateDaily()
+        updateMeals()
         updateUI()
         clearHistoryForNextDay()
     }
