@@ -7,7 +7,7 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import com.example.calorycounter.IconAdapter
+import com.example.calorycounter.adapter.IconAdapter
 import com.example.calorycounter.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 

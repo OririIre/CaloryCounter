@@ -1,4 +1,4 @@
-package com.example.calorycounter
+package com.example.calorycounter.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
-import android.widget.TextView
+import com.example.calorycounter.R
 
 class IconAdapter(con: Context, viewID: Int, objects: ArrayList<Int>): ArrayAdapter<Int> (con, viewID, objects) {
     private val inflater = LayoutInflater.from(con)

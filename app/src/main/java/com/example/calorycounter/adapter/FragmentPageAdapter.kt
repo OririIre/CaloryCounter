@@ -1,4 +1,4 @@
-package com.example.calorycounter
+package com.example.calorycounter.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

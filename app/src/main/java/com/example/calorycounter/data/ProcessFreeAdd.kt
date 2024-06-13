@@ -45,26 +45,15 @@ class ProcessFreeAdd (con: Context) {
     }
 
     private fun calcValue(fileName: String, value: String, gramm: String, custom: String): Double {
-        var currentKcal = getNewValue(fileName)
-            if (custom != "") {
-                currentKcal += custom.toDouble()
-            }
-            else if (value != "" && gramm != "") {
-                if (value.toDouble() > 0.0 && gramm.toDouble() > 0.0) {
-                    currentKcal += (value.toDouble() * (gramm.toDouble() / 100))
-                }
-            }
-        return currentKcal
-    }
-
-    private fun getNewValue(fileName: String): Double {
-        val currentDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
-        val out = dataHandler.loadData(context, fileName)
-        val currentValue = if (out.containsKey(currentDate)) {
-            out[currentDate]?.toDouble()!!
-        } else {
-            0.0
+        var currentKcal = HelperClass.getCurrentValue(fileName, context)
+        if (custom != "") {
+            currentKcal += custom.toDouble()
         }
-        return currentValue
+        else if (value != "" && gramm != "") {
+            if (value.toDouble() > 0.0 && gramm.toDouble() > 0.0) {
+                currentKcal += (value.toDouble() * (gramm.toDouble() / 100))
+            }
+        }
+        return currentKcal
     }
 }

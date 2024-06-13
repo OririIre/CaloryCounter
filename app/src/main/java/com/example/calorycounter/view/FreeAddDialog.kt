@@ -9,12 +9,16 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import com.example.calorycounter.R
+import com.example.calorycounter.data.UpdateListener
 import com.example.calorycounter.data.ProcessFreeAdd
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.lang.ref.WeakReference
 
 class FreeAddDialog (con: Context) {
     private val context = con
     private val freeAddProcessing = ProcessFreeAdd(con)
+
+    private var listener = WeakReference<UpdateListener>(null)
     @SuppressLint("InflateParams")
     fun show(freeAddDialog: BottomSheetDialog) {
         var calProtSwitch = true
@@ -49,6 +53,7 @@ class FreeAddDialog (con: Context) {
         custom.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == 4) {
                 freeAddProcessing.addSub(calProtSwitch, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
+                listener.get()?.onStuffUpdated()
                 true
             } else {
                 false
@@ -58,6 +63,7 @@ class FreeAddDialog (con: Context) {
         gramm.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == 4) {
                 freeAddProcessing.addSub(calProtSwitch, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
+                listener.get()?.onStuffUpdated()
                 true
             } else {
                 false
@@ -88,11 +94,16 @@ class FreeAddDialog (con: Context) {
 
         saveValues.setOnClickListener {
             freeAddProcessing.addSub(calProtSwitch, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
+            listener.get()?.onStuffUpdated()
             kcal.text.clear()
             gramm.text.clear()
             custom.text.clear()
         }
         freeAddDialog.show()
+    }
+
+    fun addListener(listener: UpdateListener){
+        this.listener = WeakReference(listener)
     }
 }
 
