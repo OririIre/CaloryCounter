@@ -54,6 +54,9 @@ class FreeAddDialog (con: Context) {
             if (actionId == 4) {
                 freeAddProcessing.addSub(calProtSwitch, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
                 listener.get()?.onStuffUpdated()
+                kcal.text.clear()
+                gramm.text.clear()
+                custom.text.clear()
                 true
             } else {
                 false
@@ -64,6 +67,9 @@ class FreeAddDialog (con: Context) {
             if (actionId == 4) {
                 freeAddProcessing.addSub(calProtSwitch, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
                 listener.get()?.onStuffUpdated()
+                kcal.text.clear()
+                gramm.text.clear()
+                custom.text.clear()
                 true
             } else {
                 false
