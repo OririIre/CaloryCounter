@@ -31,8 +31,16 @@ class Chart : Fragment() {
     private lateinit var usedProtein: TextView
     private lateinit var dateView: TextView
     private lateinit var adapter: Adapter
+    private lateinit var chartDataCalories: MutableMap<String, String>
+    private lateinit var chartDataProtein: MutableMap<String, String>
     private var caloriesFile = "calLog.txt"
     private var proteinFile = "protLog.txt"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        chartDataCalories = dataHandler.loadData(requireContext(), caloriesFile)
+        chartDataProtein = dataHandler.loadData(requireContext(), proteinFile)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,12 +56,13 @@ class Chart : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        chartDataCalories = dataHandler.loadData(requireContext(), caloriesFile)
+        chartDataProtein = dataHandler.loadData(requireContext(), proteinFile)
         buildUI()
     }
 
     private fun buildUI() {
-        val chartDataCalories = dataHandler.loadData(requireContext(), caloriesFile)
-        val chartDataProtein = dataHandler.loadData(requireContext(), proteinFile)
+
         val list: ArrayList<Entry> = ArrayList()
         val caloriesArray: ArrayList<Float> = ArrayList()
         val dateArray: ArrayList<String> = ArrayList()

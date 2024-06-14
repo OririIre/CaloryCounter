@@ -1,6 +1,5 @@
-- Bottom Drawer fixen still not fixed that shit
+- Bottom Drawer fixen still not fixed that shit ->Themes ->Peek height eingebaut, daheim testen
 - Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
-- Delete Entry: Entry before becomes null
 
 - Verschiedene Appsprache einbauen
 - animationen noch paar und shake für histroy
@@ -8,7 +7,7 @@
 - Spracheingabe auch andersrum z.b. Nudeln 500g
 - Spracheingabe mit z.b. 1 Flasche oder 1 Bier
 - Tutorial neu machen und noch speichern ob schon gemacht wurde oder nicht -> Einbauen, dass es beim erstemal direkt Bubble 1 anzeigt
-- Data loading in oncreate via Intent put Extra
+- Data loading in oncreate via Intent put Extra -->data loading now in on create, check if this brings performance increase
 - History namen der meals rein
 
 

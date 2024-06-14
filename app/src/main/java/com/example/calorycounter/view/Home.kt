@@ -515,11 +515,12 @@ class Home : Fragment(), UpdateListener {
 
         mealsName.setOnLongClickListener {
             Snackbar.make(bnd.home, "Delete Entry?", 4000)
-            .setAction("DELETE") {
-                processMeals.deleteMeal(mealsName.id)
-                updateMeals()
-                }
-            .show()
+                .setBackgroundTint(resources.getColor(R.color.blackTransparent, null))
+                .setAction("DELETE") {
+                    processMeals.deleteMeal(mealsName.id)
+                    updateMeals()
+                    }
+                .show()
             true
         }
         parentLayout.addView(relativeLayout)
@@ -568,6 +569,7 @@ class Home : Fragment(), UpdateListener {
             params.gravity = Gravity.TOP
             params.setMargins(20,30, 20,0)
             snackView.layoutParams = params
+            snackView.setBackgroundColor(resources.getColor(R.color.blackTransparent, null))
             snack.show()
         }
 

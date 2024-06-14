@@ -60,29 +60,41 @@ class ProcessMeals (con: Context){
         dataHandler.deleteMapEntriesWithKeys(context, iconFile, keyIcons)
         val currentMeals = dataHandler.loadData(context, mealsFile)
         val currentIcons = dataHandler.loadData(context, iconFile)
-        val mealsCount = (currentMeals.count()/3)
+        val mealsCount = ((currentMeals.count()/3)+1)
         val iconCount = currentIcons.count()
         val newMeals = mutableMapOf<String, String>()
         val newIcons = mutableMapOf<String, String>()
         var i = 1
+        var l = 1
         for(items in currentMeals) {
-            val name = "Meal" + i.toString() + "Name"
-            val value = "Meal" + i.toString() +"Cal"
-            val protValue = "Meal" + i.toString() +"Prot"
-            if (!items.key.contains(name) && !items.key.contains(value) && !items.key.contains(protValue)) {
-                newMeals += mutableMapOf(name to currentMeals["Meal" + (i+1).toString() + "Name"].toString())
-                newMeals += mutableMapOf(value to currentMeals["Meal" + (i+1).toString() + "Cal"].toString())
-                newMeals += mutableMapOf(protValue to currentMeals["Meal" + (i+1).toString() + "Prot"].toString())
-                i++
-            }
-            else if (items.key.contains(name)){
+            var name = "Meal" + i.toString() + "Name"
+            var value = "Meal" + i.toString() +"Cal"
+            var protValue = "Meal" + i.toString() +"Prot"
+            if (items.key.contains(name)){
                 newMeals += mutableMapOf(name to currentMeals[name].toString())
                 newMeals += mutableMapOf(value to currentMeals[value].toString())
                 newMeals += mutableMapOf(protValue to currentMeals[protValue].toString())
             }
-            if(i >= mealsCount)
+            else if (!items.key.contains(name) && !items.key.contains(value) && !items.key.contains(protValue)) {
+                for (k in i..mealsCount) {
+                    name = "Meal" + k.toString() + "Name"
+                    value = "Meal" + k.toString() +"Cal"
+                    protValue = "Meal" + k.toString() +"Prot"
+                    if(currentMeals.containsKey("Meal" + (k + 1).toString() + "Name")) {
+                        newMeals += mutableMapOf(name to currentMeals["Meal" + (k+1).toString() + "Name"].toString())
+                        newMeals += mutableMapOf(value to currentMeals["Meal" + (k+1).toString() + "Cal"].toString())
+                        newMeals += mutableMapOf(protValue to currentMeals["Meal" + (k+1).toString() + "Prot"].toString())
+                    }
+                    else {
+                        break
+                    }
+                }
                 break
-            i++
+            }
+            if (l%3 == 0){
+                i++
+            }
+            l++
         }
         var x = 1
         dataHandler.saveMapData(context, mealsFile, newMeals)
