@@ -20,10 +20,78 @@ import java.util.Locale
 class SpeechSearch (con: Context) {
     private val context = con
     private val currentDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
+
+    fun filterInput(input: String): Array<String> {
+        var amount = emptyArray<String>()
+        if (input != "") {
+            var newText = input.replace("[", "")
+            newText = newText.replace("]", "")
+            if (" gramm " in newText) {
+                amount = newText.split(" gramm ").toTypedArray()
+                if (!StringUtil.isNumeric(amount[0])) {
+                    amount = filterNumeric(newText.split(" ").toTypedArray())
+                }
+            } else if (" g " in newText) {
+                amount = newText.split(" g ").toTypedArray()
+                if (!StringUtil.isNumeric(amount[0])) {
+                    amount = filterNumeric(newText.split(" ").toTypedArray())
+                }
+            } else if (" gram " in newText) {
+                amount = newText.split(" gram ").toTypedArray()
+                if (!StringUtil.isNumeric(amount[0])) {
+                    amount = filterNumeric(newText.split(" ").toTypedArray())
+                }
+            } else {
+                amount = filterNumeric(newText.split(" ").toTypedArray())
+                if (!StringUtil.isNumeric(amount[1])) {
+                    amount = emptyArray()
+                }
+            }
+//            else {
+//                amount = emptyArray()
+//            }
+        }
+        return amount
+    }
+
+    private fun filterNumeric(array: Array<String>): Array<String> {
+        var item = ""
+        var value = ""
+        for (items in array){
+            var newItems = items
+            if (items.endsWith("g")){
+                newItems = items.removeSuffix("g")
+            }
+            else if (items.endsWith("gram")){
+                newItems = items.removeSuffix("gram")
+            }
+            else if (items.endsWith("gramm")){
+                newItems = items.removeSuffix("gramm")
+            }
+            if(newItems != ""){
+                if (StringUtil.isNumeric(newItems)){
+                    value = newItems
+                }
+                else if (!StringUtil.isNumeric(newItems)){
+                    item = newItems
+                }
+            }
+        }
+        val returnValue = arrayOf(item, value)
+        return returnValue
+    }
+
     fun searchRequest(amount: Array<String>): Document {
         var result = Document("")
+        var input = ""
+        if (!StringUtil.isNumeric(amount[0])) {
+            input = amount[0]
+        } else if (!StringUtil.isNumeric(amount[1])) {
+            input = amount[1]
+        }
+        println(input)
         val urlString =
-            "https://www.google.com/search?q=" + amount[1].trim() + "+calories+per+100+g"
+            "https://www.google.com/search?q=" + input.trim() + "+calories+per+100+g"
         val url = URL(urlString)
         try {
             val doc: Document = Jsoup.parse(url, 3 * 1000)

@@ -5,7 +5,6 @@ import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
-import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.view.Gravity
@@ -28,10 +27,10 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.lifecycleScope
 import androidx.transition.ChangeBounds
 import com.example.calorycounter.R
-import com.example.calorycounter.data.UpdateListener
 import com.example.calorycounter.data.HelperClass.Companion.getCurrentValue
 import com.example.calorycounter.data.ProcessMeals
 import com.example.calorycounter.data.SpeechSearch
+import com.example.calorycounter.data.UpdateListener
 import com.example.calorycounter.databinding.FragmentHomeBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -39,9 +38,9 @@ import jp.wasabeef.blurry.Blurry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import org.jsoup.internal.StringUtil
 import org.jsoup.nodes.Document
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 import kotlin.math.round
 
@@ -221,41 +220,33 @@ class Home : Fragment(), UpdateListener {
         activityResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK && result.data != null) {
-                    var wrongInput = false
                     val text = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                    if (text != null) {
-                        var newText = text.toString().replace("[", "")
-                        newText = newText.replace("]", "")
-                        if (" gramm " in newText) {
-                            amount = newText.split(" gramm ").toTypedArray()
-                        } else if (" g " in newText) {
-                            amount = newText.split(" g ").toTypedArray()
-                        } else if (" gram " in newText) {
-                            amount = newText.split(" gram ").toTypedArray()
-                        } else {
-                            wrongInput = true
-                        }
-                        if (!wrongInput) {
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                val resultDocument = async {
-                                    speechSearch.searchRequest(amount)
-                                }
-                                document = resultDocument.await()
-                                var value = speechSearch.extractValues(document, "wDYxhc")
-                                if (value == "") {
-                                    value = speechSearch.extractValues(document, "MjjYud")
-                                }
-                                speechSearch.addFromSpeech(value, amount[0])
-                                val currentKcal = getCurrentValue(caloriesFile, requireContext())
-                                changeProgressBar(goals[Keys.Calories.toString()]!!, currentKcal, true)
-                                val calCons = currentKcal.toInt().toString() + " kcal"
-                                bnd.usedKcal.text = calCons
-                                updateRemaining(currentKcal, Value.Calories)
+                    amount = speechSearch.filterInput(text.toString())
+                    //start coroutine (like threading in java stuff)
+                    if (amount.isNotEmpty()) {
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            val resultDocument = async {
+                                speechSearch.searchRequest(amount)
                             }
-                        } else {
-                            println("wrong input")
+                            document = resultDocument.await()
+                            var value = speechSearch.extractValues(document, "wDYxhc")
+                            if (value == "") {
+                                value = speechSearch.extractValues(document, "MjjYud")
+                            }
+                            var input = ""
+                            if (StringUtil.isNumeric(amount[0])) {
+                                input = amount[0]
+                            } else if (StringUtil.isNumeric(amount[1])) {
+                                input = amount[1]
+                            }
+                            speechSearch.addFromSpeech(value, input)
+                        }.invokeOnCompletion {
+                            requireActivity().runOnUiThread{
+                                updateUI()
+                            }
                         }
-
+                    } else {
+                        println("wrong input")
                     }
                 }
 
@@ -515,7 +506,7 @@ class Home : Fragment(), UpdateListener {
 
         mealsName.setOnLongClickListener {
             Snackbar.make(bnd.home, "Delete Entry?", 4000)
-                .setBackgroundTint(resources.getColor(R.color.blackTransparent, null))
+                .setBackgroundTint(resources.getColor(R.color.black, null))
                 .setAction("DELETE") {
                     processMeals.deleteMeal(mealsName.id)
                     updateMeals()
@@ -569,7 +560,7 @@ class Home : Fragment(), UpdateListener {
             params.gravity = Gravity.TOP
             params.setMargins(20,30, 20,0)
             snackView.layoutParams = params
-            snackView.setBackgroundColor(resources.getColor(R.color.blackTransparent, null))
+            snackView.setBackgroundColor(resources.getColor(R.color.black, null))
             snack.show()
         }
 
