@@ -235,7 +235,7 @@ class Home : Fragment(), UpdateListener {
                             if (baseValue == "") {
                                 baseValue = speechSearch.extractCaloriesValues(document, "MjjYud")
                             }
-                            speechSearch.addFromSpeech(baseValue, resultArray[1], resultArray[0], caloriesFile)
+                            speechSearch.addFromSpeech(baseValue, resultArray[1].trim(), resultArray[0].trim(), caloriesFile)
 
                             resultDocument = async {
                                 speechSearch.searchRequest(resultArray, "protein")
@@ -245,7 +245,7 @@ class Home : Fragment(), UpdateListener {
                             if (baseValue == "") {
                                 baseValue = speechSearch.extractProteinValues(document, "MjjYud")
                             }
-                            speechSearch.addFromSpeech(baseValue, resultArray[1], resultArray[0], proteinFile)
+                            speechSearch.addFromSpeech(baseValue, resultArray[1].trim(), resultArray[0].trim(), proteinFile)
                         }.invokeOnCompletion {
                             requireActivity().runOnUiThread{
                                 updateUI()

@@ -10,6 +10,7 @@ import com.example.calorycounter.view.Value
 import com.example.calorycounter.view.caloriesFile
 import com.example.calorycounter.view.dataHandler
 import com.example.calorycounter.view.historyFile
+import org.apache.commons.lang3.math.NumberUtils
 import org.jsoup.Jsoup
 import org.jsoup.internal.StringUtil
 import org.jsoup.nodes.Document
@@ -17,6 +18,7 @@ import java.io.IOException
 import java.net.URL
 import java.util.Date
 import java.util.Locale
+import kotlin.math.min
 
 class SpeechSearch (con: Context) {
     private val context = con
@@ -33,7 +35,16 @@ class SpeechSearch (con: Context) {
             resultArray = newText.split(" ").toTypedArray()
 
             value = filterNumeric(resultArray)
-            item = filterItem(resultArray)
+            for (stuff in resultArray) {
+                if (!stuff.contains(value) && stuff != "g" && stuff != "gram" && stuff != "gramm"
+                    && stuff != context.getString(R.string.one) && stuff != context.getString(R.string.two)
+                    && stuff != context.getString(R.string.three) && stuff != context.getString(R.string.four)
+                    && stuff != context.getString(R.string.five) && stuff != context.getString(R.string.six)
+                    && stuff != context.getString(R.string.seven) && stuff != context.getString(R.string.eight)
+                    && stuff != context.getString(R.string.nine)) {
+                    item += stuff
+                }
+            }
 
             if(value != "" && item != "")
             {
@@ -48,13 +59,14 @@ class SpeechSearch (con: Context) {
 
     private fun filterNumeric(resultArray: Array<String>): String {
         var value = ""
-        for (results in resultArray) {
+        for (item in resultArray) {
+            val results = item.lowercase()
             if (results != "") {
                 if (StringUtil.isNumeric(results)) {
                     value = results
                 } else if (results.endsWith("g")) {
                     if (StringUtil.isNumeric(results.removeSuffix("g"))) {
-                        value = results
+                        value = results.removeSuffix("g")
                     }
                 } else if (results.endsWith("gram")) {
                     if (StringUtil.isNumeric(results.removeSuffix("gram"))) {
@@ -88,21 +100,9 @@ class SpeechSearch (con: Context) {
         return value
     }
 
-    private fun filterItem(resultArray: Array<String>): String {
-        var item = ""
-        for (results in resultArray) {
-            if (results != "") {
-                if (results != "g" && results != "gram" && results != "gramm") {
-                    item += "$results+"
-                }
-            }
-        }
-        return item
-    }
-
     fun searchRequest(resultArray: Array<String>, query: String): Document {
         var result = Document("")
-        val input = resultArray[0]
+        val input = resultArray[0].trim() + "+"
         val urlString =
             "https://www.google.com/search?q=" + input.trim() + query + "+per+100+g"
         val url = URL(urlString)
@@ -179,16 +179,19 @@ class SpeechSearch (con: Context) {
                     val splitText = text.split("protein")
                     val leftSideSplitArray = splitText[0].split(" ")
                     val rightSideSplitArray = splitText[1].split(" ")
-                    leftSideSplitArray[leftSideSplitArray.size-1]
-                    value = checkNumeric(leftSideSplitArray[leftSideSplitArray.size-1])
-                    if(value == ""){
-                        value = checkNumeric(leftSideSplitArray[leftSideSplitArray.size-2])
-                    }
-                    if(value == ""){
-                        value = checkNumeric(rightSideSplitArray[0])
-                    }
-                    if(value == ""){
-                        value = checkNumeric(rightSideSplitArray[1])
+                    val arraySizeOne = leftSideSplitArray.size
+                    val arraySizeTwo = rightSideSplitArray.size
+                    val maxValue = min(arraySizeOne, arraySizeTwo)
+                    for (x in 0..<maxValue){
+                        if(value == ""){
+                            value = checkNumeric(leftSideSplitArray[leftSideSplitArray.size-(x+1)])
+                        }
+                        if(value == ""){
+                            value = checkNumeric(rightSideSplitArray[x])
+                        }
+                        if(value != ""){
+                            break
+                        }
                     }
                 }
             }
@@ -196,21 +199,33 @@ class SpeechSearch (con: Context) {
         return value
     }
 
-    private fun checkNumeric (input: String): String{
+    private fun checkNumeric (inputString: String): String{
         var returnValue = ""
-        if (StringUtil.isNumeric(input)) {
-            returnValue = input
-        } else if (input.endsWith("g")) {
-            if (StringUtil.isNumeric(input.removeSuffix("g"))) {
+        var input = inputString
+        if(inputString.contains(",")){
+            input = inputString.replace(",",".")
+        }
+        if (NumberUtils.isCreatable(input)) {
+            if(input.toDouble() < 45){
                 returnValue = input
             }
+        } else if (input.endsWith("g")) {
+            if (NumberUtils.isCreatable(input.removeSuffix("g"))) {
+                if(input.removeSuffix("g").toDouble() < 45){
+                    returnValue = input.removeSuffix("g")
+                }
+            }
         } else if (input.endsWith("gram")) {
-            if (StringUtil.isNumeric(input.removeSuffix("gram"))) {
-                returnValue = input.removeSuffix("gram")
+            if (NumberUtils.isCreatable(input.removeSuffix("gram"))) {
+                if(input.removeSuffix("g").toDouble() < 45){
+                    returnValue = input.removeSuffix("gram")
+                }
             }
         } else if (input.endsWith("gramm")) {
-            if (StringUtil.isNumeric(input.removeSuffix("gramm"))) {
-                returnValue = input.removeSuffix("gramm")
+            if (NumberUtils.isCreatable(input.removeSuffix("gramm"))) {
+                if(input.removeSuffix("g").toDouble() < 45){
+                    returnValue = input.removeSuffix("gramm")
+                }
             }
         }
         return returnValue

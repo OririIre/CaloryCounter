@@ -45,7 +45,9 @@ class HistoryDialog (con: Context) {
                     keyTime = item.key.replace("_prot","")
                 }
                 val name = historyValues[keyTime + "_name"].toString()
-                createCards(layoutHistoryCards, item.key, item.value, name, historyScrollView)
+                if(item.key.contains("_calo") || item.key.contains("_prot")) {
+                    createCards(layoutHistoryCards, item.key, item.value, name, historyScrollView)
+                }
             }
         }
         historyDialog.show()
@@ -129,7 +131,7 @@ class HistoryDialog (con: Context) {
                         if (maxWidth - newX < 25) {
                             TransitionManager.beginDelayedTransition(parent, transition)
                             parent.removeView(card)
-                            removeHistoryItem(descriptionText.text.toString(), value, descriptionName.text.toString())
+                            removeHistoryItem(descriptionText.text.toString(), value, name)
                         }
                     }
                     MotionEvent.ACTION_UP -> {
@@ -137,7 +139,7 @@ class HistoryDialog (con: Context) {
                         if (card.x > MIN_SWIPE_DISTANCE) {
                             TransitionManager.beginDelayedTransition(parent, transition)
                             parent.removeView(card)
-                            removeHistoryItem(descriptionText.text.toString(), value, descriptionName.text.toString())
+                            removeHistoryItem(descriptionText.text.toString(), value, name)
                         }
                         else {
                             card.translationX = 0f
@@ -176,7 +178,7 @@ class HistoryDialog (con: Context) {
             dataHandler.deleteEntriesWithValue(context, historyFile, value)
             listener.get()?.onStuffUpdated()
         }
-        dataHandler.deleteEntriesWithValue(context, historyFile, name)
+        dataHandler.deleteMapEntriesWithKeys(context, historyFile, name)
     }
 
     fun addListener(listener: UpdateListener){

@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.wear)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.play.services.basement)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -60,4 +61,6 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     //noinspection UseTomlInstead
     implementation("jp.wasabeef:blurry:4.0.1")
+    //noinspection UseTomlInstead
+    implementation("org.apache.commons:commons-configuration2:2.11.0")
 }

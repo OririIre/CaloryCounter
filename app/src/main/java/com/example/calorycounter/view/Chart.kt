@@ -55,9 +55,10 @@ class Chart : Fragment() {
         _bnd = FragmentChartBinding.inflate(inflater, container, false)
         val view = bnd.root
         //ToDo Check if this is working asynchronous
-        lifecycleScope.launch(Dispatchers.IO) {
-                buildUI()
-        }
+//        lifecycleScope.launch(Dispatchers.IO) {
+//
+//        }
+        buildUI()
 //            .invokeOnCompletion {
 //            requireActivity().runOnUiThread{
 //                updateUI()
@@ -163,11 +164,6 @@ class Chart : Fragment() {
             minValue = 0f
         }
 
-        //ToDo check if this works as intended -> To stop the out of bounds stuff
-        bnd.chart.setPadding(10,10,10,10)
-
-        bnd.chart.description.isEnabled = false
-
         bnd.chart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisValues.reversed())
         bnd.chart.data = lineData
         bnd.chart.data.setDrawValues(false)
@@ -185,6 +181,8 @@ class Chart : Fragment() {
         bnd.chart.axisLeft.labelCount = 4
         bnd.chart.axisLeft.setDrawGridLines(false)
         bnd.chart.legend.textColor = Color.WHITE
+        bnd.chart.extraRightOffset = 30f
+        bnd.chart.description.isEnabled = false
 
         bnd.chart.marker = object : MarkerView(context, R.layout.chart_marker) {
             override fun refreshContent(e: Entry, highlight: Highlight) {
