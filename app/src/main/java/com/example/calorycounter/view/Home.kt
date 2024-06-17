@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.view.Gravity
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat.performHapticFeedback
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.lifecycleScope
@@ -76,7 +78,6 @@ class Home : Fragment(), UpdateListener {
     private val bnd get() = _bnd!!
     private lateinit var goals: MutableMap<String, String>
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
-    private lateinit var amount: Array<String>
     private lateinit var document: Document
     private lateinit var bottomMealDialog: BottomSheetDialog
     private lateinit var bottomAddDialog: BottomSheetDialog
@@ -144,6 +145,7 @@ class Home : Fragment(), UpdateListener {
         historyDialog.addListener(this)
 
         bnd.histroy.setOnClickListener {
+            bnd.histroy.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             historyDialog.showHistoryDialog(bottomHistoryDialog)
         }
 
@@ -221,25 +223,29 @@ class Home : Fragment(), UpdateListener {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK && result.data != null) {
                     val text = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                    amount = speechSearch.filterInput(text.toString())
+                    val resultArray = speechSearch.filterInput(text.toString())
                     //start coroutine (like threading in java stuff)
-                    if (amount.isNotEmpty()) {
+                    if (resultArray.isNotEmpty()) {
                         lifecycleScope.launch(Dispatchers.IO) {
-                            val resultDocument = async {
-                                speechSearch.searchRequest(amount)
+                            var resultDocument = async {
+                                speechSearch.searchRequest(resultArray, "calories")
                             }
                             document = resultDocument.await()
-                            var value = speechSearch.extractValues(document, "wDYxhc")
-                            if (value == "") {
-                                value = speechSearch.extractValues(document, "MjjYud")
+                            var baseValue = speechSearch.extractCaloriesValues(document, "wDYxhc")
+                            if (baseValue == "") {
+                                baseValue = speechSearch.extractCaloriesValues(document, "MjjYud")
                             }
-                            var input = ""
-                            if (StringUtil.isNumeric(amount[0])) {
-                                input = amount[0]
-                            } else if (StringUtil.isNumeric(amount[1])) {
-                                input = amount[1]
+                            speechSearch.addFromSpeech(baseValue, resultArray[1], resultArray[0], caloriesFile)
+
+                            resultDocument = async {
+                                speechSearch.searchRequest(resultArray, "protein")
                             }
-                            speechSearch.addFromSpeech(value, input)
+                            document = resultDocument.await()
+                            baseValue = speechSearch.extractProteinValues(document, "wDYxhc")
+                            if (baseValue == "") {
+                                baseValue = speechSearch.extractProteinValues(document, "MjjYud")
+                            }
+                            speechSearch.addFromSpeech(baseValue, resultArray[1], resultArray[0], proteinFile)
                         }.invokeOnCompletion {
                             requireActivity().runOnUiThread{
                                 updateUI()
@@ -496,11 +502,13 @@ class Home : Fragment(), UpdateListener {
         transition.setDuration(200)
 
         mealsValue.setOnClickListener{
-            processMeals.addMeal(mealValue, mealProt)
+            mealsValue.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            processMeals.addMeal(mealValue, mealProt, mealName)
             updateUI()
         }
 
         mealsName.setOnClickListener{
+            mealsName.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             mealsDialog.show(mealsName.id, bottomMealDialog)
         }
 

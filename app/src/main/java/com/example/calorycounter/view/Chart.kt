@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.calorycounter.R
 import com.example.calorycounter.databinding.FragmentChartBinding
 import com.github.mikephil.charting.components.MarkerView
@@ -19,6 +20,10 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import org.jsoup.internal.StringUtil
 import java.text.SimpleDateFormat
 import java.util.Collections.min
 import java.util.Locale
@@ -49,8 +54,15 @@ class Chart : Fragment() {
     ): View {
         _bnd = FragmentChartBinding.inflate(inflater, container, false)
         val view = bnd.root
-        buildUI()
-
+        //ToDo Check if this is working asynchronous
+        lifecycleScope.launch(Dispatchers.IO) {
+                buildUI()
+        }
+//            .invokeOnCompletion {
+//            requireActivity().runOnUiThread{
+//                updateUI()
+//            }
+//        }
         return view
     }
 
@@ -151,6 +163,9 @@ class Chart : Fragment() {
             minValue = 0f
         }
 
+        //ToDo check if this works as intended -> To stop the out of bounds stuff
+        bnd.chart.setPadding(10,10,10,10)
+
         bnd.chart.description.isEnabled = false
 
         bnd.chart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisValues.reversed())
@@ -173,7 +188,7 @@ class Chart : Fragment() {
 
         bnd.chart.marker = object : MarkerView(context, R.layout.chart_marker) {
             override fun refreshContent(e: Entry, highlight: Highlight) {
-                (findViewById<View>(R.id.tvContent) as TextView).text = "${e.y}"
+                (findViewById<View>(R.id.tvContent) as TextView).text = "${(e.y).toInt()}"
             }
         }
 

@@ -18,7 +18,7 @@ class ProcessMeals (con: Context){
     private val context = con
     private val currentDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
 
-    fun addMeal(mealKcal: String, mealProt: String) {
+    fun addMeal(mealKcal: String, mealProt: String, mealName: String) {
         val historyMap = mutableMapOf<String, String>()
         val currentTime = HelperClass.getCurrentDateAndTime()
         if (mealKcal != "value" && mealKcal != "") {
@@ -39,6 +39,7 @@ class ProcessMeals (con: Context){
                 com.example.calorycounter.view.proteinFile, currentDate, currentProteinValue.toString())
             historyMap += mutableMapOf((currentTime + "_prot") to mealProt)
         }
+        historyMap += mutableMapOf((currentTime + "_name") to mealName)
         dataHandler.saveMapDataNO(context,
             com.example.calorycounter.view.historyFile, historyMap)
     }

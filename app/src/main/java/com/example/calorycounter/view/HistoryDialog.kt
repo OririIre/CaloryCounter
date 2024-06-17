@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.transition.ChangeBounds
@@ -37,15 +38,24 @@ class HistoryDialog (con: Context) {
         if(historyValues.isNotEmpty()){
             layoutHistoryCards.removeAllViews()
             for (item in historyValues) {
-                createCards(layoutHistoryCards, item.key, item.value, historyScrollView)
+                var keyTime = ""
+                if(item.key.contains("_calo")){
+                    keyTime = item.key.replace("_calo","")
+                } else if (item.key.contains("_prot")){
+                    keyTime = item.key.replace("_prot","")
+                }
+                val name = historyValues[keyTime + "_name"].toString()
+                createCards(layoutHistoryCards, item.key, item.value, name, historyScrollView)
             }
         }
         historyDialog.show()
     }
 
-    private fun createCards(parent: LinearLayout, time: String, value: String, scrollView: ScrollView) {
+    private fun createCards(parent: LinearLayout, time: String, value: String, name: String, scrollView: ScrollView) {
         val card: View = inflater.inflate(R.layout.card_layout2, parent, false)
+        val relLayout: RelativeLayout = card.findViewById(R.id.tempID)
         val descriptionText: TextView = card.findViewById(R.id.description)
+        val descriptionName: TextView = card.findViewById(R.id.descriptionName)
         val historyValue: TextView = card.findViewById(R.id.value)
         var startX = 0f
         card.id = View.generateViewId()
@@ -60,15 +70,35 @@ class HistoryDialog (con: Context) {
             calOrProt = false
         }
 
+        val newName = name.takeLast(13).replace("_name", "")
+
         if(calOrProt){
             historyValue.id = View.generateViewId()
-            historyValue.text = String.format(Locale.getDefault(),"%.1f", value.toDouble())
+            if(value.toDouble() != 0.0){
+                historyValue.text = String.format(Locale.getDefault(),"%.1f", value.toDouble())
+            } else{
+                historyValue.text = 0.toString()
+            }
             descriptionText.text = context.getString(R.string.Calories)
+            if(newName != ""){
+                descriptionName.text = newName
+            } else {
+                relLayout.removeView(descriptionName)
+            }
         }
         else{
             historyValue.id = View.generateViewId()
-            historyValue.text = String.format(Locale.getDefault(),"%.1f", value.toDouble())
+            if(value.toDouble() != 0.0){
+                historyValue.text = String.format(Locale.getDefault(),"%.1f", value.toDouble())
+            } else{
+                historyValue.text = 0.toString()
+            }
             descriptionText.text = context.getString(R.string.Protein)
+            if(newName != ""){
+                descriptionName.text = newName
+            } else {
+                relLayout.removeView(descriptionName)
+            }
         }
 
         val dateView: TextView = card.findViewById(R.id.date)
@@ -99,7 +129,7 @@ class HistoryDialog (con: Context) {
                         if (maxWidth - newX < 25) {
                             TransitionManager.beginDelayedTransition(parent, transition)
                             parent.removeView(card)
-                            removeHistoryItem(descriptionText.text.toString(), value)
+                            removeHistoryItem(descriptionText.text.toString(), value, descriptionName.text.toString())
                         }
                     }
                     MotionEvent.ACTION_UP -> {
@@ -107,7 +137,7 @@ class HistoryDialog (con: Context) {
                         if (card.x > MIN_SWIPE_DISTANCE) {
                             TransitionManager.beginDelayedTransition(parent, transition)
                             parent.removeView(card)
-                            removeHistoryItem(descriptionText.text.toString(), value)
+                            removeHistoryItem(descriptionText.text.toString(), value, descriptionName.text.toString())
                         }
                         else {
                             card.translationX = 0f
@@ -122,7 +152,7 @@ class HistoryDialog (con: Context) {
         parent.addView(card)
     }
 
-    private fun removeHistoryItem(valueType: String, value: String){
+    private fun removeHistoryItem(valueType: String, value: String, name: String){
 
         if(valueType == "Calories"){
             var currentKcal = HelperClass.getCurrentValue(caloriesFile, context)
@@ -146,6 +176,7 @@ class HistoryDialog (con: Context) {
             dataHandler.deleteEntriesWithValue(context, historyFile, value)
             listener.get()?.onStuffUpdated()
         }
+        dataHandler.deleteEntriesWithValue(context, historyFile, name)
     }
 
     fun addListener(listener: UpdateListener){

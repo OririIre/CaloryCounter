@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="120000"
+        android:text="12000"
         android:textSize="12sp"
         android:textColor="@android:color/white"
         android:ellipsize="end"
