@@ -47,7 +47,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.wear)
     implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.play.services.basement)
+//    implementation(libs.play.services.basement)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

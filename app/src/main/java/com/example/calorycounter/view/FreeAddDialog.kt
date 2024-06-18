@@ -13,6 +13,7 @@ import com.example.calorycounter.data.UpdateListener
 import com.example.calorycounter.data.ProcessFreeAdd
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.lang.ref.WeakReference
+import java.util.Locale
 
 class FreeAddDialog (con: Context) {
     private val context = con
@@ -52,7 +53,10 @@ class FreeAddDialog (con: Context) {
 
         custom.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == 4) {
-                freeAddProcessing.addSub(calProtSwitch, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
+                val amount = formatString(kcal.text.toString())
+                val weight = formatString(gramm.text.toString())
+                val customText = formatString(custom.text.toString())
+                freeAddProcessing.addSub(calProtSwitch, amount, weight, customText)
                 listener.get()?.onStuffUpdated()
                 kcal.text.clear()
                 gramm.text.clear()
@@ -65,7 +69,10 @@ class FreeAddDialog (con: Context) {
 
         gramm.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == 4) {
-                freeAddProcessing.addSub(calProtSwitch, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
+                val amount = formatString(kcal.text.toString())
+                val weight = formatString(gramm.text.toString())
+                val customText = formatString(custom.text.toString())
+                freeAddProcessing.addSub(calProtSwitch, amount, weight, customText)
                 listener.get()?.onStuffUpdated()
                 kcal.text.clear()
                 gramm.text.clear()
@@ -99,13 +106,24 @@ class FreeAddDialog (con: Context) {
         }
 
         saveValues.setOnClickListener {
-            freeAddProcessing.addSub(calProtSwitch, kcal.text.toString(), gramm.text.toString(), custom.text.toString())
+            val amount = formatString(kcal.text.toString())
+            val weight = formatString(gramm.text.toString())
+            val customText = formatString(custom.text.toString())
+            freeAddProcessing.addSub(calProtSwitch, amount, weight, customText)
             listener.get()?.onStuffUpdated()
             kcal.text.clear()
             gramm.text.clear()
             custom.text.clear()
         }
         freeAddDialog.show()
+    }
+
+    private fun formatString (value: String): String {
+        var returnString = ""
+        if(value != "") {
+            returnString = String.format(Locale.getDefault(), "%.1f", value.toDouble())
+        }
+        return returnString
     }
 
     fun addListener(listener: UpdateListener){

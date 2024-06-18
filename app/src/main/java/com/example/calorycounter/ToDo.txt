@@ -2,14 +2,15 @@
 - Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
 
 - Spracheingabe mit z.b. 1 Flasche oder 1 Bier --> Needs to be translated
-- Tutorial neu machen und noch speichern ob schon gemacht wurde oder nicht -> Einbauen, dass es beim erstemal direkt Bubble 1 anzeigt
-- Data loading in oncreate via Intent put Extra -->data loading now in on create, check if this brings performance increase
+- deleting from history does not always delete the values --> Probleme mit komma zahlen -> probably fixed check at home with speech input
+- Try Catch für Spracheingabe --> Daheim testen
+- performance issues in chart -->now runs on UI thread, check in build if it works
+- Tutorial neu machen und noch speichern ob schon gemacht wurde oder nicht
 - Verschiedene Appsprache einbauen
 - Verschiedene Themes einbauen
 - animationen noch paar und shake für histroy, animate floating action button
+
 - Delete history Items in Chart
-- editing a meal but not saving will then show up on next time meal add, values a re save in edit text
-- deleting from history does not always delete the values
 
 
 Evtl Stuff?! I dont fucking know man

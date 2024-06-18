@@ -50,7 +50,7 @@
             android:id="@+id/enterMealName"
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:hint="@string/nameHint"
+            android:hint="@string/Name"
             android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"

@@ -165,6 +165,7 @@ class SpeechSearch (con: Context) {
                 }
             }
         }
+        value = formatString(value)
         return value
     }
 
@@ -196,6 +197,7 @@ class SpeechSearch (con: Context) {
                 }
             }
         }
+        value = formatString(value)
         return value
     }
 
@@ -235,7 +237,7 @@ class SpeechSearch (con: Context) {
         val historyMap = mutableMapOf<String, String>()
         val currentTime = HelperClass.getCurrentDateAndTime()
         if (StringUtil.isNumeric(amount.trim())) {
-            var currentKcal = getCurrentValue(fileType, context)
+            var currentKcal = formatString(getCurrentValue(fileType, context).toString()).toDouble()
             var consumed = 0.0
             if (value != "" && amount != "") {
                 if (value.toDouble() > 0.0 && amount.trim().toDouble() > 0.0) {
@@ -243,14 +245,24 @@ class SpeechSearch (con: Context) {
                     currentKcal += consumed
                 }
             }
-            dataHandler.saveData(context, fileType, currentDate, currentKcal.toString())
+            val currentValue = formatString(currentKcal.toString())
+            dataHandler.saveData(context, fileType, currentDate, currentValue)
+            val formattedConsumed = formatString(consumed.toString())
             historyMap += if(fileType == caloriesFile){
-                mutableMapOf((currentTime + "_calo") to consumed.toString())
+                mutableMapOf((currentTime + "_calo") to formattedConsumed)
             } else {
-                mutableMapOf((currentTime + "_prot") to consumed.toString())
+                mutableMapOf((currentTime + "_prot") to formattedConsumed)
             }
             historyMap += mutableMapOf((currentTime + "_name") to name)
             dataHandler.saveMapDataNO(context, historyFile, historyMap)
         }
+    }
+
+    private fun formatString (value: String): String {
+        var returnString = ""
+        if(value != "") {
+            returnString = String.format(Locale.getDefault(), "%.1f", value.toDouble())
+        }
+        return returnString
     }
 }

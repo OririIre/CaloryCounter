@@ -58,7 +58,10 @@ class Chart : Fragment() {
 //        lifecycleScope.launch(Dispatchers.IO) {
 //
 //        }
-        buildUI()
+        requireActivity().runOnUiThread{
+            buildUI()
+        }
+//        buildUI()
 //            .invokeOnCompletion {
 //            requireActivity().runOnUiThread{
 //                updateUI()
@@ -71,7 +74,9 @@ class Chart : Fragment() {
         super.onResume()
         chartDataCalories = dataHandler.loadData(requireContext(), caloriesFile)
         chartDataProtein = dataHandler.loadData(requireContext(), proteinFile)
-        buildUI()
+        requireActivity().runOnUiThread{
+            buildUI()
+        }
     }
 
     private fun buildUI() {

@@ -10,6 +10,7 @@ import android.widget.Spinner
 import com.example.calorycounter.adapter.IconAdapter
 import com.example.calorycounter.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.util.Locale
 
 class MealsDialog (con: Context) {
     
@@ -54,6 +55,10 @@ class MealsDialog (con: Context) {
                 val dropDownPosition = adapter.getPosition(mealIcon.toInt())
                 iconDropdown.setSelection(dropDownPosition)
             }
+        } else {
+            nameField.text.clear()
+            caloriesField.text.clear()
+            proteinField.text.clear()
         }
 
         var selectedIcon = ""
@@ -83,7 +88,8 @@ class MealsDialog (con: Context) {
                     dataHandler.saveMapDataNO(context, mealsFile, mealNameMap)
                     dataHandler.saveData(context, iconFile, keyIcon, selectedIcon)
                     if (caloriesField.text.toString() != "") {
-                        val mealCaloriesMap = mutableMapOf(keyCal to caloriesField.text.toString())
+                        val caloriesValue = formatString(caloriesField.text.toString())
+                        val mealCaloriesMap = mutableMapOf(keyCal to caloriesValue)
                         dataHandler.saveMapDataNO(context, mealsFile, mealCaloriesMap)
                     } else {
                         val mealCaloriesMap = mutableMapOf(keyCal to "0")
@@ -91,7 +97,8 @@ class MealsDialog (con: Context) {
                     }
                     val keyProt = "Meal" + mealsCount.toString() + "Prot"
                     if (proteinField.text.toString() != "") {
-                        val mealProteinMap = mutableMapOf(keyProt to proteinField.text.toString())
+                        val proteinValue = formatString(proteinField.text.toString())
+                        val mealProteinMap = mutableMapOf(keyProt to proteinValue)
                         dataHandler.saveMapDataNO(context, mealsFile, mealProteinMap)
                     } else {
                         val mealProteinMap = mutableMapOf(keyProt to "0")
@@ -108,7 +115,8 @@ class MealsDialog (con: Context) {
                     dataHandler.saveMapDataNO(context, mealsFile, mealNameMap)
                     dataHandler.saveData(context, iconFile, keyIcon, selectedIcon)
                     if (caloriesField.text.toString() != "") {
-                        val mealCaloriesMap = mutableMapOf(keyCal to caloriesField.text.toString())
+                        val caloriesValue = formatString(caloriesField.text.toString())
+                        val mealCaloriesMap = mutableMapOf(keyCal to caloriesValue)
                         dataHandler.saveMapDataNO(context, mealsFile, mealCaloriesMap)
                     } else {
                         val mealCaloriesMap = mutableMapOf(keyCal to "0")
@@ -116,7 +124,8 @@ class MealsDialog (con: Context) {
                     }
                     val keyProt = "Meal" + mealNumber.toString() + "Prot"
                     if (proteinField.text.toString() != "") {
-                        val mealProteinMap = mutableMapOf(keyProt to proteinField.text.toString())
+                        val proteinValue = formatString(proteinField.text.toString())
+                        val mealProteinMap = mutableMapOf(keyProt to proteinValue)
                         dataHandler.saveMapDataNO(context, mealsFile, mealProteinMap)
                     } else {
                         val mealProteinMap = mutableMapOf(keyProt to "0")
@@ -133,5 +142,13 @@ class MealsDialog (con: Context) {
             proteinField.text.clear()
         }
         mealsDialog.show()
+    }
+
+    private fun formatString (value: String): String {
+        var returnString = ""
+        if(value != "") {
+            returnString = String.format(Locale.getDefault(), "%.1f", value.toDouble())
+        }
+        return returnString
     }
 }

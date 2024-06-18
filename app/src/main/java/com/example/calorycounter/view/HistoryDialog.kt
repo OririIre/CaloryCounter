@@ -82,7 +82,7 @@ class HistoryDialog (con: Context) {
                 historyValue.text = 0.toString()
             }
             descriptionText.text = context.getString(R.string.Calories)
-            if(newName != ""){
+            if(newName != "" && newName != "null"){
                 descriptionName.text = newName
             } else {
                 relLayout.removeView(descriptionName)
@@ -96,7 +96,7 @@ class HistoryDialog (con: Context) {
                 historyValue.text = 0.toString()
             }
             descriptionText.text = context.getString(R.string.Protein)
-            if(newName != ""){
+            if(newName != "" && newName != "null"){
                 descriptionName.text = newName
             } else {
                 relLayout.removeView(descriptionName)

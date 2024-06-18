@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Calory Counter</string>
+    <string name="date">14.05.2024</string>
+    <string name="clearAll">Alles löschen</string>
+    <string name="clearGoals">Ziele löschen</string>
+    <string name="language">Sprache</string>
+    <string name="voiceLanguage">Sprache der Spracheingabe ändern:</string>
+    <string name="saveLang">Speichern</string>
+    <string name="history">Verlauf</string>
+    <string name="add">Freies hinzufügen</string>
+    <string name="amountHint">0</string>
+    <string name="grammDescription">Menge (g)</string>
+    <string name="kcalDescription">Kalorien pro 100g</string>
+    <string name="proteinDescriptionAdd">Protein pro 100g</string>
+    <string name="additional_settings">Alternative Eingabe:</string>
+    <string name="mealsHeadline">Gerichte und Getränke</string>
     <string name="custom_calorie_value">Benutzerdefinierte Menge</string>
     <string name="Charts">Tabelle</string>
     <string name="Meals">Gerichte</string>
+    <string name="x">x</string>
+    <string name="usedKcal">0 kcal</string>
+    <string name="button_add_amount">Hinzufügen</string>
+    <string name="Calories">Kalorien</string>
+    <string name="Protein">Protein</string>
+    <string name="Name">Name</string>
     <string name="button_save">Speichern</string>
     <string name="Remaining">Verbleibend:</string>
+    <string name="usedProt">0 g</string>
     <string name="setGoal">Ziele eintragen</string>
     <string name="caloriesGoal">Kalorien Ziel:</string>
     <string name="proteinGoal">Protein Ziel:</string>
@@ -15,4 +36,20 @@
     <string name="clearCalories">Kalorien löschen</string>
     <string name="settings">Einstellungen</string>
     <string name="saveGoals">Ziele speichern</string>
+    <string name="proteinDescription">Protein (g)</string>
+    <string name="caloriesDescription">Kalorien (g)</string>
+    <string name="appLanguage">App Sprache ändern:</string>
+    <string name="caloriesGoalHint">Kalorien Ziel:</string>
+    <string name="proteinGoalHint">Protein Ziel:</string>
+    <string name="add_meal_drink">Gericht oder Getränk hinzufügen</string>
+    <string name="free_add">Freies Hinzufügen</string>
+    <string name="one">ein</string>
+    <string name="two">zwei</string>
+    <string name="three">drei</string>
+    <string name="four">vier</string>
+    <string name="five">fünf</string>
+    <string name="six">sechs</string>
+    <string name="seven">sieben</string>
+    <string name="eight">acht</string>
+    <string name="nine">neun</string>
 </resources>

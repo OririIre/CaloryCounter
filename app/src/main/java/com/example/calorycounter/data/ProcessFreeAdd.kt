@@ -15,7 +15,6 @@ class ProcessFreeAdd (con: Context) {
     fun addSub(calProtSwitch: Boolean, perGrammValue: String, weightValue: String, customValue: String) {
         val historyMap = mutableMapOf<String, String>()
         val currentTime = HelperClass.getCurrentDateAndTime()
-        println(calProtSwitch)
         if (calProtSwitch) {
             val currentKcalValue = calcValue(caloriesFile, perGrammValue, weightValue, customValue)
             dataHandler.saveData(context, caloriesFile, currentDate, currentKcalValue.toString())
@@ -28,7 +27,6 @@ class ProcessFreeAdd (con: Context) {
                 historyMap += mutableMapOf((currentTime + "_calo") to (caloriesDouble * (grammDouble / 100)).toString())
             }
         } else {
-            println(customValue)
             val currentProteinValue = calcValue(proteinFile, perGrammValue, weightValue, customValue)
             println(currentProteinValue)
             dataHandler.saveData(context, proteinFile, currentDate, currentProteinValue.toString())
@@ -38,14 +36,14 @@ class ProcessFreeAdd (con: Context) {
             else if (perGrammValue != "" && weightValue != "") {
                 val proteinDouble = perGrammValue.toDouble()
                 val grammDouble = weightValue.toDouble()
-                historyMap += mutableMapOf((currentTime + "_prot") to (proteinDouble * (grammDouble / 100)).toString())
+                historyMap += mutableMapOf((currentTime + "_prot") to (formatString((proteinDouble * (grammDouble / 100)).toString())))
             }
         }
         dataHandler.saveMapDataNO(context, historyFile, historyMap)
     }
 
     private fun calcValue(fileName: String, value: String, gramm: String, custom: String): Double {
-        var currentKcal = HelperClass.getCurrentValue(fileName, context)
+        var currentKcal = formatString(HelperClass.getCurrentValue(fileName, context).toString()).toDouble()
         if (custom != "") {
             currentKcal += custom.toDouble()
         }
@@ -54,6 +52,15 @@ class ProcessFreeAdd (con: Context) {
                 currentKcal += (value.toDouble() * (gramm.toDouble() / 100))
             }
         }
+        currentKcal = formatString(currentKcal.toString()).toDouble()
         return currentKcal
+    }
+
+    private fun formatString (value: String): String {
+        var returnString = ""
+        if(value != "") {
+            returnString = String.format(Locale.getDefault(), "%.1f", value.toDouble())
+        }
+        return returnString
     }
 }

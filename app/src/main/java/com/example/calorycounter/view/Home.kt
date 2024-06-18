@@ -215,7 +215,9 @@ class Home : Fragment(), UpdateListener {
             try {
                 activityResultLauncher.launch(speechIntent)
             } catch (exp: ActivityNotFoundException) {
-                Toast.makeText(activity, "Speech not supported", Toast.LENGTH_SHORT).show()
+                Snackbar.make(bnd.home, "Speech not supported!", 2500)
+                    .setBackgroundTint(resources.getColor(R.color.black, null))
+                    .show()
             }
         }
 
@@ -223,33 +225,58 @@ class Home : Fragment(), UpdateListener {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK && result.data != null) {
                     val text = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                    val resultArray = speechSearch.filterInput(text.toString())
+                    var resultArray = emptyArray<String>()
+                    try {
+                        resultArray = speechSearch.filterInput(text.toString())
+                    } catch (exp: Exception) {
+                        println(exp)
+                        Snackbar.make(bnd.home, "Wrong input, amount or keyword not found", 3000)
+                            .setBackgroundTint(resources.getColor(R.color.black, null))
+                            .show()
+                    }
                     //start coroutine (like threading in java stuff)
                     if (resultArray.isNotEmpty()) {
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            var resultDocument = async {
-                                speechSearch.searchRequest(resultArray, "calories")
-                            }
-                            document = resultDocument.await()
-                            var baseValue = speechSearch.extractCaloriesValues(document, "wDYxhc")
-                            if (baseValue == "") {
-                                baseValue = speechSearch.extractCaloriesValues(document, "MjjYud")
-                            }
-                            speechSearch.addFromSpeech(baseValue, resultArray[1].trim(), resultArray[0].trim(), caloriesFile)
+                        try{
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                var resultDocument = async {
+                                    speechSearch.searchRequest(resultArray, "calories")
+                                }
+                                document = resultDocument.await()
+                                var baseValue = speechSearch.extractCaloriesValues(document, "wDYxhc")
+                                if (baseValue == "") {
+                                    baseValue = speechSearch.extractCaloriesValues(document, "MjjYud")
+                                }
+                                speechSearch.addFromSpeech(
+                                    baseValue,
+                                    resultArray[1].trim(),
+                                    resultArray[0].trim(),
+                                    caloriesFile
+                                )
 
-                            resultDocument = async {
-                                speechSearch.searchRequest(resultArray, "protein")
+                                resultDocument = async {
+                                    speechSearch.searchRequest(resultArray, "protein")
+                                }
+                                document = resultDocument.await()
+                                baseValue = speechSearch.extractProteinValues(document, "wDYxhc")
+                                if (baseValue == "") {
+                                    baseValue = speechSearch.extractProteinValues(document, "MjjYud")
+                                }
+                                speechSearch.addFromSpeech(
+                                    baseValue,
+                                    resultArray[1].trim(),
+                                    resultArray[0].trim(),
+                                    proteinFile
+                                )
+                            }.invokeOnCompletion {
+                                requireActivity().runOnUiThread {
+                                    updateUI()
+                                }
                             }
-                            document = resultDocument.await()
-                            baseValue = speechSearch.extractProteinValues(document, "wDYxhc")
-                            if (baseValue == "") {
-                                baseValue = speechSearch.extractProteinValues(document, "MjjYud")
-                            }
-                            speechSearch.addFromSpeech(baseValue, resultArray[1].trim(), resultArray[0].trim(), proteinFile)
-                        }.invokeOnCompletion {
-                            requireActivity().runOnUiThread{
-                                updateUI()
-                            }
+                        } catch (exp: Exception) {
+                            println(exp)
+                            Snackbar.make(bnd.home, "Search went wrong, please try again", 3000)
+                                .setBackgroundTint(resources.getColor(R.color.black, null))
+                                .show()
                         }
                     } else {
                         println("wrong input")
@@ -450,8 +477,8 @@ class Home : Fragment(), UpdateListener {
             RelativeLayout.LayoutParams.WRAP_CONTENT
         )
         mealsValueParam.addRule(RelativeLayout.ALIGN_PARENT_END)
-
-        val valueText = "$mealValue kcal"
+        val valueConversion = mealValue.toDouble().toInt().toString()
+        val valueText = "$valueConversion kcal"
         mealsValue.text = valueText
         mealsValue.textSize = 15f
         mealsValue.isSingleLine = true

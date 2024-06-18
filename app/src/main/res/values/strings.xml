@@ -1,22 +1,12 @@
 <resources>
     <string name="app_name">Calory Counter</string>
-    <string name="custom_calorie_value">Enter custom amount</string>
-    <string name="button_add">+</string>
-    <string name="kacl">kcal</string>
-    <string name="gramm">g</string>
     <string name="x">x</string>
     <string name="usedKcal">0 kcal</string>
-    <string name="prot">protein</string>
-    <string name="CaloriesAmount">Or enter a custom amount:</string>
-    <string name="CalculateCalories">Calculate Amount:</string>
     <string name="button_add_amount">Add Amount</string>
     <string name="Calories">Calories</string>
     <string name="Protein">Protein</string>
-    <string name="amountG">kcal/100g</string>
     <string name="Name">Name</string>
     <string name="button_save">Save</string>
-    <string name="name_meal_one">Name</string>
-    <string name="value_meal_one">kcal</string>
     <string name="Remaining">Remaining: </string>
     <string name="usedProt">0 g</string>
     <string name="setGoal">Goal</string>
@@ -33,29 +23,19 @@
     <string name="language">Language</string>
     <string name="voiceLanguage">Change the language of your voice input:</string>
     <string name="saveLang">Save</string>
-    <string name="alcDesc">This is the \"Cheat Day\" button. If you activate it your consumption for today will be set to your current goals.</string>
-    <string name="voiceDesc">"This is the \"Voice Add\" Button. Click on it and say e.g. \"150 gram chicken breast\". Always in this format: \"amount-gram-food/drink\" Please set voice language in settings</string>
-    <string name="consumedDesc">This part shows the already consumed Calories (kcal) and Protein (g)</string>
-    <string name="info">Click on the Info button to toggle the description bubbles</string>
-    <string name="meals">Here you can find you meals which you can add with an click. To customize your meals go to the \"Meals\" tab.</string>
-    <string name="remaining">Here you can see how much Calories you have left and how much Protein you still have to eat to reach your goal</string>
-    <string name="history">Histroy</string>
+    <string name="history">History</string>
     <string name="add">Free add</string>
     <string name="amountHint">0</string>
     <string name="grammDescription">Amount (g)</string>
     <string name="kcalDescription">Calories per 100g</string>
     <string name="proteinDescriptionAdd">Protein per 100g</string>
-    <string name="additional_settings">Additional Input Type</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="mealsHeadline">Meals</string>
-    <string name="nameHint">Name</string>
+    <string name="additional_settings">Alternate Input Type</string>
+    <string name="mealsHeadline">Meals and Drinks</string>
     <string name="proteinDescription">Protein (g)</string>
     <string name="caloriesDescription">Calories (g)</string>
     <string name="appLanguage">Change the app language</string>
-    <string name="caloriesGoalHint">Calories Goal</string>
-    <string name="proteinGoalHint">Protein Goal</string>
-    <string name="clearHistory">Clear History</string>
+    <string name="caloriesGoalHint">Calories Goal:</string>
+    <string name="proteinGoalHint">Protein Goal:</string>
     <string name="add_meal_drink">Add Meal or Drink</string>
     <string name="free_add">Free Add</string>
     <string name="one">one</string>
@@ -67,4 +47,9 @@
     <string name="seven">seven</string>
     <string name="eight">eight</string>
     <string name="nine">nine</string>
+    <!--    <string name="voiceDesc">"This is the \"Voice Add\" Button. Click on it and say e.g. \"150 gram chicken breast\". Always in this format: \"amount-gram-food/drink\" Please set voice language in settings</string>-->
+    <!--    <string name="consumedDesc">This part shows the already consumed Calories (kcal) and Protein (g)</string>-->
+    <!--    <string name="info">Click on the Info button to toggle the description bubbles</string>-->
+    <!--    <string name="meals">Here you can find you meals which you can add with an click. To customize your meals go to the \"Meals\" tab.</string>-->
+    <!--    <string name="remaining">Here you can see how much Calories you have left and how much Protein you still have to eat to reach your goal</string>-->
 </resources>
