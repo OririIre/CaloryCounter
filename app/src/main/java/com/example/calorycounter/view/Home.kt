@@ -16,14 +16,12 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat.performHapticFeedback
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.lifecycleScope
@@ -40,7 +38,6 @@ import jp.wasabeef.blurry.Blurry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import org.jsoup.internal.StringUtil
 import org.jsoup.nodes.Document
 import java.util.Calendar
 import java.util.Locale
@@ -54,16 +51,16 @@ const val MIN_SWIPE_DISTANCE = 250
 
 //ToDo Check out how this works? Do I pass Icon.Ramen(R.drawable.baseline_ramen_dining_24)?
 //ToDo Problem is that the resource IDs are probably not consistent, can be obfuscated
-enum class Icon(@DrawableRes val resourceId: Int) {
-    RAMEN(R.drawable.baseline_ramen_dining_24),
-    COFFEE(R.drawable.baseline_coffee_24),
-    DINNER(R.drawable.baseline_dinner_dining_24),
-    COCKTAIL(R.drawable.baseline_local_bar_24),
-    LUNCH(R.drawable.baseline_lunch_dining_24),
-    WINE(R.drawable.baseline_wine_bar_24),
-    BAKED(R.drawable.baseline_bakery_dining_24),
-    BREAKFAST(R.drawable.baseline_breakfast_dining_24)
-}
+//enum class Icon(@DrawableRes val resourceId: Int) {
+//    RAMEN(R.drawable.baseline_ramen_dining_24),
+//    COFFEE(R.drawable.baseline_coffee_24),
+//    DINNER(R.drawable.baseline_dinner_dining_24),
+//    COCKTAIL(R.drawable.baseline_local_bar_24),
+//    LUNCH(R.drawable.baseline_lunch_dining_24),
+//    WINE(R.drawable.baseline_wine_bar_24),
+//    BAKED(R.drawable.baseline_bakery_dining_24),
+//    BREAKFAST(R.drawable.baseline_breakfast_dining_24)
+//}
 
 internal const val caloriesFile = "calLog.txt"
 internal const val proteinFile = "protLog.txt"
@@ -117,7 +114,7 @@ class Home : Fragment(), UpdateListener {
     ): View {
         _bnd = FragmentHomeBinding.inflate(inflater, container, false)
         val view = bnd.root
-        var speechBubble = 1
+//        var speechBubble = 1
         val thisContext = requireContext()
         mealsDialog = MealsDialog(thisContext)
         freeAddDialog = FreeAddDialog(thisContext)
@@ -144,46 +141,46 @@ class Home : Fragment(), UpdateListener {
 
         historyDialog.addListener(this)
 
-        bnd.histroy.setOnClickListener {
-            bnd.histroy.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+        bnd.history.setOnClickListener {
+            bnd.history.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             historyDialog.showHistoryDialog(bottomHistoryDialog)
         }
 
-        bnd.shading.setOnClickListener {
-            when (speechBubble) {
-//                1 -> bnd.infoGroup.visibility = View.VISIBLE
-                2 -> {
-                    bnd.infoGroup2.visibility = View.VISIBLE
-//                    bnd.infoGroup.visibility = View.GONE
-                }
-                3 -> {
-                    bnd.infoGroup3.visibility = View.VISIBLE
-                    bnd.infoGroup2.visibility = View.GONE
-                }
-                4 -> {
-                    bnd.infoGroup4.visibility = View.VISIBLE
-                    bnd.infoGroup3.visibility = View.GONE
-                }
-                5 -> {
-                    bnd.cardView.visibility = View.INVISIBLE
-                    bnd.infoGroup5.visibility = View.VISIBLE
-                    bnd.infoGroup4.visibility = View.GONE
-                }
-                6 -> {
-                    bnd.cardView.visibility = View.VISIBLE
-                    bnd.infoGroup6.visibility = View.VISIBLE
-                    bnd.infoGroup5.visibility = View.GONE
-                }
-                7 -> {
-                    bnd.infoGroup6.visibility = View.GONE
-                }
-            }
-            speechBubble++
-            if (speechBubble == 8) {
-                bnd.shading.visibility = View.GONE
-                speechBubble = 1
-            }
-        }
+//        bnd.shading.setOnClickListener {
+//            when (speechBubble) {
+////                1 -> bnd.infoGroup.visibility = View.VISIBLE
+//                2 -> {
+//                    bnd.infoGroup2.visibility = View.VISIBLE
+////                    bnd.infoGroup.visibility = View.GONE
+//                }
+//                3 -> {
+//                    bnd.infoGroup3.visibility = View.VISIBLE
+//                    bnd.infoGroup2.visibility = View.GONE
+//                }
+//                4 -> {
+//                    bnd.infoGroup4.visibility = View.VISIBLE
+//                    bnd.infoGroup3.visibility = View.GONE
+//                }
+//                5 -> {
+//                    bnd.cardView.visibility = View.INVISIBLE
+//                    bnd.infoGroup5.visibility = View.VISIBLE
+//                    bnd.infoGroup4.visibility = View.GONE
+//                }
+//                6 -> {
+//                    bnd.cardView.visibility = View.VISIBLE
+//                    bnd.infoGroup6.visibility = View.VISIBLE
+//                    bnd.infoGroup5.visibility = View.GONE
+//                }
+//                7 -> {
+//                    bnd.infoGroup6.visibility = View.GONE
+//                }
+//            }
+//            speechBubble++
+//            if (speechBubble == 8) {
+//                bnd.shading.visibility = View.GONE
+//                speechBubble = 1
+//            }
+//        }
 
         bnd.speechAdd.setOnClickListener {
             val selectedLanguage =

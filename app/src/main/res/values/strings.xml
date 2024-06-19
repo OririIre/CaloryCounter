@@ -47,9 +47,13 @@
     <string name="seven">seven</string>
     <string name="eight">eight</string>
     <string name="nine">nine</string>
-    <!--    <string name="voiceDesc">"This is the \"Voice Add\" Button. Click on it and say e.g. \"150 gram chicken breast\". Always in this format: \"amount-gram-food/drink\" Please set voice language in settings</string>-->
-    <!--    <string name="consumedDesc">This part shows the already consumed Calories (kcal) and Protein (g)</string>-->
-    <!--    <string name="info">Click on the Info button to toggle the description bubbles</string>-->
-    <!--    <string name="meals">Here you can find you meals which you can add with an click. To customize your meals go to the \"Meals\" tab.</string>-->
-    <!--    <string name="remaining">Here you can see how much Calories you have left and how much Protein you still have to eat to reach your goal</string>-->
+    <string name="speech_search">Speech Search</string>
+    <string name="floating_action_button_add">Floating Action Button Add</string>
+    <string name="floating_action_button_add_meal">Floating Action Button Add Meal</string>
+    <string name="floating_action_button_free_add">Floating Action Button Free Add</string>
+    <string name="dropdown_icon">Dropdown Icon</string>
+    <string name="scroll_view_for_meals">Scroll view for meals</string>
+    <string name="tabs_for_the_app">Tabs for the app</string>
+    <string name="scroll_view_for_history">Scroll view for history</string>
+    <string name="scroll_view_history">scroll view history</string>
 </resources>

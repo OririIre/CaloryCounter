@@ -1,4 +1,4 @@
-package com.example.calorycounter
+//package com.example.calorycounter
 // Simply too much at the moment for such a small project.
 // Keep it for other projects as example of how to use DataStore.
 
@@ -10,7 +10,7 @@ package com.example.calorycounter
 //}
 //private lateinit  var appContext: Context
 
-class DisregardedDataHandler {
+//class DisregardedDataHandler {
 
 //    suspend fun saveLanguage(context: Context, selectedLanguage: String) {
 //        println("Here$selectedLanguage")
@@ -26,7 +26,7 @@ class DisregardedDataHandler {
 //
 //        return stringFlow
 //    }
-}
+//}
 
 //
 //lifecycleScope.launch(Dispatchers.IO) {

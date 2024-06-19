@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="300dp"
-    android:id="@+id/mainLayoutBottom"
     android:background="@color/darkestgrey">
 
     <FrameLayout
@@ -12,7 +11,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/almostdarkestgrey">
+        android:layout_marginBottom="5dp"
+        android:background="@color/almostDarkestGrey">
 
         <TextView
             android:id="@+id/headline"
@@ -24,48 +24,41 @@
             android:textColor="@color/white"
             android:padding="15dp"
             android:drawablePadding="10dp"
-            android:background="@color/almostdarkestgrey"
+            android:background="@color/almostDarkestGrey"
             app:drawableStartCompat="@drawable/baseline_add_meal_24"/>
 
     </FrameLayout>
 
-    <RelativeLayout
-        android:id="@+id/layoutCalories"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:layout_gravity="center">
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <TextView
+            android:id="@+id/caloriesSwitcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            android:text="@string/Calories"
+            android:textColor="@color/white"
+            android:padding="8dp"
+            android:background="@drawable/custom_textview_border"/>
 
-            <TextView
-                android:id="@+id/caloriesSwitcher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Calories"
-                android:textColor="@color/white"
-                android:padding="8dp"
-                android:background="@drawable/custom_textview_border"/>
+        <TextView
+            android:id="@+id/proteinSwitcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Protein"
+            android:textColor="@color/white"
+            android:padding="8dp"/>
 
-            <TextView
-                android:id="@+id/proteinSwitcher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Protein"
-                android:textColor="@color/white"
-                android:padding="8dp"/>
-
-        </LinearLayout>
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
 
         <EditText
             android:id="@+id/enter_calorie_amount"
@@ -180,7 +173,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/saveButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

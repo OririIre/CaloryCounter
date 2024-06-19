@@ -11,13 +11,13 @@ package com.example.calorycounter
 //
 //class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 //
-//    val newcontext = context
+//    val new_context = context
 //    val CHANNEL_ID = "Channel_ID_1"
 //
 //    override fun doWork(): Result {
 //        // Method to trigger an instant notification
 //        println("I get here")
-//        showNotification(newcontext)
+//        showNotification(new_context)
 //
 //        return Result.success()
 //        // (Returning RETRY tells WorkManager to try this task again

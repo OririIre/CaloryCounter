@@ -3,8 +3,7 @@
 
 - Spracheingabe mit z.b. 1 Flasche oder 1 Bier --> Needs to be translated
 - deleting from history does not always delete the values --> Probleme mit komma zahlen -> probably fixed check at home with speech input
-- Try Catch für Spracheingabe --> Daheim testen
-- performance issues in chart -->now runs on UI thread, check in build if it works
+- performance issues in chart -->now runs on UI thread, --> still performance issues
 - Tutorial neu machen und noch speichern ob schon gemacht wurde oder nicht
 - Verschiedene Appsprache einbauen
 - Verschiedene Themes einbauen

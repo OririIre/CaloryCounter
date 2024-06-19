@@ -2,11 +2,8 @@ package com.example.calorycounter.data
 
 import android.content.Context
 import android.icu.text.SimpleDateFormat
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.calorycounter.R
 import com.example.calorycounter.data.HelperClass.Companion.getCurrentValue
-import com.example.calorycounter.view.Keys
-import com.example.calorycounter.view.Value
 import com.example.calorycounter.view.caloriesFile
 import com.example.calorycounter.view.dataHandler
 import com.example.calorycounter.view.historyFile
@@ -25,17 +22,16 @@ class SpeechSearch (con: Context) {
     private val currentDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
 
     fun filterInput(input: String): Array<String> {
-        var resultArray = emptyArray<String>()
         var item = ""
-        var value = ""
         var returnArray = emptyArray<String>()
         if (input != "") {
             var newText = input.replace("[", "")
             newText = newText.replace("]", "")
-            resultArray = newText.split(" ").toTypedArray()
+            val resultArray = newText.split(" ").toTypedArray()
 
-            value = filterNumeric(resultArray)
+            val value = filterNumeric(resultArray)
             for (stuff in resultArray) {
+                stuff.lowercase()
                 if (!stuff.contains(value) && stuff != "g" && stuff != "gram" && stuff != "gramm"
                     && stuff != context.getString(R.string.one) && stuff != context.getString(R.string.two)
                     && stuff != context.getString(R.string.three) && stuff != context.getString(R.string.four)
@@ -207,6 +203,7 @@ class SpeechSearch (con: Context) {
         if(inputString.contains(",")){
             input = inputString.replace(",",".")
         }
+        input.lowercase()
         if (NumberUtils.isCreatable(input)) {
             if(input.toDouble() < 45){
                 returnValue = input

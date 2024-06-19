@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/almostdarkestgrey">
+        android:background="@color/almostDarkestGrey">
 
         <TextView
             android:id="@+id/headline"
@@ -25,13 +25,12 @@
             android:textColor="@color/white"
             android:padding="15dp"
             android:drawablePadding="10dp"
-            android:background="@color/almostdarkestgrey"
+            android:background="@color/almostDarkestGrey"
             app:drawableStartCompat="@drawable/baseline_ramen_dining_24"/>
 
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/mealsNameAndIcon"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,7 +64,6 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/mealsCaloriesAndProtein"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -76,18 +74,19 @@
             android:id="@+id/enterMealCalories"
             android:layout_width="120dp"
             android:layout_height="48dp"
-            android:hint="@string/amountHint"
-            android:inputType="numberDecimal"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:layout_marginEnd="10dp"
             android:autofillHints=""
-            android:drawableStart="@drawable/baseline_data_saver_off_24"
             android:background="@drawable/custom_edit_text"
+            android:drawableStart="@drawable/baseline_data_saver_off_24"
             android:drawablePadding="12dp"
+            android:hint="@string/amountHint"
             android:imeOptions="actionSend"
+            android:inputType="numberDecimal"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:layout_marginEnd="10dp"/>
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            tools:ignore="DuplicateSpeakableTextCheck" />
 
         <EditText
             android:id="@+id/enterMealProtein"

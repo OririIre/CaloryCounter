@@ -5,26 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <androidx.viewpager2.widget.ViewPager2-->
-<!--        android:id="@+id/viewPager"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="350dp"-->
-<!--        android:layout_marginTop="30dp">-->
-
-<!--    </androidx.viewpager2.widget.ViewPager2>-->
-
-<!--    <com.google.android.material.tabs.TabLayout-->
-<!--        android:id="@+id/tab_selector"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/darkestgrey"-->
-<!--        android:layout_marginBottom="?android:attr/actionBarSize"-->
-<!--        app:tabBackground="@drawable/tab_selector"-->
-<!--        app:tabGravity="center"-->
-<!--        app:tabIndicatorHeight="0dp">-->
-
-<!--    </com.google.android.material.tabs.TabLayout>-->
-
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
@@ -32,14 +12,6 @@
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="30dp"/>
-
-<!--    <com.github.mikephil.charting.charts.LineChart-->
-<!--        android:id="@+id/chartProtein"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="350dp"-->
-<!--        android:layout_marginEnd="20dp"-->
-<!--        android:layout_marginStart="20dp"-->
-<!--        android:layout_marginTop="30dp" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,14 +22,12 @@
         android:layout_marginTop="25dp">
 
         <FrameLayout
-            android:id="@+id/headlineLayout"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/almostdarkestgrey">
+            android:background="@color/almostDarkestGrey">
 
             <TextView
-                android:id="@+id/headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -66,14 +36,15 @@
                 android:textColor="@color/white"
                 android:padding="10dp"
                 android:drawablePadding="10dp"
-                android:background="@color/almostdarkestgrey"
+                android:background="@color/almostDarkestGrey"
                 app:drawableStartCompat="@drawable/baseline_history_24"/>
 
         </FrameLayout>
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:contentDescription="@string/scroll_view_for_history">
 
             <LinearLayout
                 android:id="@+id/layoutCalories"
@@ -85,7 +56,6 @@
             </LinearLayout>
 
         </ScrollView>
-
 
     </LinearLayout>
 

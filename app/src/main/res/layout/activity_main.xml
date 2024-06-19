@@ -14,7 +14,8 @@
         android:layout_marginBottom="?android:attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/tabs_for_the_app">
 
     </com.google.android.material.tabs.TabLayout>
 

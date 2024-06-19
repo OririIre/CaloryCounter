@@ -28,7 +28,8 @@
             android:fontFamily="sans-serif-black"
             android:text="i"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:ignore="HardcodedText" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -46,25 +47,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@color/transparent"
             android:layout_marginTop="22dp"
+            android:background="@color/transparent"
+            android:contentDescription="@string/speech_search"
             android:scaleX="2.2"
             android:scaleY="2.2"
-            android:src="@drawable/speech_add" />
+            android:src="@drawable/speech_add"
+            tools:ignore="ImageContrastCheck" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/dropshadow"
-        android:gravity="center"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/drop_shadow"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/layoutMealButtons"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextSizeCheck">
 
         <TextView
             android:layout_width="wrap_content"
@@ -103,8 +107,8 @@
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:background="@color/transparent">
+            android:background="@color/transparent"
+            android:gravity="center">
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -115,7 +119,7 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:progressDrawable="@drawable/progress_bar2"
-                android:rotation="180"/>
+                android:rotation="180" />
         </LinearLayout>
 
         <LinearLayout
@@ -125,8 +129,8 @@
             android:layout_below="@+id/layoutCaloriesProgressBar"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            android:gravity="center"
-            android:background="@color/transparent">
+            android:background="@color/transparent"
+            android:gravity="center">
 
             <ProgressBar
                 android:id="@+id/ProteinProgressBar"
@@ -137,39 +141,38 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:progressDrawable="@drawable/progress_bar2"
-                android:rotation="180"/>
+                android:rotation="180" />
         </LinearLayout>
 
-            <TextView
-                android:id="@+id/Remaining2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/layoutProteinProgressBar"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="80dp"
-                android:layout_marginEnd="90dp"
-                android:layout_marginBottom="25dp"
-                android:background="@color/transparent"
-                android:fontFamily="sans-serif-black"
-                android:gravity="start"
-                android:text="@string/Remaining"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/layoutProteinProgressBar"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="90dp"
+            android:layout_marginBottom="25dp"
+            android:background="@color/transparent"
+            android:fontFamily="sans-serif-black"
+            android:gravity="start"
+            android:text="@string/Remaining"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/leftProt"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/layoutProteinProgressBar"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="80dp"
-                android:layout_marginBottom="25dp"
-                android:background="@color/transparent"
-                android:fontFamily="sans-serif-black"
-                android:gravity="end"
-                android:text="@string/usedProt"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+        <TextView
+            android:id="@+id/leftProt"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/layoutProteinProgressBar"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="80dp"
+            android:layout_marginBottom="25dp"
+            android:background="@color/transparent"
+            android:fontFamily="sans-serif-black"
+            android:gravity="end"
+            android:text="@string/usedProt"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
@@ -179,7 +182,8 @@
         android:layout_height="210dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/scroll_view_for_meals">
 
         <LinearLayout
             android:id="@+id/linearLayoutMeals"
@@ -203,10 +207,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
+        android:contentDescription="@string/floating_action_button_add"
         android:src="@drawable/baseline_add_24"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="RedundantDescriptionCheck,TouchTargetSizeCheck" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fbMeals"
@@ -219,10 +225,11 @@
         app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@+id/fbCustom"
         app:layout_constraintEnd_toEndOf="@+id/fbCustom"
-        app:layout_constraintStart_toStartOf="@+id/fbCustom" />
+        app:layout_constraintStart_toStartOf="@+id/fbCustom"
+        android:contentDescription="@string/floating_action_button_add_meal"/>
 
     <TextView
-        android:id="@+id/add_meal_text"
+        android:id="@+id/addMealText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
@@ -233,7 +240,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/fbMeals"
         app:layout_constraintEnd_toStartOf="@+id/fbMeals"
-        app:layout_constraintTop_toTopOf="@+id/fbMeals" />
+        app:layout_constraintTop_toTopOf="@+id/fbMeals"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fbCustom"
@@ -246,10 +253,11 @@
         app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@+id/fb"
         app:layout_constraintEnd_toEndOf="@+id/fb"
-        app:layout_constraintStart_toStartOf="@+id/fb" />
+        app:layout_constraintStart_toStartOf="@+id/fb"
+        android:contentDescription="@string/floating_action_button_free_add"/>
 
     <TextView
-        android:id="@+id/add_free_text"
+        android:id="@+id/addFreeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
@@ -334,7 +342,7 @@
     </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/histroy"
+        android:id="@+id/history"
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:layout_marginTop="10dp"
@@ -343,7 +351,8 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout3" />
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout3"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <View
         android:id="@+id/shading"
@@ -355,162 +364,162 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/infoGroup2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="bubbleSpeech, descVoice" />
+<!--    <androidx.constraintlayout.widget.Group-->
+<!--        android:id="@+id/infoGroup2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        app:constraint_referenced_ids="bubbleSpeech, descVoice" />-->
 
-    <ImageView
-        android:id="@+id/bubbleSpeech"
-        android:layout_width="170dp"
-        android:layout_height="130dp"
-        android:layout_marginEnd="20dp"
-        android:scaleX="-1.6"
-        android:scaleY="1.2"
-        android:src="@drawable/baseline_chat_bubble_24"
-        app:layout_constraintBottom_toTopOf="@+id/speechAdd"
-        app:layout_constraintEnd_toEndOf="@+id/speechAdd" />
+<!--    <ImageView-->
+<!--        android:id="@+id/bubbleSpeech"-->
+<!--        android:layout_width="170dp"-->
+<!--        android:layout_height="130dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        android:scaleX="-1.6"-->
+<!--        android:scaleY="1.2"-->
+<!--        android:src="@drawable/baseline_chat_bubble_24"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/speechAdd"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/speechAdd"/>-->
 
-    <TextView
-        android:id="@+id/descVoice"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/voiceDesc"
-        android:textColor="@color/white"
-        android:textSize="11sp"
-        app:layout_constraintEnd_toEndOf="@+id/bubbleSpeech"
-        app:layout_constraintTop_toTopOf="@+id/bubbleSpeech" />
+<!--    <TextView-->
+<!--        android:id="@+id/descVoice"-->
+<!--        android:layout_width="150dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_marginEnd="15dp"-->
+<!--        android:fontFamily="sans-serif-black"-->
+<!--        android:text="@string/voiceDesc"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="11sp"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/bubbleSpeech"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/bubbleSpeech" />-->
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/infoGroup3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="consumedAmount, descConsumedAmount" />
+<!--    <androidx.constraintlayout.widget.Group-->
+<!--        android:id="@+id/infoGroup3"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        app:constraint_referenced_ids="consumedAmount, descConsumedAmount" />-->
 
-    <ImageView
-        android:id="@+id/consumedAmount"
-        android:layout_width="170dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginBottom="-20dp"
-        android:scaleX="-1.8"
-        android:scaleY="0.8"
-        android:src="@drawable/baseline_chat_bubble_24"
-        app:layout_constraintBottom_toTopOf="@+id/relativeLayout3"
-        app:layout_constraintEnd_toEndOf="@+id/progressBar3"
-        app:layout_constraintStart_toStartOf="@+id/progressBar3" />
+<!--    <ImageView-->
+<!--        android:id="@+id/consumedAmount"-->
+<!--        android:layout_width="170dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:layout_marginStart="30dp"-->
+<!--        android:layout_marginBottom="-20dp"-->
+<!--        android:scaleX="-1.8"-->
+<!--        android:scaleY="0.8"-->
+<!--        android:src="@drawable/baseline_chat_bubble_24"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/relativeLayout3"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/progressBar3"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/progressBar3" />-->
 
-    <TextView
-        android:id="@+id/descConsumedAmount"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/consumedDesc"
-        android:textColor="@color/white"
-        android:textSize="11sp"
-        app:layout_constraintStart_toStartOf="@+id/consumedAmount"
-        app:layout_constraintTop_toTopOf="@+id/consumedAmount" />
+<!--    <TextView-->
+<!--        android:id="@+id/descConsumedAmount"-->
+<!--        android:layout_width="140dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="15dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:fontFamily="sans-serif-black"-->
+<!--        android:text="@string/consumedDesc"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="11sp"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/consumedAmount"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/consumedAmount" />-->
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/infoGroup4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="bubbleInfo, descInfo" />
+<!--    <androidx.constraintlayout.widget.Group-->
+<!--        android:id="@+id/infoGroup4"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        app:constraint_referenced_ids="bubbleInfo, descInfo" />-->
 
-    <ImageView
-        android:id="@+id/bubbleInfo"
-        android:layout_width="140dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="15dp"
-        android:scaleX="1.6"
-        android:scaleY="-1"
-        android:src="@drawable/baseline_chat_bubble_24"
-        app:layout_constraintStart_toStartOf="@+id/infoToggle"
-        app:layout_constraintTop_toBottomOf="@+id/infoToggle" />
+<!--    <ImageView-->
+<!--        android:id="@+id/bubbleInfo"-->
+<!--        android:layout_width="140dp"-->
+<!--        android:layout_height="90dp"-->
+<!--        android:layout_marginStart="15dp"-->
+<!--        android:scaleX="1.6"-->
+<!--        android:scaleY="-1"-->
+<!--        android:src="@drawable/baseline_chat_bubble_24"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/infoToggle"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/infoToggle" />-->
 
-    <TextView
-        android:id="@+id/descInfo"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="30dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/info"
-        android:textColor="@color/white"
-        android:textSize="11sp"
-        app:layout_constraintStart_toStartOf="@+id/bubbleInfo"
-        app:layout_constraintTop_toTopOf="@+id/bubbleInfo" />
+<!--    <TextView-->
+<!--        android:id="@+id/descInfo"-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="15dp"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:fontFamily="sans-serif-black"-->
+<!--        android:text="@string/info"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="11sp"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/bubbleInfo"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/bubbleInfo" />-->
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/infoGroup5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="bubbleMeals, descMeals" />
+<!--    <androidx.constraintlayout.widget.Group-->
+<!--        android:id="@+id/infoGroup5"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        app:constraint_referenced_ids="bubbleMeals, descMeals" />-->
 
-    <ImageView
-        android:id="@+id/bubbleMeals"
-        android:layout_width="170dp"
-        android:layout_height="120dp"
-        android:scaleX="1.5"
-        android:scaleY="1"
-        android:src="@drawable/baseline_chat_bubble_24"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/bubbleMeals"-->
+<!--        android:layout_width="170dp"-->
+<!--        android:layout_height="120dp"-->
+<!--        android:scaleX="1.5"-->
+<!--        android:scaleY="1"-->
+<!--        android:src="@drawable/baseline_chat_bubble_24"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/progressBar2"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
-    <TextView
-        android:id="@+id/descMeals"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/meals"
-        android:textColor="@color/white"
-        android:textSize="11sp"
-        app:layout_constraintStart_toStartOf="@+id/bubbleMeals"
-        app:layout_constraintTop_toTopOf="@+id/bubbleMeals" />
+<!--    <TextView-->
+<!--        android:id="@+id/descMeals"-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:fontFamily="sans-serif-black"-->
+<!--        android:text="@string/meals"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="11sp"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/bubbleMeals"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/bubbleMeals" />-->
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/infoGroup6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="bubbleRemaining, descRemaining" />
+<!--    <androidx.constraintlayout.widget.Group-->
+<!--        android:id="@+id/infoGroup6"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        app:constraint_referenced_ids="bubbleRemaining, descRemaining" />-->
 
-    <ImageView
-        android:id="@+id/bubbleRemaining"
-        android:layout_width="170dp"
-        android:layout_height="120dp"
-        android:scaleX="1.5"
-        android:scaleY="1"
-        android:src="@drawable/baseline_chat_bubble_24"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/bubbleRemaining"-->
+<!--        android:layout_width="170dp"-->
+<!--        android:layout_height="120dp"-->
+<!--        android:scaleX="1.5"-->
+<!--        android:scaleY="1"-->
+<!--        android:src="@drawable/baseline_chat_bubble_24"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/cardView"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
-    <TextView
-        android:id="@+id/descRemaining"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/remaining"
-        android:textColor="@color/white"
-        android:textSize="11sp"
-        app:layout_constraintStart_toStartOf="@+id/bubbleRemaining"
-        app:layout_constraintTop_toTopOf="@+id/bubbleRemaining" />
+<!--    <TextView-->
+<!--        android:id="@+id/descRemaining"-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:fontFamily="sans-serif-black"-->
+<!--        android:text="@string/remaining"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="11sp"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/bubbleRemaining"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/bubbleRemaining" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

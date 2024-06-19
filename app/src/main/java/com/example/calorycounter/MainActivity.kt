@@ -13,8 +13,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
     private lateinit var adapter: FragmentPageAdapter
-    private var caloriesFile = "calLog.txt"
-//    val CHANNEL_ID = "Channel_ID_1"
+    //    val CHANNEL_ID = "Channel_ID_1"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,14 +66,9 @@ class MainActivity : AppCompatActivity() {
 //        chartActivityIntent.putExtra("caloriesData", serMap)
 //        startActivity(chartActivityIntent)
     }
-    fun setCurrentTab(position: Int){
-
-        viewPager2.currentItem = position //your viewpager object
-
-    }
 }
 
-//        Notificationstuff
+//        Notification_stuff
 
 //        var hasNotificationPermission = false
 //

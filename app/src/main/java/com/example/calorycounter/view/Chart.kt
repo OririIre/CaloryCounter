@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.example.calorycounter.R
 import com.example.calorycounter.databinding.FragmentChartBinding
 import com.github.mikephil.charting.components.MarkerView
@@ -20,10 +18,6 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import org.jsoup.internal.StringUtil
 import java.text.SimpleDateFormat
 import java.util.Collections.min
 import java.util.Locale
@@ -35,7 +29,6 @@ class Chart : Fragment() {
     private lateinit var usedCalories: TextView
     private lateinit var usedProtein: TextView
     private lateinit var dateView: TextView
-    private lateinit var adapter: Adapter
     private lateinit var chartDataCalories: MutableMap<String, String>
     private lateinit var chartDataProtein: MutableMap<String, String>
     private var caloriesFile = "calLog.txt"

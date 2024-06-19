@@ -51,7 +51,6 @@ class IconAdapter(con: Context, viewID: Int, objects: ArrayList<Int>): ArrayAdap
                 icon.setImageResource(R.drawable.baseline_local_pizza_24)
             }
         }
-
         return row
     }
 }

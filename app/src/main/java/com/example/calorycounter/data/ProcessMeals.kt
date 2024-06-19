@@ -2,15 +2,9 @@ package com.example.calorycounter.data
 
 import android.content.Context
 import android.icu.text.SimpleDateFormat
-import android.view.Gravity
-import android.widget.FrameLayout
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.example.calorycounter.view.Keys
-import com.example.calorycounter.view.Value
 import com.example.calorycounter.view.dataHandler
 import com.example.calorycounter.view.iconFile
 import com.example.calorycounter.view.mealsFile
-import com.google.android.material.snackbar.Snackbar
 import java.util.Date
 import java.util.Locale
 

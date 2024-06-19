@@ -15,9 +15,6 @@
     <string name="proteinDescriptionAdd">Protein pro 100g</string>
     <string name="additional_settings">Alternative Eingabe:</string>
     <string name="mealsHeadline">Gerichte und Getränke</string>
-    <string name="custom_calorie_value">Benutzerdefinierte Menge</string>
-    <string name="Charts">Tabelle</string>
-    <string name="Meals">Gerichte</string>
     <string name="x">x</string>
     <string name="usedKcal">0 kcal</string>
     <string name="button_add_amount">Hinzufügen</string>
@@ -34,7 +31,6 @@
     <string name="clearMeals">Gerichte löschen</string>
     <string name="clearProtein">Protein löschen</string>
     <string name="clearCalories">Kalorien löschen</string>
-    <string name="settings">Einstellungen</string>
     <string name="saveGoals">Ziele speichern</string>
     <string name="proteinDescription">Protein (g)</string>
     <string name="caloriesDescription">Kalorien (g)</string>
@@ -52,4 +48,13 @@
     <string name="seven">sieben</string>
     <string name="eight">acht</string>
     <string name="nine">neun</string>
+    <string name="speech_search">Spracheingabe</string>
+    <string name="floating_action_button_add">Floating Action Button Add</string>
+    <string name="floating_action_button_add_meal">Floating Action Button Add Meal</string>
+    <string name="floating_action_button_free_add">Floating Action Button Free Add</string>
+    <string name="dropdown_icon">Dropdown Icon</string>
+    <string name="scroll_view_for_meals">Scroll view for meals</string>
+    <string name="tabs_for_the_app">Tabs for the app</string>
+    <string name="scroll_view_for_history">Scroll view for history</string>
+    <string name="scroll_view_history">scroll view history</string>
 </resources>

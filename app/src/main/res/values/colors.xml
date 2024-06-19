@@ -2,19 +2,13 @@
 <resources>
     <color name="white">#bababf</color>
     <color name="black">#000000</color>
-    <color name="blackTransparent">#66000000</color>
     <color name="white_low_transparency">#66BABABF</color>
     <color name="darkestgrey">#151517</color>
-    <color name="almostdarkestgrey">#222225</color>
-    <color name="somedarkestgrey">#3B3B40</color>
-    <color name="somedarkestgreyTransparent">#663B3B40</color>
+    <color name="almostDarkestGrey">#222225</color>
+    <color name="someDarkestGrey">#3B3B40</color>
     <color name="transparent">#00ffffff</color>
     <color name="progressBarBackground">#252529</color>
     <color name="primaryColor">#280861</color>
-    <color name="primaryColor_transparent">#99280861</color>
     <color name="secondaryColor2">#3B119E</color>
-    <color name="secondaryColorTransparent">#993B119E</color>
-    <color name="tertiaryColor">#460861</color>
-    <color name="progressbarBackgroundColor">#6613161F</color>
 
 </resources>
