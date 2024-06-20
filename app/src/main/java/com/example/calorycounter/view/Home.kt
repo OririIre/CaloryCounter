@@ -19,7 +19,6 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -104,24 +103,30 @@ class Home : Fragment(), UpdateListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        clearHistoryForNextDay()
+        clearHistoryOnNextDay()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _bnd = FragmentHomeBinding.inflate(inflater, container, false)
+    ): View {_bnd = FragmentHomeBinding.inflate(inflater, container, false)
         val view = bnd.root
-//        var speechBubble = 1
         val thisContext = requireContext()
         mealsDialog = MealsDialog(thisContext)
         freeAddDialog = FreeAddDialog(thisContext)
         speechSearch = SpeechSearch(thisContext)
         historyDialog = HistoryDialog(thisContext)
         processMeals = ProcessMeals(thisContext)
+        freeAddDialog.addListener(this)
+        historyDialog.addListener(this)
 
+        createMainView()
+
+        return view
+    }
+
+    private fun createMainView(){
         bnd.progressBar.max = 1000
         bnd.ProteinProgressBar.max = 1000
         bnd.progressBar2.max = 1000
@@ -131,57 +136,56 @@ class Home : Fragment(), UpdateListener {
         bottomAddDialog = createDialog(R.layout.free_add_layout)
         bottomHistoryDialog = createDialog(R.layout.history_layout)
 
+        val imageView = createImageView()
+        imageView.visibility = View.GONE
+
+        bnd.home.addView(imageView)
+
         updateGoals()
-        updateDaily()
-        updateMeals()
+        updateMealsUI()
 
         bnd.infoToggle.setOnClickListener {
-            bnd.shading.visibility = View.VISIBLE
-        }
 
-        historyDialog.addListener(this)
+        }
 
         bnd.history.setOnClickListener {
             bnd.history.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             historyDialog.showHistoryDialog(bottomHistoryDialog)
         }
 
-//        bnd.shading.setOnClickListener {
-//            when (speechBubble) {
-////                1 -> bnd.infoGroup.visibility = View.VISIBLE
-//                2 -> {
-//                    bnd.infoGroup2.visibility = View.VISIBLE
-////                    bnd.infoGroup.visibility = View.GONE
-//                }
-//                3 -> {
-//                    bnd.infoGroup3.visibility = View.VISIBLE
-//                    bnd.infoGroup2.visibility = View.GONE
-//                }
-//                4 -> {
-//                    bnd.infoGroup4.visibility = View.VISIBLE
-//                    bnd.infoGroup3.visibility = View.GONE
-//                }
-//                5 -> {
-//                    bnd.cardView.visibility = View.INVISIBLE
-//                    bnd.infoGroup5.visibility = View.VISIBLE
-//                    bnd.infoGroup4.visibility = View.GONE
-//                }
-//                6 -> {
-//                    bnd.cardView.visibility = View.VISIBLE
-//                    bnd.infoGroup6.visibility = View.VISIBLE
-//                    bnd.infoGroup5.visibility = View.GONE
-//                }
-//                7 -> {
-//                    bnd.infoGroup6.visibility = View.GONE
-//                }
-//            }
-//            speechBubble++
-//            if (speechBubble == 8) {
-//                bnd.shading.visibility = View.GONE
-//                speechBubble = 1
-//            }
-//        }
+        bnd.fb.setOnClickListener {
+            if (!isAllFabVisible) {
+                Blurry.with(requireContext()).capture(this.view).into(imageView)
+                imageView.visibility = View.VISIBLE
+                imageView.bringToFront()
+                setFloatingButtonVisibilty(true)
+            } else {
+                imageView.visibility = View.GONE
+                setFloatingButtonVisibilty(false)
+            }
+        }
 
+        bnd.fbCustom.setOnClickListener {
+            imageView.visibility = View.GONE
+            setFloatingButtonVisibilty(false)
+            freeAddDialog.show(bottomAddDialog)
+        }
+
+        bottomAddDialog.setOnDismissListener {
+            updateUI()
+        }
+
+        bnd.fbMeals.setOnClickListener {
+            imageView.visibility = View.GONE
+            setFloatingButtonVisibilty(false)
+            mealsDialog.show(0, bottomMealDialog)
+        }
+
+        bottomMealDialog.setOnDismissListener {
+            updateMealsUI()
+        }
+
+        //Todo Languages as variables
         bnd.speechAdd.setOnClickListener {
             val selectedLanguage =
                 dataHandler.loadData(requireContext(), languageFile)[Keys.Language.toString()]
@@ -221,138 +225,112 @@ class Home : Fragment(), UpdateListener {
         activityResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK && result.data != null) {
-                    val text = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                    var resultArray = emptyArray<String>()
-                    try {
-                        resultArray = speechSearch.filterInput(text.toString())
-                    } catch (exp: Exception) {
-                        println(exp)
-                        Snackbar.make(bnd.home, "Wrong input, amount or keyword not found", 3000)
-                            .setBackgroundTint(resources.getColor(R.color.black, null))
-                            .show()
-                    }
-                    //start coroutine (like threading in java stuff)
-                    if (resultArray.isNotEmpty()) {
-                        try{
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                var resultDocument = async {
-                                    speechSearch.searchRequest(resultArray, "calories")
-                                }
-                                document = resultDocument.await()
-                                var baseValue = speechSearch.extractCaloriesValues(document, "wDYxhc")
-                                if (baseValue == "") {
-                                    baseValue = speechSearch.extractCaloriesValues(document, "MjjYud")
-                                }
-                                speechSearch.addFromSpeech(
-                                    baseValue,
-                                    resultArray[1].trim(),
-                                    resultArray[0].trim(),
-                                    caloriesFile
-                                )
-
-                                resultDocument = async {
-                                    speechSearch.searchRequest(resultArray, "protein")
-                                }
-                                document = resultDocument.await()
-                                baseValue = speechSearch.extractProteinValues(document, "wDYxhc")
-                                if (baseValue == "") {
-                                    baseValue = speechSearch.extractProteinValues(document, "MjjYud")
-                                }
-                                speechSearch.addFromSpeech(
-                                    baseValue,
-                                    resultArray[1].trim(),
-                                    resultArray[0].trim(),
-                                    proteinFile
-                                )
-                            }.invokeOnCompletion {
-                                requireActivity().runOnUiThread {
-                                    updateUI()
-                                }
-                            }
-                        } catch (exp: Exception) {
-                            println(exp)
-                            Snackbar.make(bnd.home, "Search went wrong, please try again", 3000)
-                                .setBackgroundTint(resources.getColor(R.color.black, null))
-                                .show()
-                        }
-                    } else {
-                        println("wrong input")
-                    }
+                    processSpeechResult(result)
                 }
-
             }
-
-        val imageView = ImageView(requireContext())
-        val layoutParam: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.MATCH_PARENT,
-            ConstraintLayout.LayoutParams.MATCH_PARENT)
-        imageView.layoutParams = layoutParam
-        imageView.setBackgroundColor(Color.argb(100,0,0,0))
-        imageView.visibility = View.GONE
-
-        bnd.home.addView(imageView)
-        freeAddDialog.addListener(this)
-
-        bnd.fb.setOnClickListener {
-            if (!isAllFabVisible) {
-                Blurry.with(requireContext()).capture(this.view).into(imageView)
-                imageView.visibility = View.VISIBLE
-                imageView.bringToFront()
-                bnd.fbCustom.visibility = View.VISIBLE
-                bnd.fbMeals.visibility = View.VISIBLE
-                bnd.addFreeText.visibility = View.VISIBLE
-                bnd.addFreeText.bringToFront()
-                bnd.addMealText.visibility = View.VISIBLE
-                bnd.addMealText.bringToFront()
-                isAllFabVisible = true
-            } else {
-                imageView.visibility = View.GONE
-                bnd.fbCustom.visibility = View.GONE
-                bnd.fbMeals.visibility = View.GONE
-                bnd.addFreeText.visibility = View.GONE
-                bnd.addMealText.visibility = View.GONE
-                isAllFabVisible = false
-            }
-        }
-
-        bnd.fbCustom.setOnClickListener {
-            imageView.visibility = View.GONE
-            bnd.fbCustom.visibility = View.GONE
-            bnd.fbMeals.visibility = View.GONE
-            bnd.addFreeText.visibility = View.GONE
-            bnd.addMealText.visibility = View.GONE
-            isAllFabVisible = false
-            freeAddDialog.show(bottomAddDialog)
-        }
-
-        bottomAddDialog.setOnDismissListener {
-            updateUI()
-        }
-
-        bnd.fbMeals.setOnClickListener {
-            imageView.visibility = View.GONE
-            bnd.fbCustom.visibility = View.GONE
-            bnd.fbMeals.visibility = View.GONE
-            bnd.addFreeText.visibility = View.GONE
-            bnd.addMealText.visibility = View.GONE
-            isAllFabVisible = false
-            mealsDialog.show(0, bottomMealDialog)
-        }
-
-        bottomMealDialog.setOnDismissListener {
-            updateMeals()
-        }
-        return view
     }
 
     override fun onResume() {
         super.onResume()
         updateGoals()
-        updateDaily()
-        updateMeals()
-        updateUI()
-        clearHistoryForNextDay()
+        updateUI() //ToDo only execute this when the goals were changed in onResume
+        updateMealsUI()
+        clearHistoryOnNextDay()
     }
+
+    private fun clearHistoryOnNextDay(){
+        val historyValues = dataHandler.loadData(requireContext(), historyFile)
+        val calendar  = Calendar.getInstance()
+        val currentTime = String.format(Locale.getDefault(),"%02d.%02d",
+            calendar.get(Calendar.DAY_OF_MONTH),
+            calendar.get(Calendar.MONTH)+1)
+        for(items in historyValues){
+            if(!items.key.contains(currentTime)){
+                dataHandler.deleteFiles(requireContext(), historyFile)
+            }
+        }
+    }
+
+    private fun setFloatingButtonVisibilty (visible: Boolean){
+        if(visible){
+            bnd.fbCustom.visibility = View.VISIBLE
+            bnd.fbMeals.visibility = View.VISIBLE
+            bnd.addFreeText.visibility = View.VISIBLE
+            bnd.addMealText.visibility = View.VISIBLE
+            bnd.addFreeText.bringToFront()
+            bnd.addMealText.bringToFront()
+            isAllFabVisible = true
+        } else {
+            bnd.fbCustom.visibility = View.GONE
+            bnd.fbMeals.visibility = View.GONE
+            bnd.addFreeText.visibility = View.GONE
+            bnd.addMealText.visibility = View.GONE
+            isAllFabVisible = false
+        }
+    }
+
+    private fun processSpeechResult(result: ActivityResult){
+        //ToDO Rework for Clear Code
+        val text = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+        var resultArray = emptyArray<String>()
+        try {
+            resultArray = speechSearch.filterInput(text.toString())
+        } catch (exp: Exception) {
+            println(exp)
+            Snackbar.make(bnd.home, "Wrong input, amount or keyword not found", 3000)
+                .setBackgroundTint(resources.getColor(R.color.black, null))
+                .show()
+        }
+        //start coroutine (like threading in java stuff)
+        if (resultArray.isNotEmpty()) {
+            try{
+                lifecycleScope.launch(Dispatchers.IO) {
+                    var resultDocument = async {
+                        speechSearch.searchRequest(resultArray, "calories")
+                    }
+                    document = resultDocument.await()
+                    var baseValue = speechSearch.extractCaloriesValues(document, "wDYxhc")
+                    if (baseValue == "") {
+                        baseValue = speechSearch.extractCaloriesValues(document, "MjjYud")
+                    }
+                    speechSearch.addFromSpeech(
+                        baseValue,
+                        resultArray[1].trim(),
+                        resultArray[0].trim(),
+                        caloriesFile
+                    )
+
+                    resultDocument = async {
+                        speechSearch.searchRequest(resultArray, "protein")
+                    }
+                    document = resultDocument.await()
+                    baseValue = speechSearch.extractProteinValues(document, "wDYxhc")
+                    if (baseValue == "") {
+                        baseValue = speechSearch.extractProteinValues(document, "MjjYud")
+                    }
+                    speechSearch.addFromSpeech(
+                        baseValue,
+                        resultArray[1].trim(),
+                        resultArray[0].trim(),
+                        proteinFile
+                    )
+                }.invokeOnCompletion {
+                    requireActivity().runOnUiThread {
+
+                        updateUI()
+                    }
+                }
+            } catch (exp: Exception) {
+                println(exp)
+                Snackbar.make(bnd.home, "Search went wrong, please try again", 3000)
+                    .setBackgroundTint(resources.getColor(R.color.black, null))
+                    .show()
+            }
+        } else {
+            println("wrong input")
+        }
+    }
+
 
     private fun updateGoals() {
         goals = dataHandler.loadData(requireContext(), goalsFile)
@@ -368,185 +346,61 @@ class Home : Fragment(), UpdateListener {
         }
     }
 
-    private fun updateDaily() {
-        val calsCons = getCurrentValue(caloriesFile, requireContext()).toInt()
-        val stringCal = "$calsCons kcal"
-        bnd.usedKcal.text = stringCal
-        val protCons = getCurrentValue(proteinFile, requireContext()).toInt()
-        val stringProt = "$protCons g"
-        bnd.consumedProt.text = stringProt
-        updateRemaining(calsCons.toDouble(), Value.Calories)
-        updateRemaining(protCons.toDouble(), Value.Protein)
-        changeProgressBar(goals[Keys.Protein.toString()]!!, protCons.toDouble(), false)
-        changeProgressBar(goals[Keys.Calories.toString()]!!, calsCons.toDouble(), true)
-    }
+    private fun updateUI(){
+        val currentCalories = getCurrentValue(caloriesFile, requireContext())
+        val currentProtein = getCurrentValue(proteinFile, requireContext())
 
-    private fun updateMeals() {
-        val meals = dataHandler.loadData(requireContext(), mealsFile)
-        val icons = dataHandler.loadData(requireContext(), iconFile)
-        bnd.linearLayoutMeals.removeAllViews()
-        var i = 1
-        for(items in meals){
-            val name = i.toString() + "Name"
-            val value = i.toString() + "Cal"
-            val protValue = i.toString() + "Prot"
-            val icon = i.toString() + "Icon"
-            if(items.key.contains(name) && items.value != "value"){
-                val currentMealName = items.value
-                var currentMealValue = ""
-                var currentMealProt = ""
-                var currentIcon = ""
-                var calFound = false
-                var protFound = false
-                for(item in meals) {
-                    if(item.key.contains(value)) {
-                        currentMealValue = item.value
-                        calFound = true
-                    }
-                    if(item.key.contains(protValue)) {
-                        currentMealProt = item.value
-                        protFound = true
-                    }
-                    for(ic in icons) {
-                        if (ic.key.contains(icon)) {
-                            currentIcon = ic.value
-                        }
-                    }
-                    if(calFound && protFound){
-                        createMealUI (currentMealName, currentMealValue, currentMealProt, i, currentIcon)
-                        i++
-                        calFound = false
-                        protFound = false
-                    }
-                }
-            }
+        val calCons = currentCalories.toInt().toString() + " kcal"
+        val protCons = currentProtein.toInt().toString() + " g"
+
+        //ToDo Change Progressbar function rework and getting the goals in variable and then give it to progressbar and remaining
+        changeProgressBar(goals[Keys.Calories.toString()]!!, currentCalories, true)
+        changeProgressBar(goals[Keys.Protein.toString()]!!, currentProtein, false)
+
+        bnd.consumedProt.text = protCons
+        bnd.usedKcal.text = calCons
+
+        updateReamainingUI(currentCalories, Keys.Calories)
+        updateReamainingUI(currentProtein, Keys.Protein)
+
+        if (currentCalories > goals[Keys.Calories.toString()]!!.toDouble()) {
+            rnd = (0..12).random()
+            val snack: Snackbar = Snackbar.make(bnd.cardView, messages[rnd], 4000)
+            val snackView = snack.view
+            val params = snackView.layoutParams as FrameLayout.LayoutParams
+            params.gravity = Gravity.TOP
+            params.setMargins(20,30, 20,0)
+            snackView.layoutParams = params
+            snackView.setBackgroundColor(resources.getColor(R.color.black, null))
+            snack.show()
         }
     }
 
-    private fun updateRemaining(currentValue: Double, goal: Value) {
-        if (goal == Value.Calories) {
-            if (goals[Keys.Calories.toString()]!!.toDouble() != 0.0) {
-                var remaining = goals[Keys.Calories.toString()]!!.toInt() - currentValue.toInt()
-                if (remaining <= 0) {
-                    remaining = 0
+    private fun prepareRemainingText(currentValue: Double, key: Keys): String {
+        val remaning: String
+        val goal = goals[key.toString()]!!.toDouble()
+            if (goal != 0.0) {
+                var newRemainingValue = goal.toInt() - currentValue.toInt()
+                if (newRemainingValue <= 0) {
+                    newRemainingValue = 0
                 }
-                val left = "$remaining kcal"
-                bnd.leftKcal.text = left
-            } else if (goals[Keys.Calories.toString()]!!.toDouble() == 0.0) {
-                bnd.leftKcal.text = 0.toString()
+                remaning = newRemainingValue.toString()
+            } else {
+                remaning = 0.toString()
             }
+        return remaning
+    }
+
+    private fun updateReamainingUI(currentValue: Double, key: Keys){
+        var remaining: String
+        remaining = prepareRemainingText(currentValue, key)
+        if (Keys.Calories == key){
+            remaining = "$remaining kcal"
+            bnd.leftKcal.text = remaining
         } else {
-            if (goals[Keys.Protein.toString()]!!.toDouble() != 0.0) {
-                var remaining = goals[Keys.Protein.toString()]!!.toInt() - currentValue.toInt()
-                if (remaining <= 0) {
-                    remaining = 0
-                }
-                val left = "$remaining g"
-                bnd.leftProt.text = left
-            } else if (goals[Keys.Protein.toString()]!!.toDouble() == 0.0) {
-                bnd.leftProt.text = 0.toString()
-            }
+            remaining = "$remaining g"
+            bnd.leftProt.text = remaining
         }
-    }
-
-    private fun createMealUI (mealName: String, mealValue: String, mealProt: String, buttonID: Int, icon: String){
-        val parentLayout = bnd.linearLayoutMeals
-        val relativeLayout = RelativeLayout(requireContext())
-        val mealsName = TextView(requireContext())
-        val mealsValue = TextView(requireContext())
-        val divider = View(requireContext())
-        mealsName.id = buttonID
-        mealsValue.id = View.generateViewId()
-        relativeLayout.id = View.generateViewId()
-
-        val layoutParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.MATCH_PARENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        )
-        relativeLayout.layoutParams = layoutParam
-        relativeLayout.setPadding(20,20,20,20)
-        relativeLayout.gravity = Gravity.CENTER
-        relativeLayout.focusable = View.FOCUSABLE
-        relativeLayout.isFocusableInTouchMode = true
-
-        val mealsValueParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-            280,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        )
-        mealsValueParam.addRule(RelativeLayout.ALIGN_PARENT_END)
-        val valueConversion = mealValue.toDouble().toInt().toString()
-        val valueText = "$valueConversion kcal"
-        mealsValue.text = valueText
-        mealsValue.textSize = 15f
-        mealsValue.isSingleLine = true
-        mealsValue.setTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
-        mealsValue.layoutParams = mealsValueParam
-        mealsValue.gravity = Gravity.END
-        mealsValue.setCompoundDrawablesWithIntrinsicBounds(null,null,ResourcesCompat.getDrawable(resources,
-            R.drawable.baseline_add_circle_24, null),null)
-        mealsValue.compoundDrawablePadding = 15
-
-        val mealsNameParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        )
-        mealsNameParam.addRule(RelativeLayout.ALIGN_PARENT_START)
-        mealsNameParam.addRule(RelativeLayout.START_OF, mealsName.id)
-
-        mealsName.text = mealName
-        mealsName.textSize = 15f
-        mealsName.setTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
-        if(icon != "") {
-            mealsName.setCompoundDrawablesWithIntrinsicBounds(
-                ResourcesCompat.getDrawable(
-                    resources,
-                    icon.toInt(),
-                    null
-                ), null, null, null
-            )
-        }
-        mealsName.compoundDrawablePadding = 15
-        mealsName.layoutParams = mealsNameParam
-
-        val dividerParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.MATCH_PARENT,
-            1
-        )
-        dividerParam.addRule(RelativeLayout.BELOW, mealsName.id)
-        divider.layoutParams = dividerParam
-        divider.setBackgroundColor(ResourcesCompat.getColor(resources,
-            R.color.white_low_transparency, null))
-        divider.id = View.generateViewId()
-
-        relativeLayout.addView(mealsValue)
-        relativeLayout.addView(mealsName)
-        relativeLayout.addView(divider)
-
-        val transition = ChangeBounds()
-        transition.setDuration(200)
-
-        mealsValue.setOnClickListener{
-            mealsValue.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            processMeals.addMeal(mealValue, mealProt, mealName)
-            updateUI()
-        }
-
-        mealsName.setOnClickListener{
-            mealsName.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            mealsDialog.show(mealsName.id, bottomMealDialog)
-        }
-
-        mealsName.setOnLongClickListener {
-            Snackbar.make(bnd.home, "Delete Entry?", 4000)
-                .setBackgroundTint(resources.getColor(R.color.black, null))
-                .setAction("DELETE") {
-                    processMeals.deleteMeal(mealsName.id)
-                    updateMeals()
-                    }
-                .show()
-            true
-        }
-        parentLayout.addView(relativeLayout)
     }
 
     private fun changeProgressBar(setAmount: String, consumed: Double, cal: Boolean) {
@@ -576,34 +430,141 @@ class Home : Fragment(), UpdateListener {
         }
     }
 
-    private fun updateUI(){
-        val currentCalories = getCurrentValue(caloriesFile, requireContext())
-        val currentProtein = getCurrentValue(proteinFile, requireContext())
 
-        changeProgressBar(goals[Keys.Calories.toString()]!!, currentCalories, true)
-        val calCons = currentCalories.toInt().toString() + " kcal"
-        bnd.usedKcal.text = calCons
-        updateRemaining(currentCalories, Value.Calories)
-        if (currentCalories > goals[Keys.Calories.toString()]!!.toDouble()) {
-            rnd = (0..12).random()
-            val snack: Snackbar = Snackbar.make(bnd.cardView, messages[rnd], 4000)
-            val snackView = snack.view
-            val params = snackView.layoutParams as FrameLayout.LayoutParams
-            params.gravity = Gravity.TOP
-            params.setMargins(20,30, 20,0)
-            snackView.layoutParams = params
-            snackView.setBackgroundColor(resources.getColor(R.color.black, null))
-            snack.show()
+
+    private fun updateMealsUI() {
+        val meals = dataHandler.loadData(requireContext(), mealsFile)
+        val icons = dataHandler.loadData(requireContext(), iconFile)
+        bnd.linearLayoutMeals.removeAllViews()
+        var i = 1
+        for(items in meals){
+            val name = "Meal" + i.toString() + "Name"
+            val value = "Meal" + i.toString() + "Cal"
+            val protValue = "Meal" + i.toString() + "Prot"
+            val icon = "Meal" + i.toString() + "Icon"
+            if(items.key.contains(name) && items.value != "value" && meals.containsKey(value) && meals.containsKey(protValue) && icons.containsKey(icon)){
+                addMealLine (items.value, meals[value].toString(), meals[protValue].toString(), i, icons[icon].toString())
+                i++
+            }
         }
-
-        changeProgressBar(goals[Keys.Protein.toString()]!!, currentProtein, false)
-        val protCons = currentProtein.toInt().toString() + " g"
-        bnd.consumedProt.text = protCons
-        updateRemaining(currentProtein, Value.Protein)
     }
 
-    override fun onStuffUpdated() {
-        updateUI()
+    private fun addMealLine (mealName: String, mealValue: String, mealProt: String, buttonID: Int, icon: String){
+        val parentLayout = bnd.linearLayoutMeals
+        val relativeLayout = createRelativeLayout()
+        val mealsName = createTextViewName(buttonID, mealName, icon)
+        val mealsValue = createTextViewValue(mealValue)
+        val divider = createDivider(mealsName)
+
+        relativeLayout.addView(mealsValue)
+        relativeLayout.addView(mealsName)
+        relativeLayout.addView(divider)
+
+        val transition = ChangeBounds()
+        transition.setDuration(200)
+
+        mealsValue.setOnClickListener{
+            mealsValue.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            processMeals.addMeal(mealValue, mealProt, mealName)
+            updateUI()
+        }
+
+        mealsName.setOnClickListener{
+            mealsName.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            mealsDialog.show(mealsName.id, bottomMealDialog)
+        }
+
+        mealsName.setOnLongClickListener {
+            Snackbar.make(bnd.home, "Delete Entry?", 4000)
+                .setBackgroundTint(resources.getColor(R.color.black, null))
+                .setAction("DELETE") {
+                    processMeals.deleteMeal(mealsName.id)
+                    updateMealsUI()
+                    }
+                .show()
+            true
+        }
+        parentLayout.addView(relativeLayout)
+    }
+
+    private fun createDivider(mealsName: TextView): View {
+        val divider = View(requireContext())
+        divider.id = View.generateViewId()
+
+        val dividerParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT,
+            1
+        )
+
+        dividerParam.addRule(RelativeLayout.BELOW, mealsName.id)
+        divider.layoutParams = dividerParam
+        divider.setBackgroundColor(ResourcesCompat.getColor(resources,
+            R.color.white_low_transparency, null))
+
+        return divider
+    }
+
+    private fun createRelativeLayout():RelativeLayout{
+        val relativeLayout = RelativeLayout(requireContext())
+        relativeLayout.id = View.generateViewId()
+
+        val layoutParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        relativeLayout.layoutParams = layoutParam
+        relativeLayout.setPadding(20,20,20,20)
+        relativeLayout.gravity = Gravity.CENTER
+
+        return relativeLayout
+    }
+
+    private fun createTextViewValue(mealValue: String):TextView{
+        val textView = TextView(requireContext())
+        textView.id = View.generateViewId()
+
+        val mealsValueParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            280,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        )
+        mealsValueParam.addRule(RelativeLayout.ALIGN_PARENT_END)
+
+        val valueConversion = mealValue.toDouble().toInt().toString()
+        val valueText = "$valueConversion kcal"
+        textView.text = valueText
+        textView.textSize = 15f
+        textView.isSingleLine = true
+        textView.setTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
+        textView.layoutParams = mealsValueParam
+        textView.gravity = Gravity.END
+        textView.setCompoundDrawablesWithIntrinsicBounds(null,null,ResourcesCompat.getDrawable(resources,
+            R.drawable.baseline_add_circle_24, null),null)
+        textView.compoundDrawablePadding = 15
+        return textView
+    }
+
+    private fun createTextViewName(buttonID: Int, mealName: String, icon: String):TextView{
+        val textView = TextView(requireContext())
+        textView.id = buttonID
+
+        val mealsNameParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        )
+        mealsNameParam.addRule(RelativeLayout.ALIGN_PARENT_START)
+        mealsNameParam.addRule(RelativeLayout.START_OF, textView.id)
+
+        textView.text = mealName
+        textView.textSize = 15f
+        textView.setTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
+        if(icon != "") {
+            textView.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(resources, icon.toInt(),null), null, null, null)
+        }
+        textView.compoundDrawablePadding = 15
+        textView.layoutParams = mealsNameParam
+
+        return textView
     }
 
     private fun createDialog(layout: Int): BottomSheetDialog {
@@ -614,16 +575,18 @@ class Home : Fragment(), UpdateListener {
         return bottomSheet
     }
 
-    private fun clearHistoryForNextDay(){
-        val historyValues = dataHandler.loadData(requireContext(), historyFile)
-        val calendar  = Calendar.getInstance()
-        val currentTime = String.format(Locale.getDefault(),"%02d.%02d",
-            calendar.get(Calendar.DAY_OF_MONTH),
-            calendar.get(Calendar.MONTH)+1)
-        for(items in historyValues){
-            if(!items.key.contains(currentTime)){
-                dataHandler.deleteFiles(requireContext(), historyFile)
-            }
-        }
+    private fun createImageView (): ImageView{
+        val imageView = ImageView(requireContext())
+        val layoutParam: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            ConstraintLayout.LayoutParams.MATCH_PARENT)
+        imageView.layoutParams = layoutParam
+        imageView.setBackgroundColor(Color.argb(100,0,0,0))
+        imageView.visibility = View.GONE
+        return imageView
+    }
+
+    override fun onStuffUpdated() {
+        updateUI()
     }
 }

@@ -1,8 +1,16 @@
 package com.example.calorycounter
 
+import android.app.LocaleManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.os.LocaleList
+import android.util.AttributeSet
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.calorycounter.adapter.FragmentPageAdapter
 import com.google.android.material.tabs.TabLayout
@@ -23,13 +31,16 @@ class MainActivity : AppCompatActivity() {
 
         // Set language on creation
 
-        val config = resources.configuration
-        val lang = "de" // your language code
-        val locale = Locale(lang)
-        Locale.setDefault(locale)
-        config.setLocale(locale)
-
-        createConfigurationContext(config)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getSystemService(LocaleManager::class.java)
+                .applicationLocales = LocaleList.forLanguageTags("de")
+        } else {
+            AppCompatDelegate.setApplicationLocales(
+                LocaleListCompat.forLanguageTags(
+                    "de"
+                )
+            )
+        }
 
 //        TabLayoutStuff
 
@@ -67,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                 super.onPageSelected(position)
                 tabLayout.selectTab(tabLayout.getTabAt(position))
             }
+
         })
 
         //ToDo get data from db and send it to other class check this again later
@@ -76,6 +88,11 @@ class MainActivity : AppCompatActivity() {
 //        val chartActivityIntent = Intent(this, Chart::class.java)
 //        chartActivityIntent.putExtra("caloriesData", serMap)
 //        startActivity(chartActivityIntent)
+    }
+
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+
+        return super.onCreateView(name, context, attrs)
     }
 }
 

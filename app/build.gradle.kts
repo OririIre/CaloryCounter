@@ -7,6 +7,12 @@ android {
     namespace = "com.example.calorycounter"
     compileSdk = 34
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     defaultConfig {
         applicationId = "com.example.calorycounter"
         minSdk = 28
