@@ -65,8 +65,6 @@ class Chart : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        chartDataCalories = dataHandler.loadData(requireContext(), caloriesFile)
-        chartDataProtein = dataHandler.loadData(requireContext(), proteinFile)
         requireActivity().runOnUiThread{
             buildUI()
         }
@@ -81,6 +79,8 @@ class Chart : Fragment() {
         //ToDo Check this later
 //        val dataFromMain = Intent.EXTRA_FROM_STORAGE
 //        println(dataFromMain)
+        chartDataCalories = dataHandler.loadData(requireContext(), caloriesFile)
+        chartDataProtein = dataHandler.loadData(requireContext(), proteinFile)
 
 //        chartDataCalories = mutableMapOf("20240518" to "1400", "20240519" to "1300", "20240520" to "1200", "20240521" to "1100", "20240522" to "1000", "20240523" to "900", "20240524" to "800", "20240525" to "800", "20240526" to "800", "20240527" to "800", "20240528" to "800")
 

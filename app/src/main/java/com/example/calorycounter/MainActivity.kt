@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.calorycounter.adapter.FragmentPageAdapter
 import com.google.android.material.tabs.TabLayout
+import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        // Set language on creation
+
+        val config = resources.configuration
+        val lang = "de" // your language code
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        config.setLocale(locale)
+
+        createConfigurationContext(config)
 
 //        TabLayoutStuff
 
