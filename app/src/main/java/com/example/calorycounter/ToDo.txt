@@ -2,10 +2,8 @@
 - Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
 
 - Spracheingabe mit z.b. 1 Flasche oder 1 Bier --> Needs to be translated
-- deleting from history does not always delete the values --> Probleme mit komma zahlen -> probably fixed check at home with speech input
 - performance issues in chart -->now runs on UI thread, --> still performance issues
 - Tutorial neu machen und noch speichern ob schon gemacht wurde oder nicht
-- Verschiedene Appsprache einbauen
 - Verschiedene Themes einbauen
 - animationen noch paar und shake für histroy, animate floating action button
 

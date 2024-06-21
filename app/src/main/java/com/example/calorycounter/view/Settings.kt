@@ -1,15 +1,22 @@
 package com.example.calorycounter.view
 
 import android.animation.LayoutTransition
+import android.app.LocaleManager
+import android.os.Build
 import android.os.Bundle
+import android.os.LocaleList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
 import com.example.calorycounter.Keys
 import com.example.calorycounter.R
+import com.example.calorycounter.appLanguageFile
 import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.databinding.FragmentSettingsBinding
 import com.example.calorycounter.goalsFile
@@ -32,6 +39,11 @@ class Settings : Fragment() {
         var toggleGoals = true
         var toggleLanguage = true
         var selectedLanguage = "Phone Default"
+        var selectedAppLanguage = "Phone Default"
+        var languageList = listOf(requireContext().resources.getString(R.string.language_german),
+            requireContext().resources.getString(R.string.language_english),
+            requireContext().resources.getString(R.string.language_french),
+            requireContext().resources.getString(R.string.language_spanish))
 
         bnd.layoutClearData.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         bnd.layoutCalories.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
@@ -140,9 +152,7 @@ class Settings : Fragment() {
 
         bnd.languageDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
-
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -154,14 +164,36 @@ class Settings : Fragment() {
             }
         }
 
+        bnd.appLanguageDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedItem = parent?.getItemAtPosition(position).toString()
+                selectedAppLanguage = selectedItem
+            }
+        }
+
         bnd.saveLanguage.setOnClickListener {
             if (selectedLanguage != "") {
-                dataHandler.saveData(
-                    requireContext(),
-                    languageFile,
-                    Keys.Language.toString(),
-                    selectedLanguage
-                )
+                dataHandler.saveData(requireContext(), languageFile, Keys.Language.toString(), selectedLanguage)
+            }
+            if (selectedAppLanguage != "") {
+                dataHandler.saveData(requireContext(), appLanguageFile, Keys.Language.toString(), selectedAppLanguage)
+                //Todo make it that it works and implement check so that it only recreates when the language actually got changed
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    requireContext().getSystemService(LocaleManager::class.java)
+                        .applicationLocales = LocaleList.forLanguageTags("de")
+                } else {
+                    AppCompatDelegate.setApplicationLocales(
+                        LocaleListCompat.forLanguageTags("de")
+                    )
+                }
+                requireActivity().recreate()
             }
         }
 

@@ -22,6 +22,7 @@ const val MIN_SWIPE_DISTANCE = 250
 const val caloriesFile = "calLog.txt"
 const val proteinFile = "protLog.txt"
 const val languageFile = "language.txt"
+const val appLanguageFile = "appLanguage.txt"
 const val mealsFile = "meals.txt"
 const val goalsFile = "goals.txt"
 const val historyFile = "history.txt"
