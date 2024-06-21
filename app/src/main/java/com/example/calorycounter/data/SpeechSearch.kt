@@ -3,10 +3,9 @@ package com.example.calorycounter.data
 import android.content.Context
 import android.icu.text.SimpleDateFormat
 import com.example.calorycounter.R
+import com.example.calorycounter.caloriesFile
 import com.example.calorycounter.data.HelperClass.Companion.getCurrentValue
-import com.example.calorycounter.view.caloriesFile
-import com.example.calorycounter.view.dataHandler
-import com.example.calorycounter.view.historyFile
+import com.example.calorycounter.historyFile
 import org.apache.commons.lang3.math.NumberUtils
 import org.jsoup.Jsoup
 import org.jsoup.internal.StringUtil
@@ -18,6 +17,7 @@ import java.util.Locale
 import kotlin.math.min
 
 class SpeechSearch (con: Context) {
+    private val dataHandler = DataHandler()
     private val context = con
     private val currentDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
 

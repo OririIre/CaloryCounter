@@ -8,17 +8,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import com.example.calorycounter.Keys
+import com.example.calorycounter.R
 import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.databinding.FragmentSettingsBinding
+import com.example.calorycounter.goalsFile
+import com.example.calorycounter.languageFile
 
-val dataHandler = DataHandler()
-
-internal enum class Keys {
-    Protein, Calories, Language
-}
 
 class Settings : Fragment() {
-
+    private val dataHandler = DataHandler()
     private var _bnd: FragmentSettingsBinding? = null
     private val bnd get() = _bnd!!
 
@@ -33,32 +32,30 @@ class Settings : Fragment() {
         var toggleGoals = true
         var toggleLanguage = true
         var selectedLanguage = "Phone Default"
-        val languageFile = "language.txt"
-        val goalsFile = "goals.txt"
 
         bnd.layoutClearData.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         bnd.layoutCalories.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         bnd.layoutLanguage.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
-        val items = arrayOf("Phone Default", "German", "English", "French")
+        val items = arrayOf("Phone Default", resources.getString(R.string.language_german), resources.getString(R.string.language_english), resources.getString(R.string.language_french),resources.getString(R.string.language_spanish))
         val adapter: ArrayAdapter<String> =
             ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, items)
         bnd.languageDropdown.adapter = adapter
 
         val language: Int =
             when (dataHandler.loadData(requireContext(), languageFile)[Keys.Language.toString()]) {
-                "German" -> {
+                resources.getString(R.string.language_german) -> {
                     1
                 }
-
-                "English" -> {
+                resources.getString(R.string.language_english) -> {
                     2
                 }
-
-                "French" -> {
+                resources.getString(R.string.language_french) -> {
                     3
                 }
-
+                resources.getString(R.string.language_spanish) -> {
+                    4
+                }
                 else -> {
                     0
                 }

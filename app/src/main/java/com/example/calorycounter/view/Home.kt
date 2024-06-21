@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
@@ -25,12 +26,21 @@ import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.lifecycleScope
 import androidx.transition.ChangeBounds
+import com.example.calorycounter.Keys
 import com.example.calorycounter.R
+import com.example.calorycounter.caloriesFile
+import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.data.HelperClass.Companion.getCurrentValue
 import com.example.calorycounter.data.ProcessMeals
 import com.example.calorycounter.data.SpeechSearch
 import com.example.calorycounter.data.UpdateListener
 import com.example.calorycounter.databinding.FragmentHomeBinding
+import com.example.calorycounter.goalsFile
+import com.example.calorycounter.historyFile
+import com.example.calorycounter.iconFile
+import com.example.calorycounter.languageFile
+import com.example.calorycounter.mealsFile
+import com.example.calorycounter.proteinFile
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.blurry.Blurry
@@ -42,39 +52,11 @@ import java.util.Calendar
 import java.util.Locale
 import kotlin.math.round
 
-
-internal enum class Value {
-    Protein, Calories
-}
-const val MIN_SWIPE_DISTANCE = 250
-
-//ToDo Check out how this works? Do I pass Icon.Ramen(R.drawable.baseline_ramen_dining_24)?
-//ToDo Problem is that the resource IDs are probably not consistent, can be obfuscated
-//enum class Icon(@DrawableRes val resourceId: Int) {
-//    RAMEN(R.drawable.baseline_ramen_dining_24),
-//    COFFEE(R.drawable.baseline_coffee_24),
-//    DINNER(R.drawable.baseline_dinner_dining_24),
-//    COCKTAIL(R.drawable.baseline_local_bar_24),
-//    LUNCH(R.drawable.baseline_lunch_dining_24),
-//    WINE(R.drawable.baseline_wine_bar_24),
-//    BAKED(R.drawable.baseline_bakery_dining_24),
-//    BREAKFAST(R.drawable.baseline_breakfast_dining_24)
-//}
-
-internal const val caloriesFile = "calLog.txt"
-internal const val proteinFile = "protLog.txt"
-internal const val languageFile = "language.txt"
-internal const val mealsFile = "meals.txt"
-internal const val goalsFile = "goals.txt"
-internal const val historyFile = "history.txt"
-internal const val iconFile = "icon.txt"
-
 class Home : Fragment(), UpdateListener {
     private var _bnd: FragmentHomeBinding? = null
     private val bnd get() = _bnd!!
     private lateinit var goals: MutableMap<String, String>
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
-    private lateinit var document: Document
     private lateinit var bottomMealDialog: BottomSheetDialog
     private lateinit var bottomAddDialog: BottomSheetDialog
     private lateinit var bottomHistoryDialog: BottomSheetDialog
@@ -83,6 +65,7 @@ class Home : Fragment(), UpdateListener {
     private lateinit var historyDialog: HistoryDialog
     private lateinit var speechSearch: SpeechSearch
     private lateinit var processMeals: ProcessMeals
+    private val dataHandler = DataHandler()
     private var isAllFabVisible: Boolean = false
     private var messages = arrayOf(
         "Disappointed but not surprised...",
@@ -127,10 +110,10 @@ class Home : Fragment(), UpdateListener {
     }
 
     private fun createMainView(){
-        bnd.progressBar.max = 1000
-        bnd.ProteinProgressBar.max = 1000
-        bnd.progressBar2.max = 1000
-        bnd.progressBar3.max = 1000
+        bnd.remainingCaloriesProgressBar.max = 1000
+        bnd.remainingProteinProgressBar.max = 1000
+        bnd.consumedCaloriesProgressBar.max = 1000
+        bnd.consumedProteinProgressBar.max = 1000
 
         bottomMealDialog = createDialog(R.layout.meals_layout)
         bottomAddDialog = createDialog(R.layout.free_add_layout)
@@ -185,23 +168,22 @@ class Home : Fragment(), UpdateListener {
             updateMealsUI()
         }
 
-        //Todo Languages as variables
         bnd.speechAdd.setOnClickListener {
             val selectedLanguage =
                 dataHandler.loadData(requireContext(), languageFile)[Keys.Language.toString()]
             val language: String = when (selectedLanguage) {
-                "German" -> {
+                resources.getString(R.string.language_german) -> {
                     "de_DE"
                 }
-
-                "English" -> {
+                resources.getString(R.string.language_english) -> {
                     "en_UK"
                 }
-
-                "French" -> {
+                resources.getString(R.string.language_french) -> {
                     "fr_FR"
                 }
-
+                resources.getString(R.string.language_spanish) -> {
+                    "es_ES"
+                }
                 else -> {
                     Locale.getDefault().toString()
                 }
@@ -216,9 +198,7 @@ class Home : Fragment(), UpdateListener {
             try {
                 activityResultLauncher.launch(speechIntent)
             } catch (exp: ActivityNotFoundException) {
-                Snackbar.make(bnd.home, "Speech not supported!", 2500)
-                    .setBackgroundTint(resources.getColor(R.color.black, null))
-                    .show()
+                showSnackbar(2500, "Speech not supported!")
             }
         }
 
@@ -233,9 +213,119 @@ class Home : Fragment(), UpdateListener {
     override fun onResume() {
         super.onResume()
         updateGoals()
-        updateUI() //ToDo only execute this when the goals were changed in onResume
+        updateUI()
         updateMealsUI()
         clearHistoryOnNextDay()
+    }
+
+    private fun updateGoals() {
+        goals = dataHandler.loadData(requireContext(), goalsFile)
+        if (goals.isEmpty()) {
+            goals[Keys.Calories.toString()] = "0"
+            goals[Keys.Protein.toString()] = "0"
+        }
+        if (!goals.containsKey(Keys.Protein.toString())) {
+            goals[Keys.Protein.toString()] = "0"
+        }
+        if (!goals.containsKey(Keys.Calories.toString())) {
+            goals[Keys.Calories.toString()] = "0"
+        }
+    }
+
+    private fun updateUI(){
+        val caloriesGoal = goals[Keys.Calories.toString()].toString()
+        val proteinGoal = goals[Keys.Protein.toString()].toString()
+
+        val currentCalories = getCurrentValue(caloriesFile, requireContext())
+        val currentProtein = getCurrentValue(proteinFile, requireContext())
+
+        val calCons = currentCalories.toInt().toString() + " kcal"
+        val protCons = currentProtein.toInt().toString() + " g"
+
+        animateProgressBar(caloriesGoal, currentCalories, false,1500, bnd.remainingCaloriesProgressBar)
+        animateProgressBar(caloriesGoal, currentCalories, true, 2000, bnd.consumedCaloriesProgressBar)
+        animateProgressBar(proteinGoal, currentProtein, false, 1500, bnd.remainingProteinProgressBar)
+        animateProgressBar(proteinGoal, currentProtein, true,2000, bnd.consumedProteinProgressBar)
+
+        bnd.consumedProt.text = protCons
+        bnd.usedKcal.text = calCons
+
+        updateReamainingUI(currentCalories, Keys.Calories)
+        updateReamainingUI(currentProtein, Keys.Protein)
+
+        if (currentCalories > caloriesGoal.toDouble()) {
+            rnd = (0..12).random()
+            val snack: Snackbar = Snackbar.make(bnd.cardView, messages[rnd], 4000)
+            val snackView = snack.view
+            val params = snackView.layoutParams as FrameLayout.LayoutParams
+            params.gravity = Gravity.TOP
+            params.setMargins(20,30, 20,0)
+            snackView.layoutParams = params
+            snackView.setBackgroundColor(resources.getColor(R.color.black, null))
+            snack.show()
+        }
+    }
+
+    private fun updateReamainingUI(currentValue: Double, key: Keys){
+        var remaining: String
+        remaining = prepareRemainingText(currentValue, key)
+        if (Keys.Calories == key){
+            remaining = "$remaining kcal"
+            bnd.leftKcal.text = remaining
+        } else {
+            remaining = "$remaining g"
+            bnd.leftProt.text = remaining
+        }
+    }
+
+    private fun prepareRemainingText(currentValue: Double, key: Keys): String {
+        val remaning: String
+        val goal = goals[key.toString()]!!.toDouble()
+        if (goal != 0.0) {
+            var newRemainingValue = goal.toInt() - currentValue.toInt()
+            if (newRemainingValue <= 0) {
+                newRemainingValue = 0
+            }
+            remaning = newRemainingValue.toString()
+        } else {
+            remaning = 0.toString()
+        }
+        return remaning
+    }
+
+    private fun animateProgressBar(setAmount: String, consumed: Double, increment: Boolean, duration: Int, progressBar: ProgressBar) {
+        if (setAmount != "") {
+            val incementAmount = round(consumed / (setAmount.toInt() / 100))
+            val decrementAmount = round(100 - (consumed / (setAmount.toInt() / 100)))
+            if (increment) {
+                val animator2 = ObjectAnimator.ofInt(progressBar, "progress", incementAmount.toInt()*10)
+                animator2.setDuration(duration.toLong())
+                animator2.interpolator = FastOutSlowInInterpolator()
+                animator2.start()
+            } else {
+                val animator = ObjectAnimator.ofInt(progressBar, "progress", decrementAmount.toInt()*10)
+                animator.setDuration(duration.toLong())
+                animator.interpolator = FastOutSlowInInterpolator()
+                animator.start()
+            }
+        }
+    }
+
+    private fun updateMealsUI() {
+        val meals = dataHandler.loadData(requireContext(), mealsFile)
+        val icons = dataHandler.loadData(requireContext(), iconFile)
+        bnd.linearLayoutMeals.removeAllViews()
+        var i = 1
+        for(items in meals){
+            val name = "Meal" + i.toString() + "Name"
+            val value = "Meal" + i.toString() + "Cal"
+            val protValue = "Meal" + i.toString() + "Prot"
+            val icon = "Meal" + i.toString() + "Icon"
+            if(items.key.contains(name) && items.value != "value" && meals.containsKey(value) && meals.containsKey(protValue) && icons.containsKey(icon)){
+                addMealLine (items.value, meals[value].toString(), meals[protValue].toString(), i, icons[icon].toString())
+                i++
+            }
+        }
     }
 
     private fun clearHistoryOnNextDay(){
@@ -270,182 +360,59 @@ class Home : Fragment(), UpdateListener {
     }
 
     private fun processSpeechResult(result: ActivityResult){
-        //ToDO Rework for Clear Code
-        val text = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-        var resultArray = emptyArray<String>()
-        try {
-            resultArray = speechSearch.filterInput(text.toString())
-        } catch (exp: Exception) {
-            println(exp)
-            Snackbar.make(bnd.home, "Wrong input, amount or keyword not found", 3000)
-                .setBackgroundTint(resources.getColor(R.color.black, null))
-                .show()
-        }
-        //start coroutine (like threading in java stuff)
+        val resultArray = filterInput(result)
         if (resultArray.isNotEmpty()) {
-            try{
-                lifecycleScope.launch(Dispatchers.IO) {
-                    var resultDocument = async {
-                        speechSearch.searchRequest(resultArray, "calories")
-                    }
-                    document = resultDocument.await()
-                    var baseValue = speechSearch.extractCaloriesValues(document, "wDYxhc")
-                    if (baseValue == "") {
-                        baseValue = speechSearch.extractCaloriesValues(document, "MjjYud")
-                    }
-                    speechSearch.addFromSpeech(
-                        baseValue,
-                        resultArray[1].trim(),
-                        resultArray[0].trim(),
-                        caloriesFile
-                    )
-
-                    resultDocument = async {
-                        speechSearch.searchRequest(resultArray, "protein")
-                    }
-                    document = resultDocument.await()
-                    baseValue = speechSearch.extractProteinValues(document, "wDYxhc")
-                    if (baseValue == "") {
-                        baseValue = speechSearch.extractProteinValues(document, "MjjYud")
-                    }
-                    speechSearch.addFromSpeech(
-                        baseValue,
-                        resultArray[1].trim(),
-                        resultArray[0].trim(),
-                        proteinFile
-                    )
-                }.invokeOnCompletion {
-                    requireActivity().runOnUiThread {
-
-                        updateUI()
-                    }
-                }
-            } catch (exp: Exception) {
-                println(exp)
-                Snackbar.make(bnd.home, "Search went wrong, please try again", 3000)
-                    .setBackgroundTint(resources.getColor(R.color.black, null))
-                    .show()
-            }
+            addSpeechResultInThread(resultArray)
         } else {
             println("wrong input")
         }
     }
 
+    private fun filterInput(result: ActivityResult): Array<String> {
+        val text = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
 
-    private fun updateGoals() {
-        goals = dataHandler.loadData(requireContext(), goalsFile)
-        if (goals.isEmpty()) {
-            goals[Keys.Calories.toString()] = "0"
-            goals[Keys.Protein.toString()] = "0"
+        var resultArray = emptyArray<String>()
+        try {
+            resultArray = speechSearch.filterInput(text.toString())
+        } catch (exp: Exception) {
+            println(exp)
+            showSnackbar(3000, "Wrong input, amount or keyword not found")
         }
-        if (!goals.containsKey(Keys.Protein.toString())) {
-            goals[Keys.Protein.toString()] = "0"
-        }
-        if (!goals.containsKey(Keys.Calories.toString())) {
-            goals[Keys.Calories.toString()] = "0"
-        }
+        return resultArray
     }
 
-    private fun updateUI(){
-        val currentCalories = getCurrentValue(caloriesFile, requireContext())
-        val currentProtein = getCurrentValue(proteinFile, requireContext())
-
-        val calCons = currentCalories.toInt().toString() + " kcal"
-        val protCons = currentProtein.toInt().toString() + " g"
-
-        //ToDo Change Progressbar function rework and getting the goals in variable and then give it to progressbar and remaining
-        changeProgressBar(goals[Keys.Calories.toString()]!!, currentCalories, true)
-        changeProgressBar(goals[Keys.Protein.toString()]!!, currentProtein, false)
-
-        bnd.consumedProt.text = protCons
-        bnd.usedKcal.text = calCons
-
-        updateReamainingUI(currentCalories, Keys.Calories)
-        updateReamainingUI(currentProtein, Keys.Protein)
-
-        if (currentCalories > goals[Keys.Calories.toString()]!!.toDouble()) {
-            rnd = (0..12).random()
-            val snack: Snackbar = Snackbar.make(bnd.cardView, messages[rnd], 4000)
-            val snackView = snack.view
-            val params = snackView.layoutParams as FrameLayout.LayoutParams
-            params.gravity = Gravity.TOP
-            params.setMargins(20,30, 20,0)
-            snackView.layoutParams = params
-            snackView.setBackgroundColor(resources.getColor(R.color.black, null))
-            snack.show()
-        }
-    }
-
-    private fun prepareRemainingText(currentValue: Double, key: Keys): String {
-        val remaning: String
-        val goal = goals[key.toString()]!!.toDouble()
-            if (goal != 0.0) {
-                var newRemainingValue = goal.toInt() - currentValue.toInt()
-                if (newRemainingValue <= 0) {
-                    newRemainingValue = 0
+    private fun addSpeechResultInThread (resultArray: Array<String>){
+        var document: Document
+        //start coroutine (like threading in java stuff)
+        try{
+            lifecycleScope.launch(Dispatchers.IO) {
+                var resultDocument = async {
+                    speechSearch.searchRequest(resultArray, "calories")
                 }
-                remaning = newRemainingValue.toString()
-            } else {
-                remaning = 0.toString()
+                document = resultDocument.await()
+                var baseValue = speechSearch.extractCaloriesValues(document, "wDYxhc")
+                if (baseValue == "") {
+                    baseValue = speechSearch.extractCaloriesValues(document, "MjjYud")
+                }
+                speechSearch.addFromSpeech(baseValue, resultArray[1].trim(), resultArray[0].trim(), caloriesFile)
+
+                resultDocument = async {
+                    speechSearch.searchRequest(resultArray, "protein")
+                }
+                document = resultDocument.await()
+                baseValue = speechSearch.extractProteinValues(document, "wDYxhc")
+                if (baseValue == "") {
+                    baseValue = speechSearch.extractProteinValues(document, "MjjYud")
+                }
+                speechSearch.addFromSpeech(baseValue, resultArray[1].trim(), resultArray[0].trim(), proteinFile)
+            }.invokeOnCompletion {
+                requireActivity().runOnUiThread {
+                    updateUI()
+                }
             }
-        return remaning
-    }
-
-    private fun updateReamainingUI(currentValue: Double, key: Keys){
-        var remaining: String
-        remaining = prepareRemainingText(currentValue, key)
-        if (Keys.Calories == key){
-            remaining = "$remaining kcal"
-            bnd.leftKcal.text = remaining
-        } else {
-            remaining = "$remaining g"
-            bnd.leftProt.text = remaining
-        }
-    }
-
-    private fun changeProgressBar(setAmount: String, consumed: Double, cal: Boolean) {
-        if (setAmount != "") {
-            val goal = setAmount.toInt()
-            val progress = round(consumed / (goal / 100))
-            val remaining = round(100 - (consumed / (goal / 100)))
-            if (cal) {
-                val animator = ObjectAnimator.ofInt(bnd.progressBar, "progress", remaining.toInt()*10)
-                animator.setDuration(1500)
-                animator.interpolator = FastOutSlowInInterpolator()
-                animator.start()
-                val animator2 = ObjectAnimator.ofInt(bnd.progressBar2, "progress", progress.toInt()*10)
-                animator2.setDuration(2000)
-                animator2.interpolator = FastOutSlowInInterpolator()
-                animator2.start()
-            } else {
-                val animator = ObjectAnimator.ofInt(bnd.ProteinProgressBar, "progress", remaining.toInt()*10)
-                animator.setDuration(1500)
-                animator.interpolator = FastOutSlowInInterpolator()
-                animator.start()
-                val animator2 = ObjectAnimator.ofInt(bnd.progressBar3, "progress", progress.toInt()*10)
-                animator2.setDuration(2000)
-                animator2.interpolator = FastOutSlowInInterpolator()
-                animator2.start()
-            }
-        }
-    }
-
-
-
-    private fun updateMealsUI() {
-        val meals = dataHandler.loadData(requireContext(), mealsFile)
-        val icons = dataHandler.loadData(requireContext(), iconFile)
-        bnd.linearLayoutMeals.removeAllViews()
-        var i = 1
-        for(items in meals){
-            val name = "Meal" + i.toString() + "Name"
-            val value = "Meal" + i.toString() + "Cal"
-            val protValue = "Meal" + i.toString() + "Prot"
-            val icon = "Meal" + i.toString() + "Icon"
-            if(items.key.contains(name) && items.value != "value" && meals.containsKey(value) && meals.containsKey(protValue) && icons.containsKey(icon)){
-                addMealLine (items.value, meals[value].toString(), meals[protValue].toString(), i, icons[icon].toString())
-                i++
-            }
+        } catch (exp: Exception) {
+            println(exp)
+            showSnackbar(3000, "Search went wrong, please try again")
         }
     }
 
@@ -584,6 +551,12 @@ class Home : Fragment(), UpdateListener {
         imageView.setBackgroundColor(Color.argb(100,0,0,0))
         imageView.visibility = View.GONE
         return imageView
+    }
+
+    private fun showSnackbar(duration: Int, text: String){
+        Snackbar.make(bnd.home, text, duration)
+            .setBackgroundTint(resources.getColor(R.color.black, null))
+            .show()
     }
 
     override fun onStuffUpdated() {

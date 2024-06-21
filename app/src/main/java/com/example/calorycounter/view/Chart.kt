@@ -10,7 +10,10 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.calorycounter.R
+import com.example.calorycounter.caloriesFile
+import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.databinding.FragmentChartBinding
+import com.example.calorycounter.proteinFile
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -22,8 +25,8 @@ import java.text.SimpleDateFormat
 import java.util.Collections.min
 import java.util.Locale
 
-
 class Chart : Fragment() {
+    private val dataHandler = DataHandler()
     private var _bnd: FragmentChartBinding? = null
     private val bnd get() = _bnd!!
     private lateinit var usedCalories: TextView
@@ -31,8 +34,6 @@ class Chart : Fragment() {
     private lateinit var dateView: TextView
     private lateinit var chartDataCalories: MutableMap<String, String>
     private lateinit var chartDataProtein: MutableMap<String, String>
-    private var caloriesFile = "calLog.txt"
-    private var proteinFile = "protLog.txt"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

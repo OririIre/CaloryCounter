@@ -18,8 +18,8 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/button_states_1"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/progressBar3"
-        app:layout_constraintTop_toTopOf="@+id/progressBar3">
+        app:layout_constraintEnd_toEndOf="@+id/consumedProteinProgressBar"
+        app:layout_constraintTop_toTopOf="@+id/consumedProteinProgressBar">
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,8 +40,8 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/button_states_1"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@id/progressBar3"
-        app:layout_constraintEnd_toEndOf="@id/progressBar3">
+        app:layout_constraintBottom_toBottomOf="@id/consumedProteinProgressBar"
+        app:layout_constraintEnd_toEndOf="@id/consumedProteinProgressBar">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
             android:gravity="center">
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/remainingCaloriesProgressBar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
@@ -133,7 +133,7 @@
             android:gravity="center">
 
             <ProgressBar
-                android:id="@+id/ProteinProgressBar"
+                android:id="@+id/remainingProteinProgressBar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
@@ -271,7 +271,7 @@
         app:layout_constraintTop_toTopOf="@+id/fbCustom" />
 
     <ProgressBar
-        android:id="@+id/progressBar2"
+        android:id="@+id/consumedCaloriesProgressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -288,7 +288,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
-        android:id="@+id/progressBar3"
+        android:id="@+id/consumedProteinProgressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -311,10 +311,10 @@
         android:id="@+id/relativeLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/progressBar2"
+        app:layout_constraintBottom_toBottomOf="@+id/consumedCaloriesProgressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/progressBar2">
+        app:layout_constraintTop_toTopOf="@+id/consumedCaloriesProgressBar">
 
         <TextView
             android:id="@+id/usedKcal"

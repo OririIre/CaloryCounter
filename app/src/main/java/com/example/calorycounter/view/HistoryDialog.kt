@@ -12,9 +12,14 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
+import com.example.calorycounter.MIN_SWIPE_DISTANCE
 import com.example.calorycounter.R
+import com.example.calorycounter.caloriesFile
+import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.data.UpdateListener
 import com.example.calorycounter.data.HelperClass
+import com.example.calorycounter.historyFile
+import com.example.calorycounter.proteinFile
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.lang.ref.WeakReference
 import java.util.Date
@@ -22,6 +27,7 @@ import java.util.Locale
 import kotlin.math.abs
 
 class HistoryDialog (con: Context) {
+    private val dataHandler = DataHandler()
     private val context = con
     private val inflater = LayoutInflater.from(con)
     private val currentDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())

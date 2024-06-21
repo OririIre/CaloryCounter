@@ -57,4 +57,8 @@
     <string name="tabs_for_the_app">Tabs for the app</string>
     <string name="scroll_view_for_history">Scroll view for history</string>
     <string name="scroll_view_history">scroll view history</string>
+    <string name="language_german">Deutsch</string>
+    <string name="language_english">Englisch</string>
+    <string name="language_french">Französisch</string>
+    <string name="language_spanish">Spanisch</string>
 </resources>
