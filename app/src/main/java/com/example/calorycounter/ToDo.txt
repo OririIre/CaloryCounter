@@ -2,12 +2,15 @@
 - Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
 
 - Spracheingabe mit z.b. 1 Flasche oder 1 Bier --> Needs to be translated
-- performance issues in chart -->now runs on UI thread, --> still performance issues
 - Tutorial neu machen und noch speichern ob schon gemacht wurde oder nicht
 - Verschiedene Themes einbauen
 - animationen noch paar und shake für histroy, animate floating action button
+- Locale get default...Nummern hinzufügen geht nicht wenn es auf deutsch ist wegen komma/punkt
+- Refactoring with Gemini: MealsDialog done, MealsDialogLogic 1 thing to check
+- background blur geht nicht wirklich -> Boolean anpassen
+- translations in speechresult (one, two...) are only working with app language
 
-- Delete history Items in Chart
+- Delete history Items in Chart?!
 
 
 Evtl Stuff?! I dont fucking know man

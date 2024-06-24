@@ -12,13 +12,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.example.calorycounter.adapter.FragmentPageAdapter
+import com.example.calorycounter.helpers.FragmentPageAdapter
+import com.example.calorycounter.data.DataHandler
+import com.example.calorycounter.helpers.Keys
+import com.example.calorycounter.helpers.appLanguageFile
 import com.google.android.material.tabs.TabLayout
-import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
-
+    private val dataHandler = DataHandler()
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
     private lateinit var adapter: FragmentPageAdapter
@@ -30,14 +32,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Set language on creation
-
+        val countryCode = dataHandler.loadData(this, appLanguageFile)[Keys.Language.toString()].toString()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             getSystemService(LocaleManager::class.java)
-                .applicationLocales = LocaleList.forLanguageTags("de")
+                .applicationLocales = LocaleList.forLanguageTags(countryCode)
         } else {
             AppCompatDelegate.setApplicationLocales(
                 LocaleListCompat.forLanguageTags(
-                    "de"
+                    countryCode
                 )
             )
         }

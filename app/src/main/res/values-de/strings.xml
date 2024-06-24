@@ -25,8 +25,8 @@
     <string name="Remaining">Verbleibend:</string>
     <string name="usedProt">0 g</string>
     <string name="setGoal">Ziele eintragen</string>
-    <string name="caloriesGoal">Kalorien Ziel:</string>
-    <string name="proteinGoal">Protein Ziel:</string>
+    <string name="caloriesGoal">Kalorien Ziel</string>
+    <string name="proteinGoal">Protein Ziel</string>
     <string name="resetData">Daten zurücksetzen</string>
     <string name="clearMeals">Gerichte löschen</string>
     <string name="clearProtein">Protein löschen</string>

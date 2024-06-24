@@ -1,4 +1,4 @@
-package com.example.calorycounter
+package com.example.calorycounter.helpers
 
 enum class Keys {
     Protein, Calories, Language
@@ -27,3 +27,4 @@ const val mealsFile = "meals.txt"
 const val goalsFile = "goals.txt"
 const val historyFile = "history.txt"
 const val iconFile = "icon.txt"
+

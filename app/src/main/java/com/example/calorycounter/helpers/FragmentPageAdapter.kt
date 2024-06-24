@@ -1,12 +1,12 @@
-package com.example.calorycounter.adapter
+package com.example.calorycounter.helpers
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.calorycounter.view.Chart
-import com.example.calorycounter.view.Home
-import com.example.calorycounter.view.Settings
+import com.example.calorycounter.chart.ChartFragment
+import com.example.calorycounter.home.Home
+import com.example.calorycounter.settings.SettingsFragment
 
 class FragmentPageAdapter(
     fragmentManager: FragmentManager,
@@ -18,9 +18,9 @@ class FragmentPageAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> Settings()
+            0 -> SettingsFragment()
             1 -> Home()
-            else -> Chart()
+            else -> ChartFragment()
         }
     }
 }

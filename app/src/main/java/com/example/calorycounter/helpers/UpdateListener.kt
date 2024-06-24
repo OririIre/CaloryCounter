@@ -1,4 +1,4 @@
-package com.example.calorycounter.data
+package com.example.calorycounter.helpers
 
 interface UpdateListener {
     fun onStuffUpdated()

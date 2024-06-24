@@ -1,11 +1,15 @@
-package com.example.calorycounter.data
+package com.example.calorycounter.home
 
 import android.content.Context
 import android.icu.text.SimpleDateFormat
 import com.example.calorycounter.R
-import com.example.calorycounter.caloriesFile
-import com.example.calorycounter.data.HelperClass.Companion.getCurrentValue
-import com.example.calorycounter.historyFile
+import com.example.calorycounter.data.DataHandler
+import com.example.calorycounter.helpers.HelperClass
+import com.example.calorycounter.helpers.caloriesFile
+import com.example.calorycounter.helpers.HelperClass.Companion.getCurrentValue
+import com.example.calorycounter.helpers.Keys
+import com.example.calorycounter.helpers.historyFile
+import com.example.calorycounter.helpers.languageFile
 import org.apache.commons.lang3.math.NumberUtils
 import org.jsoup.Jsoup
 import org.jsoup.internal.StringUtil
@@ -15,6 +19,7 @@ import java.net.URL
 import java.util.Date
 import java.util.Locale
 import kotlin.math.min
+
 
 class SpeechSearch (con: Context) {
     private val dataHandler = DataHandler()
@@ -31,7 +36,7 @@ class SpeechSearch (con: Context) {
 
             val value = filterNumeric(resultArray)
             for (stuff in resultArray) {
-                stuff.lowercase()
+                stuff.lowercase().trim()
                 if (!stuff.contains(value) && stuff != "g" && stuff != "gram" && stuff != "gramm"
                     && stuff != context.getString(R.string.one) && stuff != context.getString(R.string.two)
                     && stuff != context.getString(R.string.three) && stuff != context.getString(R.string.four)
@@ -41,7 +46,6 @@ class SpeechSearch (con: Context) {
                     item += stuff
                 }
             }
-
             if(value != "" && item != "")
             {
                 returnArray = arrayOf(item, value)
@@ -255,8 +259,32 @@ class SpeechSearch (con: Context) {
         }
     }
 
+    fun getVoiceLanguage():String{
+        val selectedLanguage =
+            dataHandler.loadData(context, languageFile)[Keys.Language.toString()].toString()
+        val language: String = when (selectedLanguage) {
+            "de" -> {
+                "de_DE"
+            }
+            "en" -> {
+                "en_UK"
+            }
+           "fr" -> {
+                "fr_FR"
+            }
+            "es" -> {
+                "es_ES"
+            }
+            else -> {
+                Locale.getDefault().toString()
+            }
+        }
+        return language
+    }
+
     private fun formatString (value: String): String {
         var returnString = ""
+        println(value)
         if(value != "") {
             returnString = String.format(Locale.getDefault(), "%.1f", value.toDouble())
         }

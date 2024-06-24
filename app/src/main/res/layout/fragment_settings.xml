@@ -232,6 +232,7 @@
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
+                android:textColor="@color/white"
                 android:spinnerMode="dropdown" />
 
             <TextView
@@ -245,6 +246,7 @@
                 android:id="@+id/appLanguageDropdown"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:layout_marginStart="50dp"
                 android:spinnerMode="dropdown" />
 

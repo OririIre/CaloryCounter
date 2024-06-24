@@ -10,8 +10,8 @@
     <string name="Remaining">Remaining: </string>
     <string name="usedProt">0 g</string>
     <string name="setGoal">Goal</string>
-    <string name="caloriesGoal">Set your calories goal:</string>
-    <string name="proteinGoal">Set your protein goal:</string>
+    <string name="caloriesGoal">Set your calories goal</string>
+    <string name="proteinGoal">Set your protein goal</string>
     <string name="resetData">Reset Data</string>
     <string name="clearMeals">Clear Meals</string>
     <string name="clearProtein">Clear Protein</string>

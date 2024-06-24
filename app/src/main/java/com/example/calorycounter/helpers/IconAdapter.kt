@@ -1,4 +1,4 @@
-package com.example.calorycounter.adapter
+package com.example.calorycounter.helpers
 
 import android.content.Context
 import android.view.LayoutInflater

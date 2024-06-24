@@ -1,4 +1,4 @@
-package com.example.calorycounter.view
+package com.example.calorycounter.home.dialogs
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,14 +12,14 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
-import com.example.calorycounter.MIN_SWIPE_DISTANCE
+import com.example.calorycounter.helpers.MIN_SWIPE_DISTANCE
 import com.example.calorycounter.R
-import com.example.calorycounter.caloriesFile
+import com.example.calorycounter.helpers.caloriesFile
 import com.example.calorycounter.data.DataHandler
-import com.example.calorycounter.data.UpdateListener
-import com.example.calorycounter.data.HelperClass
-import com.example.calorycounter.historyFile
-import com.example.calorycounter.proteinFile
+import com.example.calorycounter.helpers.UpdateListener
+import com.example.calorycounter.helpers.HelperClass
+import com.example.calorycounter.helpers.historyFile
+import com.example.calorycounter.helpers.proteinFile
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.lang.ref.WeakReference
 import java.util.Date
@@ -68,45 +68,16 @@ class HistoryDialog (con: Context) {
         var startX = 0f
         card.id = View.generateViewId()
 
-        var newTime = ""
-        var calOrProt = true
-        if(time.contains("_calo")){
-            newTime = time.takeLast(13).replace("_calo", "")
-            calOrProt = true
-        } else if (time.contains("_prot")){
-            newTime = time.takeLast(13).replace("_prot", "")
-            calOrProt = false
-        }
+        val newTime = formatTime(time)
+        val calOrProt = determinCalOrProt(time)
 
         val newName = name.takeLast(13).replace("_name", "")
 
         if(calOrProt){
-            historyValue.id = View.generateViewId()
-            if(value.toDouble() != 0.0){
-                historyValue.text = String.format(Locale.getDefault(),"%.1f", value.toDouble())
-            } else{
-                historyValue.text = 0.toString()
-            }
-            descriptionText.text = context.getString(R.string.Calories)
-            if(newName != "" && newName != "null"){
-                descriptionName.text = newName
-            } else {
-                relLayout.removeView(descriptionName)
-            }
+            setText(historyValue, descriptionText, descriptionName, newName, value, relLayout, context.getString(R.string.Calories))
         }
         else{
-            historyValue.id = View.generateViewId()
-            if(value.toDouble() != 0.0){
-                historyValue.text = String.format(Locale.getDefault(),"%.1f", value.toDouble())
-            } else{
-                historyValue.text = 0.toString()
-            }
-            descriptionText.text = context.getString(R.string.Protein)
-            if(newName != "" && newName != "null"){
-                descriptionName.text = newName
-            } else {
-                relLayout.removeView(descriptionName)
-            }
+            setText(historyValue, descriptionText, descriptionName, newName, value, relLayout, context.getString(R.string.Protein))
         }
 
         val dateView: TextView = card.findViewById(R.id.date)
@@ -160,31 +131,66 @@ class HistoryDialog (con: Context) {
         parent.addView(card)
     }
 
+    private fun setText (historyValue: TextView, descriptionText: TextView, descriptionName: TextView, newName: String, value: String, relLayout: RelativeLayout, description: String){
+        historyValue.id = View.generateViewId()
+        if(value.toDouble() != 0.0){
+            historyValue.text = String.format(Locale.getDefault(),"%.1f", value.toDouble())
+        } else{
+            historyValue.text = 0.toString()
+        }
+        descriptionText.text = description
+        if(newName != "" && newName != "null"){
+            descriptionName.text = newName
+        } else {
+            relLayout.removeView(descriptionName)
+        }
+    }
+
+    private fun determinCalOrProt (time: String): Boolean{
+        var calProt = true
+        if(time.contains("_calo")){
+            calProt = true
+        } else if (time.contains("_prot")){
+            calProt = false
+        }
+        return calProt
+    }
+
+    private fun formatTime (time: String): String{
+        var newTime = time
+        if(time.contains("_calo")){
+            newTime = time.takeLast(13).replace("_calo", "")
+        } else if (time.contains("_prot")){
+            newTime = time.takeLast(13).replace("_prot", "")
+        }
+        return newTime
+    }
+
     private fun removeHistoryItem(valueType: String, value: String, name: String){
 
         if(valueType == "Calories"){
-            var currentKcal = HelperClass.getCurrentValue(caloriesFile, context)
-            if (value != "") {
-                if (value.toDouble() > 0.0) {
-                    currentKcal -= value.toDouble()
-                }
-            }
+            val currentKcal = calcNewValue(caloriesFile, value)
             dataHandler.saveData(context, caloriesFile, currentDate, currentKcal.toString())
             dataHandler.deleteEntriesWithValue(context, historyFile, value)
             listener.get()?.onStuffUpdated()
         }
         else{
-            var currentProt = HelperClass.getCurrentValue(proteinFile, context)
-            if (value != "") {
-                if (value.toDouble() > 0.0) {
-                    currentProt -= value.toDouble()
-                }
-            }
+            val currentProt = calcNewValue(proteinFile, value)
             dataHandler.saveData(context, proteinFile, currentDate, currentProt.toString())
             dataHandler.deleteEntriesWithValue(context, historyFile, value)
             listener.get()?.onStuffUpdated()
         }
         dataHandler.deleteMapEntriesWithKeys(context, historyFile, name)
+    }
+
+    private fun calcNewValue (fileType: String, value: String): Double {
+        var currentKcal = HelperClass.getCurrentValue(fileType, context)
+        if (value != "") {
+            if (value.toDouble() > 0.0) {
+                currentKcal -= value.toDouble()
+            }
+        }
+        return currentKcal
     }
 
     fun addListener(listener: UpdateListener){

@@ -7,7 +7,7 @@
     android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Home">
+    tools:context=".home.Home">
 
     <RelativeLayout
         android:id="@+id/infoToggle"
