@@ -1,4 +1,4 @@
-//package com.example.calorycounter
+package com.example.calorycounter
 // Simply too much at the moment for such a small project.
 // Keep it for other projects as example of how to use DataStore.
 

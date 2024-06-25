@@ -1,7 +1,6 @@
 - Bottom Drawer fixen still not fixed that shit ->Themes ->Peek height nochmal checken, da war was wegen coorinator layout
 - Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
 
-- Spracheingabe mit z.b. 1 Flasche oder 1 Bier --> Needs to be translated
 - Tutorial neu machen und noch speichern ob schon gemacht wurde oder nicht
 - Verschiedene Themes einbauen
 - animationen noch paar und shake für histroy, animate floating action button
