@@ -1,78 +1,45 @@
 package com.example.calorycounter.chart
 
 import com.github.mikephil.charting.data.Entry
-import java.util.Collections.min
 
 class ChartLogic {
 
-    fun reverseChartData(chartDataCalories: MutableMap<String, String>): ArrayList<Float>{
-        val caloriesArray: ArrayList<Float> = ArrayList()
-        var x = 0
-        for (item in chartDataCalories.toSortedMap(reverseOrder())) {
-            if (x < 30) {
-                caloriesArray.add(x, item.value.toFloat())
-                x++
-            } else break
-        }
-        return caloriesArray
+    fun reverseChartData(chartDataCalories: MutableMap<String, String>): List<Float> {
+        return chartDataCalories.toSortedMap(reverseOrder())
+            .values
+            .mapNotNull { it.toFloatOrNull() }
+            .take(30)
     }
 
-    fun reverseDateData(chartDataCalories: MutableMap<String, String>): ArrayList<String>{
-        val dateArray: ArrayList<String> = ArrayList()
-        var x = 0
-        for (item in chartDataCalories.toSortedMap(reverseOrder())) {
-            if (x < 30) {
-                dateArray.add(x, item.key)
-                x++
-            } else break
-        }
-        return dateArray
+    fun reverseDateData(chartDataCalories: MutableMap<String, String>): List<String> {
+        return chartDataCalories.toSortedMap(reverseOrder())
+            .keys
+            .take(30)
+            .toList()
     }
 
-    fun prepareLineData(dateArray: ArrayList<String>, caloriesArray: ArrayList<Float>): ArrayList<Entry>{
-        val list: ArrayList<Entry> = ArrayList()
-        if (caloriesArray.isNotEmpty()) {
-            for (i in 0..<dateArray.size) {
-                if (!caloriesArray.reversed()[i].isNaN()) {
-                    list.add(Entry(i.toFloat(), caloriesArray.reversed()[i]))
-                } else {
-                    list.add(Entry(i.toFloat(), 0f))
-                }
+    fun prepareLineData(dateArray: List<String>, caloriesArray: List<Float>): List<Entry> {
+        return dateArray.indices.map { i ->
+            Entry(
+                i.toFloat(),
+                caloriesArray.reversed().getOrNull(i)?.takeUnless { it.isNaN() } ?: 0f
+            )
+        }
+    }
+
+    fun prepareAxisData(dateArray: List<String>): List<String> {
+        return dateArray.indices.map { i ->if (i == 0 || i == dateArray.lastIndex || i == dateArray.size / 3 || i == dateArray.size * 2 / 3) {
+            dateArray[i].takeLast(4).let {
+                StringBuilder(it).insert(2, ".").toString()
             }
+        } else {
+            ""
         }
-        return list
+        }
     }
 
-    fun prepareAxisData(dateArray: ArrayList<String>, caloriesArray: ArrayList<Float>): ArrayList<String>
-    {
-        val xAxisValues: ArrayList<String> = ArrayList()
-        if (caloriesArray.isNotEmpty()) {
-            for (i in 0..<dateArray.size) {
-                val key = dateArray[i].takeLast(4)
-                if (i == 0 || i == (caloriesArray.size - 1) || i == (caloriesArray.size / 3) || i == (caloriesArray.size * 2 / 3)) {
-                    val sb = StringBuilder(key)
-                    sb.insert(2, ".")
-                    xAxisValues.add(sb.toString().trim())
-                } else {
-                    xAxisValues.add("")
-                }
-            }
-        }
-        return xAxisValues
-    }
-
-    fun calculateMinValue(caloriesArray: ArrayList<Float>): Float {
-        var minValue = 0f
-        if(caloriesArray.isNotEmpty()){
-            minValue = min(caloriesArray)
-        }
-
-        if ((minValue - 200) > 0) {
-            minValue -= 200
-        }
-        else{
-            minValue = 0f
-        }
-        return minValue
+    fun calculateMinValue(caloriesArray: List<Float>): Float {
+        val minValue = caloriesArray.minOrNull() ?: return 0f
+        return if (minValue - 200 > 0) minValue - 200 else 0f
     }
 }

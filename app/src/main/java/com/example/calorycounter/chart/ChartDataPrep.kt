@@ -10,7 +10,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
 class ChartDataPrep {
 
-    fun setUpLineData(list: ArrayList<Entry>): LineData {
+    fun setUpLineData(list: List<Entry>): LineData {
         val lineDataSet = LineDataSet(list, "kcal")
         lineDataSet.setColors(Color.argb(100, 93, 139, 212))
         lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
@@ -29,7 +29,7 @@ class ChartDataPrep {
         return lineData
     }
 
-    fun setUpXAxis(chart: LineChart, xAxisValues: ArrayList<String>){
+    fun setUpXAxis(chart: LineChart, xAxisValues: List<String>){
         chart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisValues.reversed())
         chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         chart.xAxis.setDrawGridLines(false)

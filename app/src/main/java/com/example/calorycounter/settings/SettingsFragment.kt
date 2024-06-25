@@ -27,7 +27,9 @@ class SettingsFragment : Fragment() {
     private val dataHandler = DataHandler()
     private var _bnd: FragmentSettingsBinding? = null
     private val bnd get() = _bnd!!
-
+    private var toggleReset = true
+    private var toggleGoals = true
+    private var toggleLanguage = true
     private var selectedLanguage = "Default"
     private var selectedAppLanguage = "Default"
     private var currentAppLanguage = "en"
@@ -59,15 +61,15 @@ class SettingsFragment : Fragment() {
         }
 
         bnd.iconAndTextGoal.setOnClickListener {
-            settingsLogic.expandGoals(bnd.goalVisibility)
+            toggleGoals = settingsLogic.expandPanel(bnd.goalVisibility, toggleGoals)
         }
 
         bnd.iconAndTextReset.setOnClickListener {
-            settingsLogic.expandReset(bnd.clearVisibility)
+            toggleReset = settingsLogic.expandPanel(bnd.clearVisibility, toggleReset)
         }
 
         bnd.iconAndTextLanguage.setOnClickListener {
-            settingsLogic.expandLanguage(bnd.languageVisibility)
+            toggleLanguage = settingsLogic.expandPanel(bnd.languageVisibility, toggleLanguage)
         }
 
         bnd.clearCalories.setOnClickListener {

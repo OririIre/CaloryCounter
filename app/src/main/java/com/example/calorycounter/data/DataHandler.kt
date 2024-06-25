@@ -12,17 +12,10 @@ class DataHandler {
         if (!directory.exists()) {
             directory.mkdirs()
         }
-        if (file.exists()) {
-            val out = loadData(context, fileName)
-            if (out.containsKey(key)) {
-                out[key] = value
-            } else {
-                out += mapOf(key to value)
-            }
-            file.writeText(out.toString())
-        } else {
-            file.writeText(mutableMapOf(key to value).toString())
-        }
+
+        val data = loadData(context, fileName).toMutableMap()
+        data[key] = value
+        file.writeText(data.toString())
     }
 
     fun saveMapData(context: Context?, fileName: String, outputMap: MutableMap<String, String>) {
@@ -40,75 +33,60 @@ class DataHandler {
     }
 
     fun saveMapDataNO(context: Context?, fileName: String, outputMap: MutableMap<String, String>) {
-        val directory = File(context?.filesDir, "LogFiles")
+        val directory= File(context?.filesDir, "LogFiles")
         val file = File(directory, fileName)
         if (!directory.exists()) {
             directory.mkdirs()
         }
-        if (file.exists()) {
-            val loadedMap = loadData(context, fileName)
-            val out = loadedMap + outputMap
-            file.writeText(out.toString())
-        } else {
-            file.writeText(outputMap.toString())
-        }
+
+        val existingData = loadData(context, fileName).toMutableMap()
+        existingData.putAll(outputMap)
+        file.writeText(existingData.toString())
     }
 
     fun loadData(context: Context?, fileName: String): MutableMap<String, String> {
         val directory = File(context?.filesDir, "LogFiles")
         val file = File(directory, fileName)
-        var output = mutableMapOf<String, String>()
-        if (directory.exists()) {
-            if (file.exists()) {
-                var contents = file.readText(Charsets.UTF_8)
-//                println(contents)
-                contents = contents.replace("{", "")
-                contents = contents.replace("}", "")
-                contents = contents.replace(" ", "")
-                output = contents.split(",")
-                    .map { it.split("=") }
-                    .associate { it.first().toString() to it.last().toString() }.toMutableMap()
-            }
+        return if (directory.exists() && file.exists()) {
+            file.readText(Charsets.UTF_8)
+                .substringAfter("{").substringBeforeLast("}")
+                .split(",")
+                .map { it.split("=") }
+                .associate { it.first().trim() to it.last().trim() }.toMutableMap()
+        } else {
+            mutableMapOf()
         }
-        return output
     }
 
     fun deleteFiles(context: Context?, fileName: String) {
         val directory = File(context?.filesDir, "LogFiles")
-        if (directory.exists()) {
-            val file = File(directory, fileName)
-            if (file.exists()) {
-                file.delete()
+        val file = File(directory, fileName)
+        if (file.exists()) {
+            if (file.delete()) {
+                Log.d("Content", "File $fileName was deleted")
+            } else {
+                Log.e("Content", "Failed to delete file $fileName")
             }
-            Log.d("Content", "File was deleted")
         }
     }
 
     fun deleteEntriesWithValue(context: Context?, fileName: String, value: String) {
         val directory = File(context?.filesDir, "LogFiles")
-        if (directory.exists()) {
-            val file = File(directory, fileName)
-            if (file.exists()) {
-                val loadedMap = loadData(context, fileName)
-                if(loadedMap.containsValue(value)){
-                    loadedMap.remove(loadedMap.filterValues { it == value }.keys.first())
-                }
-                saveMapData(context,fileName, loadedMap)
-            }
+        val file = File(directory, fileName)
+        if (file.exists()) {
+            val loadedMap = loadData(context, fileName).toMutableMap()
+            loadedMap.values.removeAll(listOf(value).toSet())
+            saveMapData(context, fileName,loadedMap)
         }
     }
 
     fun deleteMapEntriesWithKeys(context: Context?, fileName: String, key: String) {
         val directory = File(context?.filesDir, "LogFiles")
-        if (directory.exists()) {
-            val file = File(directory, fileName)
-            if (file.exists()) {
-                val loadedMap = loadData(context, fileName)
-                if(loadedMap.containsKey(key)){
-                    loadedMap.remove(loadedMap.filterKeys { it == key }.keys.first())
-                }
-                saveMapData(context,fileName, loadedMap)
-            }
+        val file = File(directory, fileName)
+        if (file.exists()) {
+            val loadedMap = loadData(context, fileName).toMutableMap()
+            loadedMap.remove(key)
+            saveMapData(context, fileName, loadedMap)
         }
     }
 }

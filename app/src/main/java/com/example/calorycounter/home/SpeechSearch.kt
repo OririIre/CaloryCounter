@@ -29,14 +29,13 @@ class SpeechSearch (con: Context) {
     fun filterInput(input: String): Array<String> {
         var item = ""
         var returnArray = emptyArray<String>()
-        if (input != "") {
-            var newText = input.replace("[", "")
-            newText = newText.replace("]", "")
-            val resultArray = newText.split(" ").toTypedArray()
+
+        if (input.isNotBlank()) {
+            val sanitizedInput = input.replace(Regex("[\\[\\]]"), "")
+            val resultArray = sanitizedInput.split(" ").map { it.lowercase().trim() }.toTypedArray()
 
             val value = filterNumeric(resultArray)
             for (stuff in resultArray) {
-                stuff.lowercase().trim()
                 if (!stuff.contains(value) && stuff != "g" && stuff != "gram" && stuff != "gramm"
                     && stuff != context.getString(R.string.one) && stuff != context.getString(R.string.two)
                     && stuff != context.getString(R.string.three) && stuff != context.getString(R.string.four)
@@ -46,7 +45,7 @@ class SpeechSearch (con: Context) {
                     item += stuff
                 }
             }
-            if(value != "" && item != "")
+            if(value.isNotBlank() && item.isNotBlank())
             {
                 returnArray = arrayOf(item, value)
             }
@@ -61,21 +60,15 @@ class SpeechSearch (con: Context) {
         var value = ""
         for (item in resultArray) {
             val results = item.lowercase()
-            if (results != "") {
+            if (results.isNotBlank()) {
                 if (StringUtil.isNumeric(results)) {
                     value = results
-                } else if (results.endsWith("g")) {
-                    if (StringUtil.isNumeric(results.removeSuffix("g"))) {
+                } else if (results.removeSuffix("g").toDoubleOrNull() != null) {
                         value = results.removeSuffix("g")
-                    }
-                } else if (results.endsWith("gram")) {
-                    if (StringUtil.isNumeric(results.removeSuffix("gram"))) {
+                } else if (results.removeSuffix("gram").toDoubleOrNull() != null) {
                         value = results.removeSuffix("gram")
-                    }
-                } else if (results.endsWith("gramm")) {
-                    if (StringUtil.isNumeric(results.removeSuffix("gramm"))) {
+                } else if (results.removeSuffix("gramm").toDoubleOrNull() != null) {
                         value = results.removeSuffix("gramm")
-                    }
                 } else if (results == context.getString(R.string.one)){
                     value = "1"
                 } else if (results == context.getString(R.string.two)){
@@ -106,7 +99,6 @@ class SpeechSearch (con: Context) {
         val urlString =
             "https://www.google.com/search?q=" + input.trim() + query + "+per+100+g"
         val url = URL(urlString)
-        println(urlString)
         try {
             val doc: Document = Jsoup.parse(url, 3 * 1000)
             result = doc
@@ -117,51 +109,52 @@ class SpeechSearch (con: Context) {
     }
 
     fun extractCaloriesValues(doc: Document, className: String): String {
+        val elements = doc.getElementsByClass(className)
+        for (element in elements) {
+            val text = element.text().lowercase()
+            val value = extractCaloriesValueFromText(text)
+            if (value != null) return formatString(value)
+        }
+
+        return ""
+    }
+
+    private fun extractCaloriesValueFromText(text: String): String? {
+        if (text.contains("kcal")) {
+            return extractValue(text.split("kcal"))
+        } else if (text.contains("calories")) {
+            return extractValue(text.split("calories").map { it.replace(":", "").trim() })
+        }
+        return null
+    }
+
+    private fun extractValue(splitText: List<String>): String? {
+        val leftSide = splitText.getOrNull(0)?.trim()?.takeLast(3)?.trim()
+        val rightSide = splitText.getOrNull(1)?.trim()?.let {
+            if (it.take(3).contains(".") || it.take(3).contains(",")) {
+                it.split(Regex("[.,]")).getOrNull(0)?.trim()
+            } else {
+                it.take(3).trim()
+            }
+        }
+
+        return when {
+            leftSide?.isNumeric() == true -> leftSide
+            rightSide?.isNumeric() == true -> rightSide
+            else -> null
+        }
+    }
+
+    private fun String.isNumeric(): Boolean = toDoubleOrNull() != null
+
+    fun extractProteinValues(doc: Document, className: String): String {
         val element = doc.getElementsByClass(className)
         var value = ""
         if (element.isNotEmpty()) {
             for (i in element.indices) {
-                var text = element[i].text()
-                text = text.lowercase()
-                if (text.contains("kcal")) {
-                    val splitText = text.split("kcal")
-                    var leftSide = splitText[0].trim()
-                    leftSide = leftSide.takeLast(3)
-                    leftSide = leftSide.trim()
-                    var rightSide = splitText[1].trim()
-                    rightSide = rightSide.take(3)
-                    rightSide = rightSide.trim()
-                    if (StringUtil.isNumeric(leftSide)) {
-                        value = leftSide
-                        break
-                    } else if (StringUtil.isNumeric(rightSide)) {
-                        value = rightSide
-                        break
-                    }
-                } else if (text.contains("calories")) {
-                    val splitText = text.split("calories")
-                    var leftSide = splitText[0].trim()
-                    leftSide = leftSide.takeLast(3)
-                    leftSide = leftSide.trim()
-                    var splitRightSide: List<String>
-                    var rightSide = splitText[1].trim()
-                    if (rightSide.contains(":")) {
-                        rightSide = rightSide.replace(":", "")
-                        rightSide = rightSide.trim()
-                    }
-                    splitRightSide = if (rightSide.take(3).contains(".")) {
-                        rightSide.split(".")
-                    } else if (rightSide.take(3).contains(",")) {
-                        rightSide.split(",")
-                    } else
-                        listOf(rightSide.take(3))
-                    if (StringUtil.isNumeric(leftSide)) {
-                        value = leftSide
-                        break
-                    } else if (StringUtil.isNumeric(splitRightSide[0])) {
-                        value = splitRightSide[0]
-                        break
-                    }
+                val text = element.text().lowercase()
+                if (text.contains("protein")) {
+                    value = extractProteinValueFromText(text)
                 }
             }
         }
@@ -169,35 +162,25 @@ class SpeechSearch (con: Context) {
         return value
     }
 
-    fun extractProteinValues(doc: Document, className: String): String {
-        val element = doc.getElementsByClass(className)
+    private fun extractProteinValueFromText(text: String): String {
         var value = ""
-        if (element.isNotEmpty()) {
-            for (i in element.indices) {
-                var text = element[i].text()
-                text = text.lowercase()
-                if (text.contains("protein")) {
-                    val splitText = text.split("protein")
-                    val leftSideSplitArray = splitText[0].split(" ")
-                    val rightSideSplitArray = splitText[1].split(" ")
-                    val arraySizeOne = leftSideSplitArray.size
-                    val arraySizeTwo = rightSideSplitArray.size
-                    val maxValue = min(arraySizeOne, arraySizeTwo)
-                    for (x in 0..<maxValue){
-                        if(value == ""){
-                            value = checkNumeric(leftSideSplitArray[leftSideSplitArray.size-(x+1)])
-                        }
-                        if(value == ""){
-                            value = checkNumeric(rightSideSplitArray[x])
-                        }
-                        if(value != ""){
-                            break
-                        }
-                    }
-                }
+        val splitText = text.split("protein")
+        val leftSideSplitArray = splitText[0].split(" ")
+        val rightSideSplitArray = splitText[1].split(" ")
+        val arraySizeOne = leftSideSplitArray.size
+        val arraySizeTwo = rightSideSplitArray.size
+        val maxValue = min(arraySizeOne, arraySizeTwo)
+        for (x in 0..<maxValue){
+            if(value.isBlank()){
+                value = checkNumeric(leftSideSplitArray[leftSideSplitArray.size-(x+1)])
+            }
+            if(value.isBlank()){
+                value = checkNumeric(rightSideSplitArray[x])
+            }
+            if(value.isNotBlank()){
+                break
             }
         }
-        value = formatString(value)
         return value
     }
 
@@ -237,57 +220,43 @@ class SpeechSearch (con: Context) {
     fun addFromSpeech(value: String, amount: String, name: String, fileType: String) {
         val historyMap = mutableMapOf<String, String>()
         val currentTime = HelperClass.getCurrentDateAndTime()
-        if (StringUtil.isNumeric(amount.trim())) {
-            var currentKcal = formatString(getCurrentValue(fileType, context).toString()).toDouble()
-            var consumed = 0.0
-            if (value != "" && amount != "") {
-                if (value.toDouble() > 0.0 && amount.trim().toDouble() > 0.0) {
-                    consumed = (value.toDouble() * (amount.trim().toDouble() / 100))
-                    currentKcal += consumed
-                }
-            }
-            val currentValue = formatString(currentKcal.toString())
-            dataHandler.saveData(context, fileType, currentDate, currentValue)
-            val formattedConsumed = formatString(consumed.toString())
-            historyMap += if(fileType == caloriesFile){
-                mutableMapOf((currentTime + "_calo") to formattedConsumed)
-            } else {
-                mutableMapOf((currentTime + "_prot") to formattedConsumed)
-            }
-            historyMap += mutableMapOf((currentTime + "_name") to name)
-            dataHandler.saveMapDataNO(context, historyFile, historyMap)
+        val amountValue =amount.trim().toDoubleOrNull() ?: return // Early return if amount is invalid
+
+        val currentValue = getCurrentValue(fileType, context)
+        val consumed = if (value.isNotBlank()) {
+            value.toDoubleOrNull()?.let { valueNum ->
+                (valueNum * (amountValue / 100))
+            } ?: 0.0
+        } else {
+            0.0
         }
+        val newTotal = currentValue + consumed
+        dataHandler.saveData(context, fileType, currentDate, formatString(newTotal.toString()))
+
+        val formattedConsumed = formatString(consumed.toString())
+        val suffix = if (fileType == caloriesFile) "_calo" else "_prot"
+        historyMap += mutableMapOf((currentTime + suffix) to formattedConsumed)
+
+        historyMap += mutableMapOf((currentTime + "_name") to name)
+        dataHandler.saveMapDataNO(context, historyFile, historyMap)
     }
 
     fun getVoiceLanguage():String{
-        val selectedLanguage =
-            dataHandler.loadData(context, languageFile)[Keys.Language.toString()].toString()
-        val language: String = when (selectedLanguage) {
-            "de" -> {
-                "de_DE"
-            }
-            "en" -> {
-                "en_UK"
-            }
-           "fr" -> {
-                "fr_FR"
-            }
-            "es" -> {
-                "es_ES"
-            }
-            else -> {
-                Locale.getDefault().toString()
-            }
+        val selectedLanguage = dataHandler.loadData(context, languageFile)[Keys.Language.toString()].toString()
+        return when (selectedLanguage) {
+            "de" -> "de_DE"
+            "en" -> "en_UK"
+            "fr" -> "fr_FR"
+            "es" -> "es_ES"
+            else -> Locale.getDefault().toString()
         }
-        return language
     }
 
     private fun formatString (value: String): String {
-        var returnString = ""
-        println(value)
-        if(value != "") {
-            returnString = String.format(Locale.getDefault(), "%.1f", value.toDouble())
+        return if (value.isNotBlank()) {
+            String.format(Locale.getDefault(), "%.1f", value.toDoubleOrNull() ?: 0.0)
+        } else {
+            ""
         }
-        return returnString
     }
 }

@@ -6,8 +6,6 @@
 - Verschiedene Themes einbauen
 - animationen noch paar und shake für histroy, animate floating action button
 - Locale get default...Nummern hinzufügen geht nicht wenn es auf deutsch ist wegen komma/punkt
-- Refactoring with Gemini: MealsDialog done, MealsDialogLogic 1 thing to check
-- background blur geht nicht wirklich -> Boolean anpassen
 - translations in speechresult (one, two...) are only working with app language
 
 - Delete history Items in Chart?!

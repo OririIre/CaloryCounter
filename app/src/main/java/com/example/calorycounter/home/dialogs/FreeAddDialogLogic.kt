@@ -16,52 +16,56 @@ class FreeAddDialogLogic (con: Context) {
     private val historyFile = "history.txt"
 
     fun addSub(calProtSwitch: Boolean, perGrammValue: String, weightValue: String, customValue: String) {
-        var historyMap = mutableMapOf<String, String>()
-
-        if (calProtSwitch) {
-            val currentKcalValue = calcValue(caloriesFile, perGrammValue, weightValue, customValue)
-            dataHandler.saveData(context, caloriesFile, currentDate, currentKcalValue.toString())
-            historyMap = addToHistory(historyMap, customValue, perGrammValue, weightValue, "_calo")
+        val (fileName, currentValue) = if (calProtSwitch) {
+            caloriesFile to calcValue(caloriesFile, perGrammValue, weightValue, customValue)
         } else {
-            val currentProteinValue = calcValue(proteinFile, perGrammValue, weightValue, customValue)
-            dataHandler.saveData(context, proteinFile, currentDate, currentProteinValue.toString())
-            historyMap = addToHistory(historyMap, customValue, perGrammValue, weightValue, "_prot")
-        }
+            proteinFile to calcValue(proteinFile, perGrammValue, weightValue, customValue)}
+
+        dataHandler.saveData(context, fileName, currentDate, currentValue.toString())
+
+        val historyMap = addToHistory(mutableMapOf(), customValue, perGrammValue, weightValue, if (calProtSwitch) "_calo" else "_prot")
         dataHandler.saveMapDataNO(context, historyFile, historyMap)
     }
 
     private fun addToHistory(historyMap: MutableMap<String, String>, customValue: String, perGrammValue: String, weightValue: String, keyType: String): MutableMap<String, String>{
         val currentTime = HelperClass.getCurrentDateAndTime()
-        if (customValue != "") {
-            historyMap += mutableMapOf((currentTime + keyType) to customValue)
+
+        when {
+            customValue.isNotEmpty() -> {
+                historyMap[currentTime + keyType] =customValue
+            }
+            perGrammValue.isNotEmpty() && weightValue.isNotEmpty() -> {
+                val valueDouble = perGrammValue.toDoubleOrNull() ?: 0.0
+                val grammDouble = weightValue.toDoubleOrNull() ?: 0.0
+                historyMap[currentTime + keyType] = (valueDouble * (grammDouble / 100)).toString()
+            }
         }
-        else if (perGrammValue != "" && weightValue != "") {
-            val valueDouble = perGrammValue.toDouble()
-            val grammDouble = weightValue.toDouble()
-            historyMap += mutableMapOf((currentTime + keyType) to (valueDouble * (grammDouble / 100)).toString())
-        }
+
         return historyMap
     }
 
     private fun calcValue(fileName: String, value: String, gramm: String, custom: String): Double {
-        var currentKcal = formatString(HelperClass.getCurrentValue(fileName, context).toString()).toDouble()
-        if (custom != "") {
-            currentKcal += custom.toDouble()
-        }
-        else if (value != "" && gramm != "") {
-            if (value.toDouble() > 0.0 && gramm.toDouble() > 0.0) {
-                currentKcal += (value.toDouble() * (gramm.toDouble() / 100))
+        var currentValue = HelperClass.getCurrentValue(fileName, context)
+        when {
+            custom.isNotEmpty() -> {
+                currentValue += custom.toDoubleOrNull() ?: 0.0
+            }
+            value.isNotEmpty() && gramm.isNotEmpty() -> {
+                val valueDouble = value.toDoubleOrNull() ?:0.0
+                val grammDouble = gramm.toDoubleOrNull() ?: 0.0
+                if (valueDouble > 0.0 && grammDouble > 0.0) {
+                    currentValue += (valueDouble * (grammDouble / 100))
+                }
             }
         }
-        currentKcal = formatString(currentKcal.toString()).toDouble()
-        return currentKcal
+        return currentValue
     }
 
     private fun formatString (value: String): String {
-        var returnString = ""
-        if(value != "") {
-            returnString = String.format(Locale.getDefault(), "%.1f", value.toDouble())
+        return if (value.isNotBlank()) {
+            String.format(Locale.getDefault(), "%.1f", value.toDoubleOrNull() ?: 0.0)
+        } else {
+            ""
         }
-        return returnString
     }
 }

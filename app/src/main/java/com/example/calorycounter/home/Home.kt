@@ -34,7 +34,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.jsoup.nodes.Document
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class Home : Fragment(), UpdateListener {
@@ -119,13 +121,12 @@ class Home : Fragment(), UpdateListener {
                 Blurry.with(requireContext()).capture(this.view).into(imageView)
                 imageView.visibility = View.VISIBLE
                 imageView.bringToFront()
-                homeLogic.setFloatingButtonVisibilty(bnd.fbCustom, bnd.fbMeals, bnd.addFreeText, bnd.addMealText)
-                isAllFabVisible = true
             } else {
                 imageView.visibility = View.GONE
-                homeLogic.setFloatingButtonVisibilty(bnd.fbCustom, bnd.fbMeals, bnd.addFreeText, bnd.addMealText)
-                isAllFabVisible = false
             }
+
+            homeLogic.setFloatingButtonVisibilty(bnd.fbCustom, bnd.fbMeals, bnd.addFreeText, bnd.addMealText)
+            isAllFabVisible = !isAllFabVisible
         }
 
         bnd.fbCustom.setOnClickListener {
@@ -182,14 +183,10 @@ class Home : Fragment(), UpdateListener {
 
     private fun clearHistoryOnNextDay(){
         val historyValues = dataHandler.loadData(requireContext(), historyFile)
-        val calendar  = Calendar.getInstance()
-        val currentTime = String.format(Locale.getDefault(),"%02d.%02d",
-            calendar.get(Calendar.DAY_OF_MONTH),
-            calendar.get(Calendar.MONTH)+1)
-        for(items in historyValues){
-            if(!items.key.contains(currentTime)){
-                dataHandler.deleteFiles(requireContext(), historyFile)
-            }
+        val currentDate = SimpleDateFormat("dd.MM", Locale.getDefault()).format(Date())
+
+        if (historyValues.keys.any { !it.contains(currentDate) }) {
+            dataHandler.deleteFiles(requireContext(), historyFile)
         }
     }
 
@@ -216,29 +213,26 @@ class Home : Fragment(), UpdateListener {
     }
 
     private fun addSpeechResultInThread (resultArray: Array<String>){
-        var document: Document
         //start coroutine (like threading in java stuff)
         try{
             lifecycleScope.launch(Dispatchers.IO) {
-                var resultDocument = async {
+                val caloriesDocument = async {
                     speechSearch.searchRequest(resultArray, "calories")
+                }.await()
+                var caloriesValue = speechSearch.extractCaloriesValues(caloriesDocument, "wDYxhc")
+                if (caloriesValue == "") {
+                    caloriesValue = speechSearch.extractCaloriesValues(caloriesDocument, "MjjYud")
                 }
-                document = resultDocument.await()
-                var baseValue = speechSearch.extractCaloriesValues(document, "wDYxhc")
-                if (baseValue == "") {
-                    baseValue = speechSearch.extractCaloriesValues(document, "MjjYud")
-                }
-                speechSearch.addFromSpeech(baseValue, resultArray[1].trim(), resultArray[0].trim(), caloriesFile)
+                speechSearch.addFromSpeech(caloriesValue, resultArray[1].trim(), resultArray[0].trim(), caloriesFile)
 
-                resultDocument = async {
+                val proteinDocument = async {
                     speechSearch.searchRequest(resultArray, "protein")
+                }.await()
+                var proteinValue = speechSearch.extractProteinValues(proteinDocument, "wDYxhc")
+                if (proteinValue == "") {
+                    proteinValue = speechSearch.extractProteinValues(proteinDocument, "MjjYud")
                 }
-                document = resultDocument.await()
-                baseValue = speechSearch.extractProteinValues(document, "wDYxhc")
-                if (baseValue == "") {
-                    baseValue = speechSearch.extractProteinValues(document, "MjjYud")
-                }
-                speechSearch.addFromSpeech(baseValue, resultArray[1].trim(), resultArray[0].trim(), proteinFile)
+                speechSearch.addFromSpeech(proteinValue, resultArray[1].trim(), resultArray[0].trim(), proteinFile)
             }.invokeOnCompletion {
                 requireActivity().runOnUiThread {
                     homeProgressBars.updateUI()
@@ -246,7 +240,9 @@ class Home : Fragment(), UpdateListener {
             }
         } catch (exp: Exception) {
             println(exp)
-            showSnackbar(3000, "Search went wrong, please try again")
+            requireActivity().runOnUiThread {
+                showSnackbar(3000, "Search went wrong, please try again")
+            }
         }
     }
 
@@ -259,14 +255,14 @@ class Home : Fragment(), UpdateListener {
     }
 
     private fun createImageView (): ImageView{
-        val imageView = ImageView(requireContext())
-        val layoutParam: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.MATCH_PARENT,
-            ConstraintLayout.LayoutParams.MATCH_PARENT)
-        imageView.layoutParams = layoutParam
-        imageView.setBackgroundColor(Color.argb(100,0,0,0))
-        imageView.visibility = View.GONE
-        return imageView
+        return ImageView(requireContext()).apply {
+            layoutParams = ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+            )
+            setBackgroundColor(Color.argb(100, 0, 0, 0))
+            visibility = View.GONE
+        }
     }
 
     private fun showSnackbar(duration: Int, text: String){

@@ -43,16 +43,18 @@ class HistoryDialog (con: Context) {
         val historyValues = dataHandler.loadData(context, historyFile)
         if(historyValues.isNotEmpty()){
             layoutHistoryCards.removeAllViews()
-            for (item in historyValues) {
-                var keyTime = ""
-                if(item.key.contains("_calo")){
-                    keyTime = item.key.replace("_calo","")
-                } else if (item.key.contains("_prot")){
-                    keyTime = item.key.replace("_prot","")
-                }
-                val name = historyValues[keyTime + "_name"].toString()
-                if(item.key.contains("_calo") || item.key.contains("_prot")) {
-                    createCards(layoutHistoryCards, item.key, item.value, name, historyScrollView)
+            val groupedEntries = historyValues.entries.groupBy { ita ->
+                ita.key.substringBefore("_").takeIf { it.isNotEmpty() }
+            }
+
+            groupedEntries.forEach { (timeKey, entries) ->
+                if (timeKey != null) {
+                    val name = entries.find { it.key.endsWith("_name") }?.value ?: ""
+                    entries.forEach { (key, value) ->
+                        if (key.endsWith("_calo") || key.endsWith("_prot")) {
+                            createCards(layoutHistoryCards, key, value, name, historyScrollView)
+                        }
+                    }
                 }
             }
         }
@@ -65,8 +67,10 @@ class HistoryDialog (con: Context) {
         val descriptionText: TextView = card.findViewById(R.id.description)
         val descriptionName: TextView = card.findViewById(R.id.descriptionName)
         val historyValue: TextView = card.findViewById(R.id.value)
-        var startX = 0f
+        val dateView: TextView = card.findViewById(R.id.date)
+
         card.id = View.generateViewId()
+        dateView.id = View.generateViewId()
 
         val newTime = formatTime(time)
         val calOrProt = determinCalOrProt(time)
@@ -80,13 +84,11 @@ class HistoryDialog (con: Context) {
             setText(historyValue, descriptionText, descriptionName, newName, value, relLayout, context.getString(R.string.Protein))
         }
 
-        val dateView: TextView = card.findViewById(R.id.date)
-        dateView.id = View.generateViewId()
         dateView.text = newTime
 
-        val transition = ChangeBounds()
-        transition.setDuration(200)
+        val transition = ChangeBounds().apply { setDuration(200) }
 
+        var startX = 0f
         card.setOnTouchListener(
             View.OnTouchListener { view, event ->
                 val displayMetrics = context.resources.displayMetrics
@@ -133,64 +135,50 @@ class HistoryDialog (con: Context) {
 
     private fun setText (historyValue: TextView, descriptionText: TextView, descriptionName: TextView, newName: String, value: String, relLayout: RelativeLayout, description: String){
         historyValue.id = View.generateViewId()
-        if(value.toDouble() != 0.0){
-            historyValue.text = String.format(Locale.getDefault(),"%.1f", value.toDouble())
-        } else{
-            historyValue.text = 0.toString()
+        historyValue.text = if (value.toDoubleOrNull() != 0.0) {
+            String.format(Locale.getDefault(), "%.1f", value.toDouble())
+        } else {
+            "0"
         }
         descriptionText.text = description
-        if(newName != "" && newName != "null"){
+
+        if (newName.isNotBlank()) {
             descriptionName.text = newName
         } else {
             relLayout.removeView(descriptionName)
         }
     }
 
-    private fun determinCalOrProt (time: String): Boolean{
-        var calProt = true
-        if(time.contains("_calo")){
-            calProt = true
-        } else if (time.contains("_prot")){
-            calProt = false
-        }
-        return calProt
+    private fun determinCalOrProt(time: String): Boolean {
+        return time.contains("_calo")
     }
 
-    private fun formatTime (time: String): String{
-        var newTime = time
-        if(time.contains("_calo")){
-            newTime = time.takeLast(13).replace("_calo", "")
-        } else if (time.contains("_prot")){
-            newTime = time.takeLast(13).replace("_prot", "")
-        }
-        return newTime
+    private fun formatTime(time: String): String {
+        return time.takeLast(13).replace("_calo", "").replace("_prot", "")
     }
 
     private fun removeHistoryItem(valueType: String, value: String, name: String){
+        val (fileName, currentValue) =if (valueType == "Calories") {
+            caloriesFile to calcNewValue(caloriesFile, value)
+        } else {
+            proteinFile to calcNewValue(proteinFile, value)
+        }
 
-        if(valueType == "Calories"){
-            val currentKcal = calcNewValue(caloriesFile, value)
-            dataHandler.saveData(context, caloriesFile, currentDate, currentKcal.toString())
-            dataHandler.deleteEntriesWithValue(context, historyFile, value)
-            listener.get()?.onStuffUpdated()
-        }
-        else{
-            val currentProt = calcNewValue(proteinFile, value)
-            dataHandler.saveData(context, proteinFile, currentDate, currentProt.toString())
-            dataHandler.deleteEntriesWithValue(context, historyFile, value)
-            listener.get()?.onStuffUpdated()
-        }
+        dataHandler.saveData(context, fileName, currentDate, currentValue.toString())
+        dataHandler.deleteEntriesWithValue(context, historyFile, value)
         dataHandler.deleteMapEntriesWithKeys(context, historyFile, name)
+
+        listener.get()?.onStuffUpdated()
     }
 
     private fun calcNewValue (fileType: String, value: String): Double {
-        var currentKcal = HelperClass.getCurrentValue(fileType, context)
-        if (value != "") {
-            if (value.toDouble() > 0.0) {
-                currentKcal -= value.toDouble()
+        var currentValue = HelperClass.getCurrentValue(fileType, context)
+        value.toDoubleOrNull()?.let {
+            if (it > 0.0) {
+                currentValue -= it
             }
         }
-        return currentKcal
+        return currentValue
     }
 
     fun addListener(listener: UpdateListener){

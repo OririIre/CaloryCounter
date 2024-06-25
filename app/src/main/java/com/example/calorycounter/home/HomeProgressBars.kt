@@ -59,8 +59,8 @@ class HomeProgressBars (con: Context, remainingCalories: ProgressBar, consumedCa
         val currentCalories = getCurrentValue(caloriesFile, context)
         val currentProtein = getCurrentValue(proteinFile, context)
 
-        val calCons = currentCalories.toInt().toString() + " kcal"
-        val protCons = currentProtein.toInt().toString() + " g"
+        val calCons = "${currentCalories.toInt()} kcal"
+        val protCons = "${currentProtein.toInt()} g"
 
         animateProgressBar(caloriesGoal, currentCalories, false,1500, remainingCaloriesProgressBar)
         animateProgressBar(caloriesGoal, currentCalories, true, 2000, consumedCaloriesProgressBar)
@@ -74,17 +74,21 @@ class HomeProgressBars (con: Context, remainingCalories: ProgressBar, consumedCa
         updateReamainingUI(currentProtein, Keys.Protein)
 
         if (currentCalories > caloriesGoal.toDouble()) {
-            rnd = (0..12).random()
-            val snack: Snackbar = Snackbar.make(cardView, messages[rnd], 4000)
-            val snackView = snack.view
-            val params = snackView.layoutParams as FrameLayout.LayoutParams
-            params.gravity = Gravity.TOP
-            params.setMargins(20,30, 20,0)
-            snackView.layoutParams = params
-            snackView.setBackgroundColor(context.resources.getColor(R.color.black, null))
-            snack.setBackgroundTint(context.resources.getColor(R.color.black, null))
-            snack.show()
+            showSnackbar()
         }
+    }
+
+    private fun showSnackbar(){
+        rnd = (0..12).random()
+        val snack: Snackbar = Snackbar.make(cardView, messages[rnd], 4000)
+        val snackView = snack.view
+        val params = snackView.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        params.setMargins(20,30, 20,0)
+        snackView.layoutParams = params
+        snackView.setBackgroundColor(context.resources.getColor(R.color.black, null))
+        snack.setBackgroundTint(context.resources.getColor(R.color.black, null))
+        snack.show()
     }
 
     private fun updateReamainingUI(currentValue: Double, key: Keys){
@@ -100,35 +104,21 @@ class HomeProgressBars (con: Context, remainingCalories: ProgressBar, consumedCa
     }
 
     private fun prepareRemainingText(currentValue: Double, key: Keys): String {
-        val remaning: String
-        val goal = goals[key.toString()]!!.toDouble()
-        if (goal != 0.0) {
-            var newRemainingValue = goal.toInt() - currentValue.toInt()
-            if (newRemainingValue <= 0) {
-                newRemainingValue = 0
-            }
-            remaning = newRemainingValue.toString()
-        } else {
-            remaning = 0.toString()
-        }
-        return remaning
+        val goal = goals[key.toString()]?.toDoubleOrNull() ?: return "0"
+        val remainingValue = maxOf(0, goal.toInt() - currentValue.toInt())
+        return remainingValue.toString()
     }
 
     private fun animateProgressBar(setAmount: String, consumed: Double, increment: Boolean, duration: Int, progressBar: ProgressBar) {
-        if (setAmount != "") {
-            val incementAmount = round(consumed / (setAmount.toInt() / 100))
-            val decrementAmount = round(100 - (consumed / (setAmount.toInt() / 100)))
-            if (increment) {
-                val animator2 = ObjectAnimator.ofInt(progressBar, "progress", incementAmount.toInt()*10)
-                animator2.setDuration(duration.toLong())
-                animator2.interpolator = FastOutSlowInInterpolator()
-                animator2.start()
-            } else {
-                val animator = ObjectAnimator.ofInt(progressBar, "progress", decrementAmount.toInt()*10)
-                animator.setDuration(duration.toLong())
-                animator.interpolator = FastOutSlowInInterpolator()
-                animator.start()
-            }
+        setAmount.toIntOrNull()?.let { amount ->
+            val incrementAmount = round(consumed / (amount.toDouble() / 100)).toInt()
+            val decrementAmount = round(100 - (consumed / (amount.toDouble() / 100))).toInt()
+
+            val progressValue = if (increment) incrementAmount * 10 else decrementAmount * 10
+            val animator = ObjectAnimator.ofInt(progressBar, "progress", progressValue)
+            animator.setDuration(duration.toLong())
+            animator.interpolator = FastOutSlowInInterpolator()
+            animator.start()
         }
     }
 }

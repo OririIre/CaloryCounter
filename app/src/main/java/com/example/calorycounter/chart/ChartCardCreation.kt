@@ -14,30 +14,17 @@ import java.util.Locale
 class ChartCardCreation (con: Context){
     private val context = con
 
-    fun prepareCards(chartDataCalories: MutableMap<String, String>, chartDataProtein: MutableMap<String, String>): ArrayList<CardView>{
-        val cardArrray = ArrayList<CardView>()
-        if (chartDataCalories.isNotEmpty() && chartDataProtein.isNotEmpty()) {
-            var i = 0
-            for (item in chartDataCalories.toSortedMap(reverseOrder())) {
-                if (i < 30) {
-                    i++
-                    cardArrray += if (chartDataProtein.containsKey(item.key)) {
-                        createCards(formatString(item.key), item.value, chartDataProtein[item.key]!!)
-                    } else {
-                        createCards(formatString(item.key), item.value, "0")
-                    }
-                }
+    fun prepareCards(chartDataCalories: MutableMap<String, String>, chartDataProtein: MutableMap<String, String>): List<CardView>{
+        val allKeys = (chartDataCalories.keys + chartDataProtein.keys).distinct()
+        return allKeys.sortedByDescending { it }
+            .take(30)
+            .map { key ->
+                createCards(
+                    formatString(key),
+                    chartDataCalories[key] ?: "0",
+                    chartDataProtein[key] ?: "0"
+                )
             }
-            for (item in chartDataProtein.toSortedMap(reverseOrder())) {
-                if (i < 30) {
-                    i++
-                    if (!chartDataCalories.containsKey(item.key)) {
-                        cardArrray += createCards(formatString(item.key), "0", item.value)
-                    }
-                }
-            }
-        }
-        return cardArrray
     }
 
     private fun createCards(dateString: String, caloriesString: String, proteinString: String): CardView {

@@ -13,36 +13,24 @@ class HomeLogic (con: Context){
     private val dataHandler = DataHandler()
     private var isAllFabVisible: Boolean = false
 
-    fun updateGoals(): MutableMap<String,String> {
-        val goals = dataHandler.loadData(context, goalsFile)
-        if (goals.isEmpty()) {
-            goals[Keys.Calories.toString()] = "0"
-            goals[Keys.Protein.toString()] = "0"
-        }
-        if (!goals.containsKey(Keys.Protein.toString())) {
-            goals[Keys.Protein.toString()] = "0"
-        }
-        if (!goals.containsKey(Keys.Calories.toString())) {
-            goals[Keys.Calories.toString()] = "0"
-        }
+    fun updateGoals(): MutableMap<String, String> {
+        val goals = dataHandler.loadData(context, goalsFile).toMutableMap()
+        goals.getOrPut(Keys.Calories.toString()) { "0" }
+        goals.getOrPut(Keys.Protein.toString()) { "0" }
         return goals
     }
 
-    fun setFloatingButtonVisibilty (fbCustom: FloatingActionButton, fbMeals: FloatingActionButton, addFreeText: TextView, addMealText: TextView){
-        if(!isAllFabVisible){
-            fbCustom.visibility = View.VISIBLE
-            fbMeals.visibility = View.VISIBLE
-            addFreeText.visibility = View.VISIBLE
-            addMealText.visibility = View.VISIBLE
+    fun setFloatingButtonVisibilty (fbCustom: FloatingActionButton, fbMeals: FloatingActionButton, addFreeText: TextView, addMealText: TextView) {
+        val visibility = if (isAllFabVisible) View.GONE else View.VISIBLE
+        fbCustom.visibility = visibility
+        fbMeals.visibility = visibility
+        addFreeText.visibility = visibility
+        addMealText.visibility = visibility
+        if (visibility == View.VISIBLE) {
             addFreeText.bringToFront()
             addMealText.bringToFront()
-            isAllFabVisible = true
-        } else {
-            fbCustom.visibility = View.GONE
-            fbMeals.visibility = View.GONE
-            addFreeText.visibility = View.GONE
-            addMealText.visibility = View.GONE
-            isAllFabVisible = false
         }
+
+        isAllFabVisible = !isAllFabVisible
     }
 }

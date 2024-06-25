@@ -35,12 +35,12 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
         linearLayoutMeals.removeAllViews()
         var i = 1
         for(items in meals){
-            val name = "Meal" + i.toString() + "Name"
-            val value = "Meal" + i.toString() + "Cal"
-            val protValue = "Meal" + i.toString() + "Prot"
-            val icon = "Meal" + i.toString() + "Icon"
-            if(items.key.contains(name) && items.value != "value" && meals.containsKey(value) && meals.containsKey(protValue) && icons.containsKey(icon)){
-                addMealLine (items.value, meals[value].toString(), meals[protValue].toString(), i, icons[icon].toString())
+            val nameKey = "Meal${i}Name"
+            val valueKey = "Meal${i}Cal"
+            val protValueKey = "Meal${i}Prot"
+            val iconKey = "Meal${i}Icon"
+            if(items.key.contains(nameKey) && items.value != "value" && meals.containsKey(valueKey) && meals.containsKey(protValueKey) && icons.containsKey(iconKey)){
+                addMealLine (items.value, meals[valueKey].toString(), meals[protValueKey].toString(), i, icons[iconKey].toString())
                 i++
             }
         }
@@ -56,9 +56,6 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
         relativeLayout.addView(mealsValue)
         relativeLayout.addView(mealsName)
         relativeLayout.addView(divider)
-
-        val transition = ChangeBounds()
-        transition.setDuration(200)
 
         mealsValue.setOnClickListener{
             mealsValue.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
@@ -85,83 +82,80 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
     }
 
     private fun createDivider(mealsName: TextView): View {
-        val divider = View(context)
-        divider.id = View.generateViewId()
-
-        val dividerParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.MATCH_PARENT,
-            1
-        )
-
-        dividerParam.addRule(RelativeLayout.BELOW, mealsName.id)
-        divider.layoutParams = dividerParam
-        divider.setBackgroundColor(
-            ResourcesCompat.getColor(context.resources,
-            R.color.white_low_transparency, null))
-
-        return divider
+        return View(context).apply {
+            id = View.generateViewId()
+            layoutParams = RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                1
+            ).apply {
+                addRule(RelativeLayout.BELOW, mealsName.id)
+            }
+            setBackgroundColor(
+                ResourcesCompat.getColor(context.resources, R.color.white_low_transparency, null)
+            )
+        }
     }
 
     private fun createRelativeLayout(): RelativeLayout {
-        val relativeLayout = RelativeLayout(context)
-        relativeLayout.id = View.generateViewId()
-
-        val layoutParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.MATCH_PARENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        )
-
-        relativeLayout.layoutParams = layoutParam
-        relativeLayout.setPadding(20,20,20,20)
-        relativeLayout.gravity = Gravity.CENTER
-
-        return relativeLayout
+        return RelativeLayout(context).apply {
+            id = View.generateViewId()
+            layoutParams= RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+            )
+            setPadding(20, 20, 20, 20)
+            gravity = Gravity.CENTER
+        }
     }
 
     private fun createTextViewValue(mealValue: String): TextView {
-        val textView = TextView(context)
-        textView.id = View.generateViewId()
-
-        val mealsValueParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-            280,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        )
-        mealsValueParam.addRule(RelativeLayout.ALIGN_PARENT_END)
-
         val valueConversion = mealValue.toDouble().toInt().toString()
         val valueText = "$valueConversion kcal"
-        textView.text = valueText
-        textView.textSize = 15f
-        textView.isSingleLine = true
-        textView.setTextColor(ResourcesCompat.getColor(context.resources, R.color.white, null))
-        textView.layoutParams = mealsValueParam
-        textView.gravity = Gravity.END
-        textView.setCompoundDrawablesWithIntrinsicBounds(null,null, ResourcesCompat.getDrawable(context.resources,
-            R.drawable.baseline_add_circle_24, null),null)
-        textView.compoundDrawablePadding = 15
-        return textView
+
+        return TextView(context).apply {
+            id = View.generateViewId()
+            layoutParams = RelativeLayout.LayoutParams(
+                280,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                addRule(RelativeLayout.ALIGN_PARENT_END)
+            }
+            text = valueText
+            textSize = 15f
+            isSingleLine = true
+            setTextColor(ResourcesCompat.getColor(context.resources, R.color.white, null))
+            gravity = Gravity.END
+            setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null,
+                ResourcesCompat.getDrawable(context.resources, R.drawable.baseline_add_circle_24, null),
+                null
+            )
+            compoundDrawablePadding = 15
+        }
     }
 
     private fun createTextViewName(buttonID: Int, mealName: String, icon: String): TextView {
-        val textView = TextView(context)
-        textView.id = buttonID
-
-        val mealsNameParam: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        )
-        mealsNameParam.addRule(RelativeLayout.ALIGN_PARENT_START)
-        mealsNameParam.addRule(RelativeLayout.START_OF, textView.id)
-
-        textView.text = mealName
-        textView.textSize = 15f
-        textView.setTextColor(ResourcesCompat.getColor(context.resources, R.color.white, null))
-        if(icon != "") {
-            textView.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(context.resources, icon.toInt(),null), null, null, null)
-        }
-        textView.compoundDrawablePadding = 15
-        textView.layoutParams = mealsNameParam
-
-        return textView
+        return TextView(context).apply {
+            id = buttonID
+            layoutParams = RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                addRule(RelativeLayout.ALIGN_PARENT_START)
+                addRule(RelativeLayout.START_OF,id)
+            }
+            text = mealName
+            textSize = 15f
+            setTextColor(ResourcesCompat.getColor(context.resources, R.color.white, null))
+            if (icon.isNotEmpty()) {
+                val iconDrawable = try {
+                    ResourcesCompat.getDrawable(context.resources, icon.toInt(), null)
+                } catch (e: NumberFormatException) {
+                    null
+                }
+                setCompoundDrawablesWithIntrinsicBounds(iconDrawable, null, null, null)
+            }
+            compoundDrawablePadding = 15}
     }
 }

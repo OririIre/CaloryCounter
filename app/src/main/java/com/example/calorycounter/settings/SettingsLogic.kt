@@ -20,39 +20,11 @@ import com.example.calorycounter.helpers.languageFile
 
 class SettingsLogic (con: Context){
     private val context = con
-    private var toggleReset = true
-    private var toggleGoals = true
-    private var toggleLanguage = true
     private val dataHandler = DataHandler()
 
-     fun expandLanguage(languageVisibility: LinearLayout){
-         if (toggleLanguage) {
-            languageVisibility.visibility = View.VISIBLE
-            toggleLanguage = false
-        } else {
-            languageVisibility.visibility = View.GONE
-            toggleLanguage = true
-        }
-    }
-
-     fun expandReset(clearVisibility: LinearLayout){
-        if (toggleReset) {
-            clearVisibility.visibility = View.VISIBLE
-            toggleReset = false
-        } else {
-            clearVisibility.visibility = View.GONE
-            toggleReset = true
-        }
-    }
-
-     fun expandGoals(goalVisibility: LinearLayout){
-        if (toggleGoals) {
-            goalVisibility.visibility = View.VISIBLE
-            toggleGoals = false
-        } else {
-            goalVisibility.visibility = View.GONE
-            toggleGoals = true
-        }
+     fun expandPanel(languageVisibility: LinearLayout, toggle: Boolean): Boolean{
+         languageVisibility.visibility = if (toggle) View.VISIBLE else View.GONE
+         return !toggle
     }
 
      fun saveGoals(caloriesGoal:String, proteinGoal: String){
@@ -71,85 +43,59 @@ class SettingsLogic (con: Context){
     }
 
      fun saveLanguage(selectedLanguage: String, selectedAppLanguage: String, currentAppLanguage: String, actv: Activity){
-        if (selectedLanguage != "") {
-            val voiceCountryCode = convertToCountryCode(selectedLanguage)
-            dataHandler.saveData(context, languageFile, Keys.Language.toString(), voiceCountryCode)
+         selectedLanguage.takeIf { it.isNotEmpty() }?.let {
+             val voiceCountryCode = convertToCountryCode(it)
+             dataHandler.saveData(context, languageFile, Keys.Language.toString(), voiceCountryCode)
+         }
+
+         selectedAppLanguage.takeIf { it.isNotEmpty() && convertToCountryCode(it) != currentAppLanguage }?.let {
+             val countryCode = convertToCountryCode(it)
+             dataHandler.saveData(context, appLanguageFile, Keys.Language.toString(), countryCode)
+             updateAppLocale(countryCode, actv)
+         }
+    }
+
+    private fun updateAppLocale(countryCode: String, actv: Activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.getSystemService(LocaleManager::class.java)
+                .applicationLocales = LocaleList.forLanguageTags(countryCode)
+        } else {
+            AppCompatDelegate.setApplicationLocales(
+                LocaleListCompat.forLanguageTags(countryCode)
+            )
         }
-        if (selectedAppLanguage != "") {
-            val countryCode = convertToCountryCode(selectedAppLanguage)
-            if(currentAppLanguage != countryCode) {
-                dataHandler.saveData(
-                    context,
-                    appLanguageFile,
-                    Keys.Language.toString(),
-                    countryCode
-                )
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    context.getSystemService(LocaleManager::class.java)
-                        .applicationLocales = LocaleList.forLanguageTags(countryCode)
-                } else {
-                    AppCompatDelegate.setApplicationLocales(
-                        LocaleListCompat.forLanguageTags(countryCode)
-                    )
-                }
-                actv.recreate()
-            }
-        }
+        actv.recreate()
     }
 
      fun setDropdownSelected(dropdown: Spinner, languageList: Array<String>, file: String, actv: Activity): String{
-        val adapterLanguage: ArrayAdapter<String> =
+         val currentAppLanguage = dataHandler.loadData(context, file)[Keys.Language.toString()].toString()
+         val appLanguageIndex: Int = convertToInt(currentAppLanguage)
+
+         val adapterLanguage: ArrayAdapter<String> =
             ArrayAdapter(actv, android.R.layout.simple_spinner_dropdown_item, languageList)
         dropdown.adapter = adapterLanguage
-
-        val currentAppLanguage = dataHandler.loadData(context, file)[Keys.Language.toString()].toString()
-        val appLanguage: Int = convertToInt(currentAppLanguage)
-        dropdown.setSelection(appLanguage)
+        dropdown.setSelection(appLanguageIndex)
 
          return currentAppLanguage
     }
 
      private fun convertToCountryCode(language: String): String{
-        val returnString: String
-        when (language) {
-            context.resources.getString(R.string.language_german) -> {
-                returnString = "de"
-            }
-            context.resources.getString(R.string.language_english) -> {
-                returnString = "en"
-            }
-            context.resources.getString(R.string.language_french) -> {
-                returnString = "fr"
-            }
-            context.resources.getString(R.string.language_spanish) -> {
-                returnString = "es"
-            }
-            else -> {
-                returnString = "en"
-            }
-        }
-        return returnString
+         return when (language) {
+             context.resources.getString(R.string.language_german) -> "de"
+             context.resources.getString(R.string.language_english) -> "en"
+             context.resources.getString(R.string.language_french) -> "fr"
+             context.resources.getString(R.string.language_spanish) -> "es"
+             else -> "en"
+         }
     }
 
-     private fun convertToInt(language: String): Int {
-        val returnInt: Int
-        when (language) {
-            "de" -> {
-                returnInt = 1
-            }
-            "en" -> {
-                returnInt = 2
-            }
-            "fr" -> {
-                returnInt = 3
-            }
-            "es" -> {
-                returnInt = 4
-            }
-            else -> {
-                returnInt = 0
-            }
+    private fun convertToInt(language: String): Int {
+        return when (language) {
+            "de" -> 1
+            "en" -> 2
+            "fr" -> 3
+            "es" -> 4
+            else -> 0
         }
-        return returnInt
     }
 }
