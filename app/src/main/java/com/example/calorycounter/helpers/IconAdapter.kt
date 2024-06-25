@@ -13,14 +13,14 @@ class IconAdapter(con: Context, viewID: Int, objects: ArrayList<Int>): ArrayAdap
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         // TODO Auto-generated method stub
-        return getCustomView(position, convertView , parent)
+        return getCustomView(position, parent)
     }
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // TODO Auto-generated method stub
-        return getCustomView(position, convertView , parent)
+        return getCustomView(position, parent)
     }
 
-    private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
+    private fun getCustomView(position: Int, parent: ViewGroup): View {
 
         val row: View = inflater.inflate(R.layout.row, parent, false)
         val icon: ImageView = row.findViewById(R.id.icon)

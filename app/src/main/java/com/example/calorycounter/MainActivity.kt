@@ -1,19 +1,16 @@
 package com.example.calorycounter
 
 import android.app.LocaleManager
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.os.LocaleList
-import android.util.AttributeSet
-import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.example.calorycounter.helpers.FragmentPageAdapter
 import com.example.calorycounter.data.DataHandler
+import com.example.calorycounter.helpers.FragmentPageAdapter
 import com.example.calorycounter.helpers.Keys
 import com.example.calorycounter.helpers.appLanguageFile
 import com.google.android.material.tabs.TabLayout
@@ -90,11 +87,6 @@ class MainActivity : AppCompatActivity() {
 //        val chartActivityIntent = Intent(this, Chart::class.java)
 //        chartActivityIntent.putExtra("caloriesData", serMap)
 //        startActivity(chartActivityIntent)
-    }
-
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-
-        return super.onCreateView(name, context, attrs)
     }
 }
 

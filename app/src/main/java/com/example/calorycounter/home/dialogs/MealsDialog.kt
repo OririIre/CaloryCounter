@@ -3,14 +3,13 @@ package com.example.calorycounter.home.dialogs
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
-import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import com.example.calorycounter.helpers.IconAdapter
 import com.example.calorycounter.R
 import com.example.calorycounter.data.DataHandler
+import com.example.calorycounter.helpers.IconAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.Locale
 

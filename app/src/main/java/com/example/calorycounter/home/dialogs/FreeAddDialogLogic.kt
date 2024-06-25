@@ -60,12 +60,4 @@ class FreeAddDialogLogic (con: Context) {
         }
         return currentValue
     }
-
-    private fun formatString (value: String): String {
-        return if (value.isNotBlank()) {
-            String.format(Locale.getDefault(), "%.1f", value.toDoubleOrNull() ?: 0.0)
-        } else {
-            ""
-        }
-    }
 }

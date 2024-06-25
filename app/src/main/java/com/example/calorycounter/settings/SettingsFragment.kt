@@ -1,25 +1,16 @@
 package com.example.calorycounter.settings
 
 import android.animation.LayoutTransition
-import android.app.LocaleManager
-import android.os.Build
 import android.os.Bundle
-import android.os.LocaleList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
-import com.example.calorycounter.helpers.Keys
 import com.example.calorycounter.R
-import com.example.calorycounter.helpers.appLanguageFile
 import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.databinding.FragmentSettingsBinding
-import com.example.calorycounter.helpers.goalsFile
+import com.example.calorycounter.helpers.appLanguageFile
 import com.example.calorycounter.helpers.languageFile
 
 

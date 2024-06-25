@@ -9,7 +9,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import androidx.transition.ChangeBounds
 import com.example.calorycounter.R
 import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.helpers.iconFile
