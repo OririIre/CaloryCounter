@@ -39,8 +39,9 @@ class DataHandler {
             directory.mkdirs()
         }
 
-        val existingData = loadData(context, fileName).toMutableMap()
+        val existingData = loadData(context, fileName)
         existingData.putAll(outputMap)
+        println(existingData)
         file.writeText(existingData.toString())
     }
 

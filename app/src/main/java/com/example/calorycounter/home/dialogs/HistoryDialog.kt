@@ -110,7 +110,7 @@ class HistoryDialog (con: Context) {
                         if (maxWidth - newX < 25) {
                             TransitionManager.beginDelayedTransition(parent, transition)
                             parent.removeView(card)
-                            removeHistoryItem(descriptionText.text.toString(), value, name)
+                            removeHistoryItem(calOrProt, value, name)
                         }
                     }
                     MotionEvent.ACTION_UP -> {
@@ -118,7 +118,7 @@ class HistoryDialog (con: Context) {
                         if (card.x > MIN_SWIPE_DISTANCE) {
                             TransitionManager.beginDelayedTransition(parent, transition)
                             parent.removeView(card)
-                            removeHistoryItem(descriptionText.text.toString(), value, name)
+                            removeHistoryItem(calOrProt, value, name)
                         }
                         else {
                             card.translationX = 0f
@@ -135,8 +135,8 @@ class HistoryDialog (con: Context) {
 
     private fun setText (historyValue: TextView, descriptionText: TextView, descriptionName: TextView, newName: String, value: String, relLayout: RelativeLayout, description: String){
         historyValue.id = View.generateViewId()
-        historyValue.text = if (value.toDoubleOrNull() != 0.0) {
-            String.format(Locale.getDefault(), "%.1f", value.toDouble())
+        historyValue.text = if (value.replace(",",".").toDoubleOrNull() != 0.0) {
+            String.format(Locale.getDefault(), "%.1f", value.replace(",",".").toDouble())
         } else {
             "0"
         }
@@ -157,15 +157,15 @@ class HistoryDialog (con: Context) {
         return time.takeLast(13).replace("_calo", "").replace("_prot", "")
     }
 
-    private fun removeHistoryItem(valueType: String, value: String, name: String){
-        val (fileName, currentValue) =if (valueType == "Calories") {
-            caloriesFile to calcNewValue(caloriesFile, value)
+    private fun removeHistoryItem(valueType: Boolean, value: String, name: String){
+        val (fileName, currentValue) =if (valueType) {
+            caloriesFile to calcNewValue(caloriesFile, value.replace(",","."))
         } else {
-            proteinFile to calcNewValue(proteinFile, value)
+            proteinFile to calcNewValue(proteinFile, value.replace(",","."))
         }
 
         dataHandler.saveData(context, fileName, currentDate, currentValue.toString())
-        dataHandler.deleteEntriesWithValue(context, historyFile, value)
+        dataHandler.deleteEntriesWithValue(context, historyFile, value.replace(",","."))
         dataHandler.deleteMapEntriesWithKeys(context, historyFile, name)
 
         listener.get()?.onStuffUpdated()
@@ -173,7 +173,7 @@ class HistoryDialog (con: Context) {
 
     private fun calcNewValue (fileType: String, value: String): Double {
         var currentValue = HelperClass.getCurrentValue(fileType, context)
-        value.toDoubleOrNull()?.let {
+        value.replace(",",".").toDoubleOrNull()?.let {
             if (it > 0.0) {
                 currentValue -= it
             }

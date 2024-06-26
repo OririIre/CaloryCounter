@@ -45,10 +45,10 @@ class HomeProgressBars (con: Context, remainingCalories: ProgressBar, consumedCa
     private val consumedCaloriesProgressBar = consumedCalories
     private val remainingProteinProgressBar = remainingProtein
     private val consumedProteinProgressBar = consumedProtein
+    private val goals = getGoals()
     private val consumedProt = consumedProtText
     private val usedKcal = usedKcalText
     private val cardView = relLayout
-    private val goals = dataHandler.loadData(context, goalsFile)
     private val leftKcal = leftCal
     private val leftProt = leftPro
 
@@ -120,5 +120,12 @@ class HomeProgressBars (con: Context, remainingCalories: ProgressBar, consumedCa
             animator.interpolator = FastOutSlowInInterpolator()
             animator.start()
         }
+    }
+
+    fun getGoals(): MutableMap<String, String> {
+        val goals = dataHandler.loadData(context, goalsFile).toMutableMap()
+        goals.getOrPut(Keys.Calories.toString()) { "0" }
+        goals.getOrPut(Keys.Protein.toString()) { "0" }
+        return goals
     }
 }

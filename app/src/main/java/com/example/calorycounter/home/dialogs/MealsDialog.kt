@@ -114,7 +114,7 @@ class MealsDialog (con: Context) {
 
     private fun formatString (value: String): String {
         return if (value.isNotBlank()) {
-            String.format(Locale.getDefault(), "%.1f", value.toDoubleOrNull() ?: 0.0)
+            String.format(Locale.getDefault(), "%.1f", value.replace(",",".").toDoubleOrNull() ?: 0.0)
         } else {
             ""
         }

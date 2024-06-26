@@ -32,11 +32,11 @@ class FreeAddDialogLogic (con: Context) {
 
         when {
             customValue.isNotEmpty() -> {
-                historyMap[currentTime + keyType] =customValue
+                historyMap[currentTime + keyType] = customValue.replace(",",".")
             }
             perGrammValue.isNotEmpty() && weightValue.isNotEmpty() -> {
-                val valueDouble = perGrammValue.toDoubleOrNull() ?: 0.0
-                val grammDouble = weightValue.toDoubleOrNull() ?: 0.0
+                val valueDouble = perGrammValue.replace(",",".").toDoubleOrNull() ?: 0.0
+                val grammDouble = weightValue.replace(",",".").toDoubleOrNull() ?: 0.0
                 historyMap[currentTime + keyType] = (valueDouble * (grammDouble / 100)).toString()
             }
         }
@@ -48,11 +48,11 @@ class FreeAddDialogLogic (con: Context) {
         var currentValue = HelperClass.getCurrentValue(fileName, context)
         when {
             custom.isNotEmpty() -> {
-                currentValue += custom.toDoubleOrNull() ?: 0.0
+                currentValue += custom.replace(",",".").toDoubleOrNull() ?: 0.0
             }
             value.isNotEmpty() && gramm.isNotEmpty() -> {
-                val valueDouble = value.toDoubleOrNull() ?:0.0
-                val grammDouble = gramm.toDoubleOrNull() ?: 0.0
+                val valueDouble = value.replace(",",".").toDoubleOrNull() ?:0.0
+                val grammDouble = gramm.replace(",",".").toDoubleOrNull() ?: 0.0
                 if (valueDouble > 0.0 && grammDouble > 0.0) {
                     currentValue += (valueDouble * (grammDouble / 100))
                 }

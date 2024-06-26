@@ -1,15 +1,18 @@
 package com.example.calorycounter.home
 
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.icu.text.SimpleDateFormat
 import com.example.calorycounter.R
 import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.helpers.HelperClass
-import com.example.calorycounter.helpers.caloriesFile
 import com.example.calorycounter.helpers.HelperClass.Companion.getCurrentValue
 import com.example.calorycounter.helpers.Keys
+import com.example.calorycounter.helpers.caloriesFile
 import com.example.calorycounter.helpers.historyFile
 import com.example.calorycounter.helpers.languageFile
+import org.apache.commons.lang3.LocaleUtils
 import org.apache.commons.lang3.math.NumberUtils
 import org.jsoup.Jsoup
 import org.jsoup.internal.StringUtil
@@ -34,20 +37,21 @@ class SpeechSearch (con: Context) {
             val sanitizedInput = input.replace(Regex("[\\[\\]]"), "")
             val resultArray = sanitizedInput.split(" ").map { it.lowercase().trim() }.toTypedArray()
 
+            val localizedResource = getLocalizedResources(context)
             val value = filterNumeric(resultArray)
             for (stuff in resultArray) {
                 if (!stuff.contains(value) && stuff != "g" && stuff != "gram" && stuff != "gramm"
-                    && stuff != context.getString(R.string.one) && stuff != context.getString(R.string.two)
-                    && stuff != context.getString(R.string.three) && stuff != context.getString(R.string.four)
-                    && stuff != context.getString(R.string.five) && stuff != context.getString(R.string.six)
-                    && stuff != context.getString(R.string.seven) && stuff != context.getString(R.string.eight)
-                    && stuff != context.getString(R.string.nine)) {
+                    && stuff != localizedResource.getString(R.string.one) && stuff != localizedResource.getString(R.string.two)
+                    && stuff != localizedResource.getString(R.string.three) && stuff != localizedResource.getString(R.string.four)
+                    && stuff != localizedResource.getString(R.string.five) && stuff != localizedResource.getString(R.string.six)
+                    && stuff != localizedResource.getString(R.string.seven) && stuff != localizedResource.getString(R.string.eight)
+                    && stuff != localizedResource.getString(R.string.nine)) {
                     item += stuff
                 }
             }
             if(value.isNotBlank() && item.isNotBlank())
             {
-                returnArray = arrayOf(item, value)
+                returnArray = arrayOf(item.replace(",","."), value.replace(",","."))
             }
             else {
                 println("could no find value or item in search request")
@@ -58,6 +62,7 @@ class SpeechSearch (con: Context) {
 
     private fun filterNumeric(resultArray: Array<String>): String {
         var value = ""
+        val localizedResource = getLocalizedResources(context)
         for (item in resultArray) {
             val results = item.lowercase()
             if (results.isNotBlank()) {
@@ -69,28 +74,37 @@ class SpeechSearch (con: Context) {
                         value = results.removeSuffix("gram")
                 } else if (results.removeSuffix("gramm").toDoubleOrNull() != null) {
                         value = results.removeSuffix("gramm")
-                } else if (results == context.getString(R.string.one)){
+                } else if (results == localizedResource.getString(R.string.one)){
                     value = "1"
-                } else if (results == context.getString(R.string.two)){
+                } else if (results == localizedResource.getString(R.string.two)){
                     value = "2"
-                } else if (results == context.getString(R.string.three)){
+                } else if (results == localizedResource.getString(R.string.three)){
                     value = "3"
-                } else if (results == context.getString(R.string.four)){
+                } else if (results == localizedResource.getString(R.string.four)){
                     value = "4"
-                } else if (results == context.getString(R.string.five)){
+                } else if (results == localizedResource.getString(R.string.five)){
                     value = "5"
-                } else if (results == context.getString(R.string.six)){
+                } else if (results == localizedResource.getString(R.string.six)){
                     value = "6"
-                } else if (results == context.getString(R.string.seven)){
+                } else if (results == localizedResource.getString(R.string.seven)){
                     value = "7"
-                } else if (results == context.getString(R.string.eight)){
+                } else if (results == localizedResource.getString(R.string.eight)){
                     value = "8"
-                } else if (results == context.getString(R.string.nine)){
+                } else if (results == localizedResource.getString(R.string.nine)){
                     value = "9"
                 }
             }
         }
         return value
+    }
+
+    private fun getLocalizedResources(context: Context): Resources {
+        val locale = getVoiceLanguage()
+        var conf: Configuration = context.resources.configuration
+        conf = Configuration(conf)
+        conf.setLocale(LocaleUtils.toLocale(locale))
+        val localizedContext = context.createConfigurationContext(conf)
+        return localizedContext.resources
     }
 
     fun searchRequest(resultArray: Array<String>, query: String): Document {
@@ -103,7 +117,7 @@ class SpeechSearch (con: Context) {
             val doc: Document = Jsoup.parse(url, 3 * 1000)
             result = doc
         } catch (e: IOException) {
-            println("error")
+            println("Parsing error ${e}")
         }
         return result
     }
@@ -220,20 +234,22 @@ class SpeechSearch (con: Context) {
     fun addFromSpeech(value: String, amount: String, name: String, fileType: String) {
         val historyMap = mutableMapOf<String, String>()
         val currentTime = HelperClass.getCurrentDateAndTime()
-        val amountValue =amount.trim().toDoubleOrNull() ?: return // Early return if amount is invalid
+        val amountValue = amount.trim().replace(",",".").toDoubleOrNull() ?: return
+        val min = 1
+        val max = 9
+        val isCountable = amount.toIntOrNull()?.let { it in min..max} ?: false
 
         val currentValue = getCurrentValue(fileType, context)
-        val consumed = if (value.isNotBlank()) {
-            value.toDoubleOrNull()?.let { valueNum ->
-                (valueNum * (amountValue / 100))
-            } ?: 0.0
-        } else {
-            0.0
+        val consumed = when { value.isBlank() -> 0.0
+            isCountable -> value.replace(",",".").toDoubleOrNull()?.let { it * amountValue * 5 } ?: 0.0
+            else -> value.replace(",",".").toDoubleOrNull()?.let{ it * (amountValue / 100) } ?: 0.0
         }
+
         val newTotal = currentValue + consumed
         dataHandler.saveData(context, fileType, currentDate, formatString(newTotal.toString()))
 
-        val formattedConsumed = formatString(consumed.toString())
+        val formattedConsumed = formatString(consumed.toString()).replace(",",".")
+        println(formattedConsumed)
         val suffix = if (fileType == caloriesFile) "_calo" else "_prot"
         historyMap += mutableMapOf((currentTime + suffix) to formattedConsumed)
 
@@ -254,7 +270,7 @@ class SpeechSearch (con: Context) {
 
     private fun formatString (value: String): String {
         return if (value.isNotBlank()) {
-            String.format(Locale.getDefault(), "%.1f", value.toDoubleOrNull() ?: 0.0)
+            String.format(Locale.getDefault(), "%.1f", value.replace(",",".").toDoubleOrNull() ?: 0.0)
         } else {
             ""
         }

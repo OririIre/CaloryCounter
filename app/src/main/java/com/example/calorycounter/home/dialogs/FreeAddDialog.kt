@@ -60,9 +60,9 @@ class FreeAddDialog (con: Context) {
 
         val handleEditorAction: (TextView, Int, KeyEvent?) -> Boolean = { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
-                val amount = formatString(kcal.text.toString())
-                val weight = formatString(gramm.text.toString())
-                val customText = formatString(custom.text.toString())
+                val amount = formatString(kcal.text.toString()).replace(",",".")
+                val weight = formatString(gramm.text.toString()).replace(",",".")
+                val customText = formatString(custom.text.toString()).replace(",",".")
                 freeAddProcessing.addSub(calProtSwitch, amount, weight, customText)
                 listener.get()?.onStuffUpdated()
                 clearValues()
@@ -79,9 +79,10 @@ class FreeAddDialog (con: Context) {
         proteinSwitch.setOnClickListener { updateUI(false) }
 
         saveValues.setOnClickListener {
-            val amount = formatString(kcal.text.toString())
-            val weight = formatString(gramm.text.toString())
-            val customText = formatString(custom.text.toString())
+            val amount = formatString(kcal.text.toString()).replace(",",".")
+            val weight = formatString(gramm.text.toString()).replace(",",".")
+            val customText = formatString(custom.text.toString()).replace(",",".")
+            println(customText)
             freeAddProcessing.addSub(calProtSwitch, amount, weight, customText)
             listener.get()?.onStuffUpdated()
             clearValues()
@@ -97,7 +98,7 @@ class FreeAddDialog (con: Context) {
 
     private fun formatString (value: String): String {
         return if (value.isNotBlank()) {
-            String.format(Locale.getDefault(), "%.1f", value.toDoubleOrNull() ?: 0.0)
+            String.format(Locale.getDefault(), "%.1f", value.replace(",",".").toDoubleOrNull() ?: 0.0)
         } else {
             ""
         }
