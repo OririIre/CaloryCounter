@@ -42,6 +42,7 @@
         </FrameLayout>
 
         <ScrollView
+            android:id="@+id/chartScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/scroll_view_for_history">

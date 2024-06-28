@@ -3,7 +3,6 @@ package com.example.calorycounter.home
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.view.HapticFeedbackConstants
@@ -15,6 +14,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.calorycounter.R
@@ -29,7 +29,6 @@ import com.example.calorycounter.home.dialogs.HistoryDialog
 import com.example.calorycounter.home.dialogs.MealsDialog
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
-import jp.wasabeef.blurry.Blurry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -52,6 +51,7 @@ class Home : Fragment(), UpdateListener {
     private lateinit var homeLogic: HomeLogic
     private lateinit var homeMealsCreation: HomeMealsCreation
     private lateinit var homeProgressBars: HomeProgressBars
+    private lateinit var blurView: ImageView
     private val dataHandler = DataHandler()
     private var isAllFabVisible: Boolean = false
 
@@ -77,6 +77,7 @@ class Home : Fragment(), UpdateListener {
         bottomMealDialog = createDialog(R.layout.meals_layout)
         bottomAddDialog = createDialog(R.layout.free_add_layout)
         bottomHistoryDialog = createDialog(R.layout.history_layout)
+        blurView = createImageView()
 
         return view
     }
@@ -100,10 +101,9 @@ class Home : Fragment(), UpdateListener {
         bnd.consumedCaloriesProgressBar.max = 1000
         bnd.consumedProteinProgressBar.max = 1000
 
-        val imageView = createImageView()
-        imageView.visibility = View.GONE
+        blurView.visibility = View.GONE
 
-        bnd.home.addView(imageView)
+        bnd.home.addView(blurView)
 
         bnd.infoToggle.setOnClickListener {
 
@@ -116,20 +116,20 @@ class Home : Fragment(), UpdateListener {
 
         bnd.fb.setOnClickListener {
             if (!isAllFabVisible) {
-                Blurry.with(requireContext()).capture(this.view).into(imageView)
-                imageView.visibility = View.VISIBLE
-                imageView.bringToFront()
+//                Blurry.with(requireContext()).capture(this.view).into(blurView)
+                blurView.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.image_background, null))
+                blurView.visibility = View.VISIBLE
+                blurView.bringToFront()
             } else {
-                imageView.visibility = View.GONE
+                blurView.visibility = View.GONE
             }
 
-            homeLogic.setFloatingButtonVisibilty(bnd.fbCustom, bnd.fbMeals, bnd.addFreeText, bnd.addMealText)
+            homeLogic.setFloatingButtonVisibilty(bnd.fbCustom, bnd.fbMeals, bnd.addFreeText, bnd.addMealText, isAllFabVisible)
             isAllFabVisible = !isAllFabVisible
         }
 
         bnd.fbCustom.setOnClickListener {
-            imageView.visibility = View.GONE
-            homeLogic.setFloatingButtonVisibilty(bnd.fbCustom, bnd.fbMeals, bnd.addFreeText, bnd.addMealText)
+            toggelFABVisibility ()
             freeAddDialog.show(bottomAddDialog)
         }
 
@@ -138,13 +138,16 @@ class Home : Fragment(), UpdateListener {
         }
 
         bnd.fbMeals.setOnClickListener {
-            imageView.visibility = View.GONE
-            homeLogic.setFloatingButtonVisibilty(bnd.fbCustom, bnd.fbMeals, bnd.addFreeText, bnd.addMealText)
+            toggelFABVisibility ()
             mealsDialog.show(0, bottomMealDialog)
         }
 
         bottomMealDialog.setOnDismissListener {
             homeMealsCreation.updateMealsUI()
+        }
+
+        blurView.setOnClickListener{
+            toggelFABVisibility ()
         }
 
         bnd.speechAdd.setOnClickListener {
@@ -177,6 +180,18 @@ class Home : Fragment(), UpdateListener {
         homeProgressBars.updateUI()
         homeMealsCreation.updateMealsUI()
         clearHistoryOnNextDay()
+    }
+
+    override fun onPause() {
+        toggelFABVisibility()
+        super.onPause()
+    }
+
+    private fun toggelFABVisibility() {
+        blurView.visibility = View.GONE
+        isAllFabVisible = true
+        homeLogic.setFloatingButtonVisibilty(bnd.fbCustom, bnd.fbMeals, bnd.addFreeText, bnd.addMealText, isAllFabVisible)
+        isAllFabVisible = false
     }
 
     private fun clearHistoryOnNextDay(){
@@ -258,7 +273,6 @@ class Home : Fragment(), UpdateListener {
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.MATCH_PARENT
             )
-            setBackgroundColor(Color.argb(100, 0, 0, 0))
             visibility = View.GONE
         }
     }

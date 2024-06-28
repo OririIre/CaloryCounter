@@ -10,5 +10,6 @@
     <color name="progressBarBackground">#252529</color>
     <color name="primaryColor">#280861</color>
     <color name="secondaryColor2">#3B119E</color>
+    <color name="transparentBlack">#80000000</color>
 
 </resources>

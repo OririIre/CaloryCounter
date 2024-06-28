@@ -1,19 +1,15 @@
 - Bottom Drawer fixen still not fixed that shit ->Themes ->Peek height nochmal checken, da war was wegen coorinator layout
-- Könnte sein es geht nur für Deutschland wegen dem Datumsformat beim speichern
 
 - Tutorial neu machen und noch speichern ob schon gemacht wurde oder nicht
 - Verschiedene Themes einbauen
 - animationen noch paar und shake für histroy, animate floating action button
-- Speech Input: Implement mililiter
-- not possible to scroll to the top of history
-- manchmal geht freefloat button nicht weg
-- app sprache ändern muss man manchmal zwei mal machen?!
+- Check Translation wehn not removable in Chart History
+- not possible to scroll to the top of history (Home)
 - Alle funktionen in mindestens deutsch englisch spanisch durchchecken
-
-- Delete history Items in Chart?!
 
 
 Evtl Stuff?! I dont fucking know man
 - Cheatday mode in settings rein (evtl)
 - Beschreibung für Alcohol Mode/Irgendwas damit machen was sinn macht
 - Benachrichtigungen (alcohol mode da rein)
+- Speech Input: Implement mililiter ?!

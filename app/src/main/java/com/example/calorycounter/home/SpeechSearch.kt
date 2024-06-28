@@ -117,7 +117,7 @@ class SpeechSearch (con: Context) {
             val doc: Document = Jsoup.parse(url, 3 * 1000)
             result = doc
         } catch (e: IOException) {
-            println("Parsing error ${e}")
+            println("Parsing error $e")
         }
         return result
     }

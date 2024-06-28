@@ -56,7 +56,7 @@ class ChartFragment : Fragment() {
         val caloriesArray: List<Float> = chartLogic.reverseChartData(chartDataCalories)
 
         bnd.layoutCalories.removeAllViews()
-        val cardArrray = chartCardCreation.prepareCards(chartDataCalories, chartDataProtein)
+        val cardArrray = chartCardCreation.prepareCards(chartDataCalories, chartDataProtein, bnd.layoutCalories, bnd.chartScrollView)
         for (card in cardArrray) {
             bnd.layoutCalories.addView(card)
         }

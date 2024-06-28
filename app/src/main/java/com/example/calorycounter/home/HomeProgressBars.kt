@@ -122,7 +122,7 @@ class HomeProgressBars (con: Context, remainingCalories: ProgressBar, consumedCa
         }
     }
 
-    fun getGoals(): MutableMap<String, String> {
+    private fun getGoals(): MutableMap<String, String> {
         val goals = dataHandler.loadData(context, goalsFile).toMutableMap()
         goals.getOrPut(Keys.Calories.toString()) { "0" }
         goals.getOrPut(Keys.Protein.toString()) { "0" }

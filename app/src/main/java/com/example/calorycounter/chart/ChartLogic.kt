@@ -3,7 +3,6 @@ package com.example.calorycounter.chart
 import com.github.mikephil.charting.data.Entry
 
 class ChartLogic {
-
     fun reverseChartData(chartDataCalories: MutableMap<String, String>): List<Float> {
         return chartDataCalories.toSortedMap(reverseOrder())
             .values

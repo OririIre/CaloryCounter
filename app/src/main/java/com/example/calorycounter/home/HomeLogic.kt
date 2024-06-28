@@ -11,7 +11,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class HomeLogic (con: Context){
     private val context = con
     private val dataHandler = DataHandler()
-    private var isAllFabVisible: Boolean = false
 
     fun updateGoals(): MutableMap<String, String> {
         val goals = dataHandler.loadData(context, goalsFile).toMutableMap()
@@ -20,7 +19,7 @@ class HomeLogic (con: Context){
         return goals
     }
 
-    fun setFloatingButtonVisibilty (fbCustom: FloatingActionButton, fbMeals: FloatingActionButton, addFreeText: TextView, addMealText: TextView) {
+    fun setFloatingButtonVisibilty (fbCustom: FloatingActionButton, fbMeals: FloatingActionButton, addFreeText: TextView, addMealText: TextView, isAllFabVisible: Boolean) {
         val visibility = if (isAllFabVisible) View.GONE else View.VISIBLE
         fbCustom.visibility = visibility
         fbMeals.visibility = visibility
@@ -30,7 +29,5 @@ class HomeLogic (con: Context){
             addFreeText.bringToFront()
             addMealText.bringToFront()
         }
-
-        isAllFabVisible = !isAllFabVisible
     }
 }

@@ -1,16 +1,11 @@
 package com.example.calorycounter.settings
 
 import android.app.Activity
-import android.app.LocaleManager
 import android.content.Context
-import android.os.Build
-import android.os.LocaleList
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import com.example.calorycounter.R
 import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.helpers.Keys
@@ -47,24 +42,11 @@ class SettingsLogic (con: Context){
              val voiceCountryCode = convertToCountryCode(it)
              dataHandler.saveData(context, languageFile, Keys.Language.toString(), voiceCountryCode)
          }
-
          selectedAppLanguage.takeIf { it.isNotEmpty() && convertToCountryCode(it) != currentAppLanguage }?.let {
              val countryCode = convertToCountryCode(it)
              dataHandler.saveData(context, appLanguageFile, Keys.Language.toString(), countryCode)
-             updateAppLocale(countryCode, actv)
+             actv.recreate()
          }
-    }
-
-    private fun updateAppLocale(countryCode: String, actv: Activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            context.getSystemService(LocaleManager::class.java)
-                .applicationLocales = LocaleList.forLanguageTags(countryCode)
-        } else {
-            AppCompatDelegate.setApplicationLocales(
-                LocaleListCompat.forLanguageTags(countryCode)
-            )
-        }
-        actv.recreate()
     }
 
      fun setDropdownSelected(dropdown: Spinner, languageList: Array<String>, file: String, actv: Activity): String{
