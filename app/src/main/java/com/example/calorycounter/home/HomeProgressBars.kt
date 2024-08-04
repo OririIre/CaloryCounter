@@ -45,7 +45,7 @@ class HomeProgressBars (con: Context, remainingCalories: ProgressBar, consumedCa
     private val consumedCaloriesProgressBar = consumedCalories
     private val remainingProteinProgressBar = remainingProtein
     private val consumedProteinProgressBar = consumedProtein
-    private val goals = getGoals()
+    private var goals = getGoals()
     private val consumedProt = consumedProtText
     private val usedKcal = usedKcalText
     private val cardView = relLayout
@@ -53,6 +53,7 @@ class HomeProgressBars (con: Context, remainingCalories: ProgressBar, consumedCa
     private val leftProt = leftPro
 
     fun updateUI(){
+        goals = getGoals()
         val caloriesGoal = goals[Keys.Calories.toString()].toString()
         val proteinGoal = goals[Keys.Protein.toString()].toString()
 

@@ -6,10 +6,4 @@
 - Check Translation wehn not removable in Chart History
 - not possible to scroll to the top of history (Home)
 - Alle funktionen in mindestens deutsch englisch spanisch durchchecken
-
-
-Evtl Stuff?! I dont fucking know man
-- Cheatday mode in settings rein (evtl)
-- Beschreibung für Alcohol Mode/Irgendwas damit machen was sinn macht
-- Benachrichtigungen (alcohol mode da rein)
-- Speech Input: Implement mililiter ?!
+- Problem mit Chart checken (iwo ein nulpointer? Bei Vali stürtzt es ab) -> Vermutlich fixed mit Vali checken

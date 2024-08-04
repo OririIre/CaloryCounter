@@ -28,8 +28,13 @@ class ChartLogic {
 
     fun prepareAxisData(dateArray: List<String>): List<String> {
         return dateArray.indices.map { i ->if (i == 0 || i == dateArray.lastIndex || i == dateArray.size / 3 || i == dateArray.size * 2 / 3) {
-            dateArray[i].takeLast(4).let {
-                StringBuilder(it).insert(2, ".").toString()
+            if(dateArray[i] != "0") {
+                dateArray[i].takeLast(4).let {
+                    StringBuilder(it).insert(2, ".").toString()
+                }
+            }
+            else{
+                "01.01"
             }
         } else {
             ""

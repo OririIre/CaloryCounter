@@ -1,23 +1,16 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.CaloryCounter" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
-        <item name="colorAccent">@color/primaryColor</item>
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-    </style>
-
-    <!--    <style name="DialogAnimation">-->
-    <!--        <item name="android:windowEnterAnimation">@anim/slide_in</item>-->
-    <!--        <item name="android:windowExitAnimation">@anim/slide_out</item>-->
-    <!--    </style>-->
-
-    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+    <style name="DarkTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:background">@color/darkestgrey</item>
+        <item name="colorAccent">@color/primaryColor</item>
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle.Dark</item>
+        <item name="bottomSheetStyle">@style/BottomSheetDialogTheme.Dark</item>
+        <item name="android:textViewStyle">@style/ConsumedText_Dark</item>
+        <item name="materialButtonStyle">@style/HistoryButton_Dark</item>
     </style>
 
-    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    <style name="BottomSheetDialogTheme.Dark" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:background">@color/transparent</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowIsFloating">false</item>
@@ -25,11 +18,28 @@
         <item name="behavior_peekHeight">300dp</item>
     </style>
 
-    <style name="FloatingActionButtonStyle" parent="Widget.Design.FloatingActionButton">
-        <item name="shapeAppearanceOverlay">@style/FABShape</item>
-    </style>
-
-    <style name="FABShape" parent="ShapeAppearance.Material3.SmallComponent">
+    <style name="FloatingActionButtonStyle.Dark" parent="Widget.Design.FloatingActionButton">
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="HistoryButton_Dark" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">15dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="strokeColor">@color/someDarkestGrey</item>
+    </style>
+
+    <style name="ConsumedText_Dark">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="ProgressBarBackground_Dark">
+        <item name="android:progressBarStyle">?android:attr/progressBarStyleHorizontal</item>
+        <item name="android:solidColor">@color/progressBarBackground</item>
+    </style>
+
 </resources>

@@ -177,6 +177,7 @@ class Home : Fragment(), UpdateListener {
     override fun onResume() {
         super.onResume()
         goals = homeLogic.updateGoals()
+        println(goals)
         homeProgressBars.updateUI()
         homeMealsCreation.updateMealsUI()
         clearHistoryOnNextDay()
