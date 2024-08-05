@@ -9,6 +9,10 @@
         <item name="materialButtonStyle">@style/HistoryButton_Light</item>
         <item name="progress_circular">@drawable/circle_shape_light</item>
         <item name="progressbar">@drawable/progressbar_light</item>
+        <item name="header">@color/white_low_transparency</item>
+        <item name="spinnerStyle">@style/SpinnerStyle</item>
+        <item name="custom_edit_text">@drawable/custom_edit_text_light</item>
+        <item name="selection_box">@drawable/custom_textview_border_light</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
@@ -38,8 +42,7 @@
         <item name="android:textColorHint">@color/transparentBlack</item>
     </style>
 
-    <style name="ProgressBarBackground_Light">
-        <item name="android:progressBarStyle">?android:attr/progressBarStyleHorizontal</item>
+    <style name="SpinnerStyle">
+        <item name="android:textColor">@color/transparentBlack</item>
     </style>
-
 </resources>

@@ -2,6 +2,7 @@ package com.example.calorycounter.home.dialogs
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.example.calorycounter.R
 import com.example.calorycounter.helpers.UpdateListener
@@ -40,7 +42,11 @@ class FreeAddDialog (con: Context) {
         val additionalInfoButton: TextView = freeAddDialog.findViewById(R.id.button_additional_settings)!!
         val additionalSettings: RelativeLayout = freeAddDialog.findViewById(R.id.layoutAdditionalSettings)!!
 
-        val borderDrawable = ResourcesCompat.getDrawable(context.resources, R.drawable.custom_textview_border, null)
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(R.attr.selection_box, typedValue, true)
+        val drawableId = typedValue.resourceId
+
+        val borderDrawable = ResourcesCompat.getDrawable(context.resources, drawableId, null)
 
         fun updateUI(isCalories: Boolean) {
             calProtSwitch = isCalories
@@ -82,7 +88,6 @@ class FreeAddDialog (con: Context) {
             val amount = formatString(kcal.text.toString()).replace(",",".")
             val weight = formatString(gramm.text.toString()).replace(",",".")
             val customText = formatString(custom.text.toString()).replace(",",".")
-            println(customText)
             freeAddProcessing.addSub(calProtSwitch, amount, weight, customText)
             listener.get()?.onStuffUpdated()
             clearValues()

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:background="@color/almostDarkestGrey">
+        android:background="?attr/header">
 
         <TextView
             android:id="@+id/headline"
@@ -23,7 +23,7 @@
             android:textColor="@color/white"
             android:padding="15dp"
             android:drawablePadding="10dp"
-            android:background="@color/almostDarkestGrey"
+            android:background="@color/transparent"
             app:drawableStartCompat="@drawable/baseline_add_meal_24"/>
 
     </FrameLayout>
@@ -39,16 +39,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Calories"
-            android:textColor="@color/white"
             android:padding="8dp"
-            android:background="@drawable/custom_textview_border"/>
+            android:background="?attr/selection_box"/>
 
         <TextView
             android:id="@+id/proteinSwitcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Protein"
-            android:textColor="@color/white"
             android:padding="8dp"/>
 
     </LinearLayout>
@@ -70,7 +68,7 @@
             android:layout_centerInParent="true"
             android:autofillHints=""
             android:drawableStart="@drawable/baseline_add_circle_24"
-            android:background="@drawable/custom_edit_text"
+            android:background="?attr/custom_edit_text"
             android:drawablePadding="12dp"
             android:imeOptions="actionSend"
             android:paddingStart="12dp"

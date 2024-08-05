@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/almostDarkestGrey">
+        android:background="?attr/header">
 
         <TextView
             android:id="@+id/headline"
@@ -24,7 +24,7 @@
             android:textColor="@color/white"
             android:padding="15dp"
             android:drawablePadding="10dp"
-            android:background="@color/almostDarkestGrey"
+            android:background="@color/transparent"
             app:drawableStartCompat="@drawable/baseline_ramen_dining_24"/>
 
     </FrameLayout>
@@ -42,7 +42,7 @@
             android:layout_height="50dp"
             android:spinnerMode="dropdown"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/custom_edit_text"/>
+            android:background="?attr/custom_edit_text"/>
 
         <EditText
             android:id="@+id/enterMealName"
@@ -54,7 +54,7 @@
             android:textColorHint="@color/white"
             android:autofillHints=""
             android:drawableStart="@drawable/baseline_text_snippet_24"
-            android:background="@drawable/custom_edit_text"
+            android:background="?attr/custom_edit_text"
             android:drawablePadding="12dp"
             android:imeOptions="actionSend"
             android:paddingStart="12dp"
@@ -75,7 +75,7 @@
             android:layout_height="48dp"
             android:layout_marginEnd="10dp"
             android:autofillHints=""
-            android:background="@drawable/custom_edit_text"
+            android:background="?attr/custom_edit_text"
             android:drawableStart="@drawable/baseline_data_saver_off_24"
             android:drawablePadding="12dp"
             android:hint="@string/amountHint"
@@ -98,7 +98,7 @@
             android:textColorHint="@color/white"
             android:autofillHints=""
             android:drawableStart="@drawable/baseline_pie_chart_outlined_24"
-            android:background="@drawable/custom_edit_text"
+            android:background="?attr/custom_edit_text"
             android:drawablePadding="12dp"
             android:imeOptions="actionSend"
             android:paddingStart="12dp"

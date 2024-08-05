@@ -2,4 +2,7 @@
 <resources>
     <attr name="progress_circular" format="reference"/>
     <attr name="progressbar" format="reference"/>
+    <attr name="header" format="reference"/>
+    <attr name="custom_edit_text" format="reference"/>
+    <attr name="selection_box" format="reference"/>
 </resources>

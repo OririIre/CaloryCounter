@@ -9,6 +9,9 @@
         <item name="materialButtonStyle">@style/HistoryButton_Dark</item>
         <item name="progress_circular">@drawable/circle_shape_dark</item>
         <item name="progressbar">@drawable/progressbar_dark</item>
+        <item name="header">@color/almostDarkestGrey</item>
+        <item name="custom_edit_text">@drawable/custom_edit_text</item>
+        <item name="selection_box">@drawable/custom_textview_border</item>
     </style>
 
     <style name="BottomSheetDialogTheme.Dark" parent="Theme.Design.Light.BottomSheetDialog">
@@ -37,11 +40,4 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorHint">@color/white</item>
     </style>
-
-    <style name="CircularProgressBarBackground_Dark">
-        <item name="android:progressBarStyle">?android:attr/progressBarStyleHorizontal</item>
-    </style>
-
-
-
 </resources>
