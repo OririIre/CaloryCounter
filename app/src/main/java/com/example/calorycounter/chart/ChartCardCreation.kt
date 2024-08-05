@@ -198,7 +198,6 @@ class ChartCardCreation (con: Context){
         }
         textView.text = valueText
         textView.textSize = textSize
-        textView.setTextColor(ResourcesCompat.getColor(context.resources, R.color.white, null))
         textView.layoutParams = textParam
 
         return textView

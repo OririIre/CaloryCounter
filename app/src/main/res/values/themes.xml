@@ -5,8 +5,10 @@
         <item name="colorAccent">@color/primaryColor</item>
         <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
         <item name="bottomSheetStyle">@style/BottomSheetDialogTheme</item>
-        <item name="android:textViewStyle">@style/ConsumedText_Light</item>
+        <item name="android:textViewStyle">@style/TextView_Light</item>
         <item name="materialButtonStyle">@style/HistoryButton_Light</item>
+        <item name="progress_circular">@drawable/circle_shape_light</item>
+        <item name="progressbar">@drawable/progressbar_light</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
@@ -23,18 +25,17 @@
     </style>
 
     <style name="HistoryButton_Light" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/transparentBlack</item>
         <item name="cornerRadius">15dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">15sp</item>
         <item name="android:fontFamily">sans-serif-light</item>
-        <item name="strokeColor">@color/black</item>
+        <item name="strokeColor">@color/transparentBlack</item>
     </style>
 
-    <style name="ConsumedText_Light">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:fontFamily">sans-serif-black</item>
+    <style name="TextView_Light">
+        <item name="android:textColor">@color/transparentBlack</item>
+        <item name="android:textColorHint">@color/transparentBlack</item>
     </style>
 
     <style name="ProgressBarBackground_Light">

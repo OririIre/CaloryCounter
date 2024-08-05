@@ -96,7 +96,6 @@
             android:fontFamily="sans-serif-black"
             android:gravity="end"
             android:text="@string/usedKcal"
-            android:textColor="@color/white"
             android:textSize="15sp" />
 
         <LinearLayout
@@ -117,7 +116,7 @@
                 android:background="@color/transparent"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:progressDrawable="@drawable/progress_bar2"
+                android:progressDrawable="?attr/progressbar"
                 android:rotation="180" />
         </LinearLayout>
 
@@ -139,7 +138,7 @@
                 android:background="@color/transparent"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:progressDrawable="@drawable/progress_bar2"
+                android:progressDrawable="?attr/progressbar"
                 android:rotation="180" />
         </LinearLayout>
 
@@ -155,7 +154,6 @@
             android:fontFamily="sans-serif-black"
             android:gravity="start"
             android:text="@string/Remaining"
-            android:textColor="@color/white"
             android:textSize="15sp" />
 
         <TextView
@@ -170,7 +168,6 @@
             android:fontFamily="sans-serif-black"
             android:gravity="end"
             android:text="@string/usedProt"
-            android:textColor="@color/white"
             android:textSize="15sp" />
 
     </RelativeLayout>
@@ -279,7 +276,7 @@
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:background="@drawable/circle_shape"
+        android:background="?attr/progress_circular"
         android:indeterminate="false"
         android:progressDrawable="@drawable/circular_progress2"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
@@ -299,7 +296,7 @@
         android:layout_marginTop="27dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/circle_shape"
+        android:background="?attr/progress_circular"
         android:indeterminate="false"
         android:progressDrawable="@drawable/circular_progress"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
@@ -323,6 +320,8 @@
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif-black"
+            android:textSize="25sp"
             android:gravity="end"
             android:text="@string/usedKcal" />
 
@@ -332,6 +331,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/usedKcal"
             android:layout_centerInParent="true"
+            android:fontFamily="sans-serif-black"
+            android:textSize="25sp"
             android:gravity="end"
             android:text="@string/usedProt" />
 

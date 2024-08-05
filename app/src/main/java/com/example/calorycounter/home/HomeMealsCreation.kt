@@ -122,7 +122,6 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
             text = valueText
             textSize = 15f
             isSingleLine = true
-            setTextColor(ResourcesCompat.getColor(context.resources, R.color.white, null))
             gravity = Gravity.END
             setCompoundDrawablesWithIntrinsicBounds(
                 null,
@@ -146,7 +145,6 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
             }
             text = mealName
             textSize = 15f
-            setTextColor(ResourcesCompat.getColor(context.resources, R.color.white, null))
             if (icon.isNotEmpty()) {
                 val iconDrawable = try {
                     ResourcesCompat.getDrawable(context.resources, icon.toInt(), null)

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     //    val CHANNEL_ID = "Channel_ID_1"
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.DarkTheme)
+        setTheme(R.style.LightTheme)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)

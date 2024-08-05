@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="progress_circular" format="reference"/>
+    <attr name="progressbar" format="reference"/>
+</resources>

@@ -23,7 +23,6 @@
             android:layout_marginTop="10dp"
             android:textSize="20sp"
             android:text="@string/setGoal"
-            android:textColor="@color/white"
             android:drawablePadding="5dp"
             app:drawableStartCompat="@drawable/baseline_how_to_reg_24" />
 
@@ -40,8 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:text="@string/caloriesGoal"
-                android:textColor="@color/white" />
+                android:text="@string/caloriesGoal" />
 
             <EditText
                 android:id="@+id/enterCaloriesGoal"
@@ -49,8 +47,6 @@
                 android:layout_height="50dp"
                 android:hint="@string/caloriesGoalHint"
                 android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
                 android:layout_marginStart="50dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
@@ -66,8 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:text="@string/proteinGoal"
-                android:textColor="@color/white" />
+                android:text="@string/proteinGoal" />
 
             <EditText
                 android:id="@+id/enterProteinGoal"
@@ -75,8 +70,6 @@
                 android:layout_height="50dp"
                 android:hint="@string/proteinGoalHint"
                 android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
                 android:layout_marginStart="50dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
@@ -96,8 +89,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_states_1"
                 android:backgroundTint="@color/primaryColor"
-                android:text="@string/saveGoals"
-                android:textColor="@color/white" />
+                android:text="@string/saveGoals" />
 
         </LinearLayout>
 
@@ -120,7 +112,6 @@
             android:layout_marginTop="10dp"
             android:textSize="20sp"
             android:text="@string/resetData"
-            android:textColor="@color/white"
             android:drawablePadding="5dp"
             app:drawableStartCompat="@drawable/baseline_clear_all_24" />
 
@@ -141,8 +132,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_states_1"
                 android:backgroundTint="@color/primaryColor"
-                android:text="@string/clearAll"
-                android:textColor="@color/white" />
+                android:text="@string/clearAll" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/clearGoals"
@@ -152,8 +142,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_states_1"
                 android:backgroundTint="@color/primaryColor"
-                android:text="@string/clearGoals"
-                android:textColor="@color/white" />
+                android:text="@string/clearGoals" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/clearCalories"
@@ -163,8 +152,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_states_1"
                 android:backgroundTint="@color/primaryColor"
-                android:text="@string/clearCalories"
-                android:textColor="@color/white" />
+                android:text="@string/clearCalories" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/clearProtein"
@@ -174,8 +162,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_states_1"
                 android:backgroundTint="@color/primaryColor"
-                android:text="@string/clearProtein"
-                android:textColor="@color/white" />
+                android:text="@string/clearProtein" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/clearMeals"
@@ -184,8 +171,7 @@
                 android:layout_marginStart="50dp"
                 android:background="@drawable/button_states_1"
                 android:backgroundTint="@color/primaryColor"
-                android:text="@string/clearMeals"
-                android:textColor="@color/white" />
+                android:text="@string/clearMeals" />
 
         </LinearLayout>
 
@@ -208,7 +194,6 @@
             android:layout_marginTop="10dp"
             android:textSize="20sp"
             android:text="@string/language"
-            android:textColor="@color/white"
             android:drawablePadding="5dp"
             app:drawableStartCompat="@drawable/baseline_language_24" />
 
@@ -224,8 +209,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:text="@string/voiceLanguage"
-                android:textColor="@color/white" />
+                android:text="@string/voiceLanguage" />
 
             <Spinner
                 android:id="@+id/languageDropdown"
@@ -239,8 +223,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:text="@string/appLanguage"
-                android:textColor="@color/white" />
+                android:text="@string/appLanguage" />
 
             <Spinner
                 android:id="@+id/appLanguageDropdown"
@@ -257,8 +240,7 @@
                 android:layout_marginStart="50dp"
                 android:background="@drawable/button_states_1"
                 android:backgroundTint="@color/primaryColor"
-                android:text="@string/saveLang"
-                android:textColor="@color/white" />
+                android:text="@string/saveLang" />
 
         </LinearLayout>
 
