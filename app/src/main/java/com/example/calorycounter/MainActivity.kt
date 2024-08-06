@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_settings_24))
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_home_24))
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_insert_chart_outlined_24))
+        tabLayout.setBackgroundColor(resources.getColor(R.color.pristineWhite, null))
 
         viewPager2.adapter = adapter
         viewPager2.currentItem = 1

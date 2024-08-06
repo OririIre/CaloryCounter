@@ -10,7 +10,6 @@
         android:id="@+id/tab_selector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/darkestgrey"
         android:layout_marginBottom="?android:attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

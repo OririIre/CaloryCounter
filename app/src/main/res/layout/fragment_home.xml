@@ -17,7 +17,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/button_states_1"
-        android:textColor="@color/white"
+        android:textColor="@color/cloudyWhite"
         app:layout_constraintEnd_toEndOf="@+id/consumedProteinProgressBar"
         app:layout_constraintTop_toTopOf="@+id/consumedProteinProgressBar">
 
@@ -27,7 +27,7 @@
             android:layout_centerInParent="true"
             android:fontFamily="sans-serif-black"
             android:text="i"
-            android:textColor="@color/white"
+            android:textColor="@color/cloudyWhite"
             android:textSize="20sp"
             tools:ignore="HardcodedText" />
     </RelativeLayout>
@@ -39,7 +39,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginEnd="20dp"
         android:background="@drawable/button_states_1"
-        android:textColor="@color/white"
+        android:textColor="@color/cloudyWhite"
         app:layout_constraintBottom_toBottomOf="@id/consumedProteinProgressBar"
         app:layout_constraintEnd_toEndOf="@id/consumedProteinProgressBar">
 
@@ -63,7 +63,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/drop_shadow"
+        android:background="?attr/drop_shadow"
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/layoutMealButtons"
         app:layout_constraintEnd_toEndOf="parent"
@@ -233,7 +233,7 @@
         android:background="@color/transparent"
         android:layout_marginEnd="8dp"
         android:textSize="14sp"
-        android:textColor="@color/white"
+        android:textColor="@color/cloudyWhite"
         android:text="@string/add_meal_drink"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/fbMeals"
@@ -262,7 +262,7 @@
         android:background="@color/transparent"
         android:layout_marginEnd="8dp"
         android:textSize="14sp"
-        android:textColor="@color/white"
+        android:textColor="@color/cloudyWhite"
         android:text="@string/free_add"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/fbCustom"

@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/date"
-                android:textColor="@color/white"
+                android:textColor="@color/cloudyWhite"
                 android:textSize="15sp" />
 
             <TextView
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="@string/Calories"
-                android:textColor="@color/white"
+                android:textColor="@color/cloudyWhite"
                 android:textSize="15sp" />
 
             <TextView
@@ -45,7 +45,7 @@
                 android:layout_alignStart="@+id/description"
                 android:layout_below="@+id/description"
                 android:text="@string/Name"
-                android:textColor="@color/white"
+                android:textColor="@color/cloudyWhite"
                 android:textSize="11sp" />
 
             <TextView
@@ -55,7 +55,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:text="@string/usedKcal"
-                android:textColor="@color/white"
+                android:textColor="@color/cloudyWhite"
                 android:textSize="15sp"
                 tools:ignore="RelativeOverlap" />
 

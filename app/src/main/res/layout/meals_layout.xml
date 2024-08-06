@@ -21,7 +21,7 @@
             android:layout_marginStart="10dp"
             android:text="@string/mealsHeadline"
             android:textSize="20sp"
-            android:textColor="@color/white"
+            android:textColor="@color/cloudyWhite"
             android:padding="15dp"
             android:drawablePadding="10dp"
             android:background="@color/transparent"
@@ -42,6 +42,7 @@
             android:layout_height="50dp"
             android:spinnerMode="dropdown"
             android:layout_marginEnd="10dp"
+            android:popupBackground="@color/transparent"
             android:background="?attr/custom_edit_text"/>
 
         <EditText
@@ -50,8 +51,8 @@
             android:layout_height="50dp"
             android:hint="@string/Name"
             android:inputType="text"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@color/cloudyWhite"
+            android:textColorHint="@color/cloudyWhite"
             android:autofillHints=""
             android:drawableStart="@drawable/baseline_text_snippet_24"
             android:background="?attr/custom_edit_text"
@@ -83,8 +84,8 @@
             android:inputType="number"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@color/cloudyWhite"
+            android:textColorHint="@color/cloudyWhite"
             tools:ignore="DuplicateSpeakableTextCheck" />
 
         <EditText
@@ -94,8 +95,8 @@
             android:layout_toEndOf="@+id/enterMealCalories"
             android:hint="@string/amountHint"
             android:inputType="number"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@color/cloudyWhite"
+            android:textColorHint="@color/cloudyWhite"
             android:autofillHints=""
             android:drawableStart="@drawable/baseline_pie_chart_outlined_24"
             android:background="?attr/custom_edit_text"
@@ -108,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/caloriesDescription"
-            android:textColor="@color/white"
+            android:textColor="@color/cloudyWhite"
             android:layout_below="@+id/enterMealCalories"
             android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"/>
@@ -117,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/proteinDescription"
-            android:textColor="@color/white"
+            android:textColor="@color/cloudyWhite"
             android:layout_alignStart="@+id/enterMealProtein"
             android:layout_below="@+id/enterMealProtein"
             android:layout_marginStart="30dp"
@@ -132,7 +133,7 @@
         android:layout_gravity="center"
         android:background="@drawable/button_states_1"
         android:text="@string/button_save"
-        android:textColor="@color/white"
+        android:textColor="@color/cloudyWhite"
         tools:ignore="TouchTargetSizeCheck" />
 
 

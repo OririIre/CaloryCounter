@@ -5,7 +5,7 @@
     <item android:state_enabled="true" android:state_focused="true">
         <shape android:shape="rectangle">
             <corners android:radius="5dp" />
-            <solid android:color="@color/white_low_transparency" />
+            <solid android:color="@color/pristineWhite" />
             <stroke android:width="2dp" android:color="@color/primaryColor" />
         </shape>
     </item>
@@ -14,7 +14,7 @@
     <item android:state_enabled="true">
         <shape android:shape="rectangle">
             <corners android:radius="5dp" />
-            <solid android:color="@color/white_low_transparency" />
+            <solid android:color="@color/pristineWhite" />
             <stroke android:width="2dp" android:color="@color/transparentBlack" />
         </shape>
     </item>

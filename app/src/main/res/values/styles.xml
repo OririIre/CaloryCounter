@@ -5,4 +5,5 @@
     <attr name="header" format="reference"/>
     <attr name="custom_edit_text" format="reference"/>
     <attr name="selection_box" format="reference"/>
+    <attr name="drop_shadow" format="reference"/>
 </resources>

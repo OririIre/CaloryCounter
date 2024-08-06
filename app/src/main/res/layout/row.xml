@@ -8,6 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
+        android:background="@color/transparent"
         android:padding="5dp"
         android:src="@drawable/baseline_ramen_dining_24"
         android:contentDescription="@string/dropdown_icon"/>
