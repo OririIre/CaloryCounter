@@ -2,6 +2,8 @@ package com.example.calorycounter.chart
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
@@ -20,6 +22,7 @@ import com.example.calorycounter.helpers.MIN_SWIPE_DISTANCE
 import com.example.calorycounter.helpers.caloriesFile
 import com.example.calorycounter.helpers.goalsFile
 import com.example.calorycounter.helpers.proteinFile
+import com.google.android.material.color.MaterialColors
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.abs
@@ -57,12 +60,20 @@ class ChartCardCreation (con: Context){
         caloriesDescription.setPadding(205, 0, 0, 0)
         proteinDescription.setPadding(165, 0, 0, 0)
 
+        caloriesDescription.setBackgroundColor(Color.TRANSPARENT)
+        proteinDescription.setBackgroundColor(Color.TRANSPARENT)
+        calories.setBackgroundColor(Color.TRANSPARENT)
+        protein.setBackgroundColor(Color.TRANSPARENT)
+        date.setBackgroundColor(Color.TRANSPARENT)
+
         relativeLayout.addView(caloriesDescription)
         relativeLayout.addView(proteinDescription)
         relativeLayout.addView(calories)
         relativeLayout.addView(protein)
         relativeLayout.addView(date)
+        relativeLayout.setBackgroundColor(MaterialColors.getColor(context, R.attr.element_background, Color.BLACK))
 
+//        MaterialColors.getColor(context, R.attr.element_background, Color.BLACK)
         cardLayout.addView(relativeLayout)
 
         val transition = ChangeBounds().apply { setDuration(200) }
@@ -166,7 +177,7 @@ class ChartCardCreation (con: Context){
         cardLayout.cardElevation = 10f
         cardLayout.radius = 15f
         cardLayout.preventCornerOverlap = true
-        cardLayout.setCardBackgroundColor(ResourcesCompat.getColor(context.resources, R.color.almostDarkestGrey, null))
+        cardLayout.setCardBackgroundColor(MaterialColors.getColor(context, R.attr.element_background, Color.BLACK))
 
         return cardLayout
     }

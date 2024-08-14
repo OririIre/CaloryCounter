@@ -1,17 +1,20 @@
 package com.example.calorycounter.settings
 
 import android.animation.LayoutTransition
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.calorycounter.R
 import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.databinding.FragmentSettingsBinding
 import com.example.calorycounter.helpers.appLanguageFile
 import com.example.calorycounter.helpers.languageFile
+import com.google.android.material.color.MaterialColors
 
 
 class SettingsFragment : Fragment() {
@@ -21,8 +24,10 @@ class SettingsFragment : Fragment() {
     private var toggleReset = true
     private var toggleGoals = true
     private var toggleLanguage = true
+    private var toggleTheme = true
     private var selectedLanguage = "Default"
     private var selectedAppLanguage = "Default"
+    private var selectedAppTheme = "Default"
     private var currentAppLanguage = "en"
     private lateinit var settingsLogic: SettingsLogic
 
@@ -43,6 +48,7 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val languageList = arrayOf("Default", requireContext().resources.getString(R.string.language_german), requireContext().resources.getString(R.string.language_english), requireContext().resources.getString(R.string.language_french), requireContext().resources.getString(R.string.language_spanish))
+        val themeList = arrayOf("Default", "Light", "Dark")
         settingsLogic = SettingsLogic(requireContext())
 
         bnd.saveGoals.setOnClickListener {
@@ -61,6 +67,10 @@ class SettingsFragment : Fragment() {
 
         bnd.iconAndTextLanguage.setOnClickListener {
             toggleLanguage = settingsLogic.expandPanel(bnd.languageVisibility, toggleLanguage)
+        }
+
+        bnd.iconAndTextTheme.setOnClickListener {
+            toggleTheme = settingsLogic.expandPanel(bnd.themeVisibility, toggleTheme)
         }
 
         bnd.clearCalories.setOnClickListener {
@@ -96,6 +106,7 @@ class SettingsFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                (bnd.languageDropdown.selectedView as? TextView)?.setTextColor(MaterialColors.getColor(requireContext(), R.attr.text_color, Color.BLACK))
                 selectedLanguage = parent?.getItemAtPosition(position).toString()
             }
         }
@@ -106,6 +117,7 @@ class SettingsFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
             override fun onItemSelected( parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                (bnd.appLanguageDropdown.selectedView as? TextView)?.setTextColor(MaterialColors.getColor(requireContext(), R.attr.text_color, Color.BLACK))
                 selectedAppLanguage = parent?.getItemAtPosition(position).toString()
             }
         }
@@ -113,6 +125,22 @@ class SettingsFragment : Fragment() {
         bnd.saveLanguage.setOnClickListener {
             settingsLogic.saveLanguage(selectedLanguage, selectedAppLanguage, currentAppLanguage, requireActivity())
         }
+
+        settingsLogic.setThemeDropdownSelected(bnd.themeDropdown, themeList, requireActivity())
+
+        bnd.themeDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected( parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                (bnd.themeDropdown.selectedView as? TextView)?.setTextColor(MaterialColors.getColor(requireContext(), R.attr.text_color, Color.BLACK))
+                selectedAppTheme = parent?.getItemAtPosition(position).toString()
+            }
+        }
+
+        bnd.saveTheme.setOnClickListener {
+            settingsLogic.saveTheme(selectedAppTheme, requireActivity())
+        }
+
         super.onViewCreated(view, savedInstanceState)
     }
 

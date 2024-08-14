@@ -6,4 +6,7 @@
     <attr name="custom_edit_text" format="reference"/>
     <attr name="selection_box" format="reference"/>
     <attr name="drop_shadow" format="reference"/>
+    <attr name="icon_color" format="reference"/>
+    <attr name="text_color" format="reference"/>
+    <attr name="element_background" format="reference"/>
 </resources>

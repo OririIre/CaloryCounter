@@ -12,6 +12,8 @@ import com.example.calorycounter.helpers.Keys
 import com.example.calorycounter.helpers.appLanguageFile
 import com.example.calorycounter.helpers.goalsFile
 import com.example.calorycounter.helpers.languageFile
+import com.example.calorycounter.helpers.themesFile
+
 
 class SettingsLogic (con: Context){
     private val context = con
@@ -55,10 +57,29 @@ class SettingsLogic (con: Context){
 
          val adapterLanguage: ArrayAdapter<String> =
             ArrayAdapter(actv, android.R.layout.simple_spinner_dropdown_item, languageList)
-        dropdown.adapter = adapterLanguage
-        dropdown.setSelection(appLanguageIndex)
+         adapterLanguage.setDropDownViewResource(R.layout.spinner_list)
+         dropdown.adapter = adapterLanguage
+         dropdown.setSelection(appLanguageIndex)
 
          return currentAppLanguage
+    }
+
+    fun setThemeDropdownSelected(dropdown: Spinner, themeList: Array<String>, actv: Activity) {
+        val currentAppLanguage = dataHandler.loadData(context, themesFile)["Theme"].toString()
+        val appLanguageIndex: Int = convertToInt(currentAppLanguage)
+
+        val adapterLanguage: ArrayAdapter<String> =
+            ArrayAdapter(actv, android.R.layout.simple_spinner_dropdown_item, themeList)
+        adapterLanguage.setDropDownViewResource(R.layout.spinner_list)
+        dropdown.adapter = adapterLanguage
+        dropdown.setSelection(appLanguageIndex)
+    }
+
+    fun saveTheme(selectedTheme: String, actv: Activity){
+        selectedTheme.takeIf { it.isNotEmpty() }?.let {
+            dataHandler.saveData(context, themesFile, "Theme", selectedTheme)
+        }
+        actv.recreate()
     }
 
      private fun convertToCountryCode(language: String): String{

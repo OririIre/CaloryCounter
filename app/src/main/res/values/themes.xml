@@ -1,7 +1,7 @@
 <resources>
     <!-- Base application theme. -->
     <style name="LightTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:background">@color/whiteBackground</item>
+        <item name="android:background">@color/LightTheme_Background</item>
         <item name="colorAccent">@color/primaryColor</item>
         <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
         <item name="bottomSheetStyle">@style/BottomSheetDialogTheme</item>
@@ -9,11 +9,13 @@
         <item name="materialButtonStyle">@style/HistoryButton_Light</item>
         <item name="progress_circular">@drawable/circle_shape_light</item>
         <item name="progressbar">@drawable/progressbar_light</item>
-        <item name="header">@color/pristineWhite</item>
-        <item name="spinnerStyle">@style/SpinnerStyle</item>
+        <item name="header">@color/LightTheme_Header</item>
         <item name="custom_edit_text">@drawable/custom_edit_text_light</item>
         <item name="selection_box">@drawable/custom_textview_border_light</item>
         <item name="drop_shadow">@drawable/drop_shadow_light</item>
+        <item name="icon_color">@color/LightTheme_Icon_Color</item>
+        <item name="text_color">@color/LightTheme_Icon_Color</item>
+        <item name="element_background">@color/LightTheme_Elements_Background</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
@@ -30,7 +32,7 @@
     </style>
 
     <style name="HistoryButton_Light" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:textColor">@color/textColorLightTheme</item>
+        <item name="android:textColor">@color/LightTheme_Text_Color</item>
         <item name="cornerRadius">15dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">15sp</item>
@@ -39,11 +41,7 @@
     </style>
 
     <style name="TextView_Light">
-        <item name="android:textColor">@color/textColorLightTheme</item>
-        <item name="android:textColorHint">@color/textColorLightTheme</item>
-    </style>
-
-    <style name="SpinnerStyle">
-        <item name="android:textColor">@color/textColorLightTheme</item>
+        <item name="android:textColor">@color/LightTheme_Text_Color</item>
+        <item name="android:textColorHint">@color/LightTheme_Text_Color</item>
     </style>
 </resources>

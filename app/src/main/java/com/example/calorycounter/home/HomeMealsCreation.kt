@@ -1,6 +1,8 @@
 package com.example.calorycounter.home
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
 import android.view.View
@@ -9,6 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.example.calorycounter.R
 import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.helpers.iconFile
@@ -16,7 +19,9 @@ import com.example.calorycounter.helpers.mealsFile
 import com.example.calorycounter.home.dialogs.MealsDialog
 import com.example.calorycounter.home.dialogs.MealsDialogLogic
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
+
 
 class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: ConstraintLayout, dialog: BottomSheetDialog, homeProgressBars: HomeProgressBars){
     private val context = con
@@ -122,11 +127,15 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
             text = valueText
             textSize = 15f
             isSingleLine = true
+            val iconDrawable: Drawable? = ResourcesCompat.getDrawable(context.resources, R.drawable.baseline_add_circle_24, null)
+            if (iconDrawable != null) {
+                DrawableCompat.setTint(iconDrawable, MaterialColors.getColor(context, R.attr.icon_color, Color.BLACK))
+            }
             gravity = Gravity.END
             setCompoundDrawablesWithIntrinsicBounds(
                 null,
                 null,
-                ResourcesCompat.getDrawable(context.resources, R.drawable.baseline_add_circle_24, null),
+                iconDrawable,
                 null
             )
             compoundDrawablePadding = 15
@@ -150,6 +159,9 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
                     ResourcesCompat.getDrawable(context.resources, icon.toInt(), null)
                 } catch (e: NumberFormatException) {
                     null
+                }
+                if (iconDrawable != null) {
+                    DrawableCompat.setTint(iconDrawable, MaterialColors.getColor(context, R.attr.icon_color, Color.BLACK))
                 }
                 setCompoundDrawablesWithIntrinsicBounds(iconDrawable, null, null, null)
             }

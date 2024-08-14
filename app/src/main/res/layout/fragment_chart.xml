@@ -36,7 +36,8 @@
                 android:padding="10dp"
                 android:drawablePadding="10dp"
                 android:background="@color/transparent"
-                app:drawableStartCompat="@drawable/baseline_history_24"/>
+                app:drawableStartCompat="@drawable/baseline_history_24"
+                app:drawableTint="?attr/icon_color" />
 
         </FrameLayout>
 

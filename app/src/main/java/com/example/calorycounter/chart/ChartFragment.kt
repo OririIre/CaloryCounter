@@ -1,5 +1,6 @@
 package com.example.calorycounter.chart
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.example.calorycounter.helpers.proteinFile
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
+import com.google.android.material.color.MaterialColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -51,7 +53,7 @@ class ChartFragment : Fragment() {
 
     private fun buildUI() {
 //        chartDataCalories = mutableMapOf("0" to "1400","20240518" to "1400", "20240519" to "1300", "20240520" to "1200", "20240521" to "1100", "20240522" to "1000", "20240523" to "900", "20240524" to "800", "20240525" to "800", "20240526" to "800", "20240527" to "800", "20240528" to "800", "20240529" to "0")
-
+        val color = MaterialColors.getColor(requireContext(), R.attr.text_color, Color.BLACK)
         val dateArray: List<String> = chartLogic.reverseDateData(chartDataCalories)
         val caloriesArray: List<Float> = chartLogic.reverseChartData(chartDataCalories)
 
@@ -61,14 +63,14 @@ class ChartFragment : Fragment() {
             bnd.layoutCalories.addView(card)
         }
 
-        val lineData = chartLogic.prepareLineData(dateArray, caloriesArray).let { chartPrep.setUpLineData(it) }
+        val lineData = chartLogic.prepareLineData(dateArray, caloriesArray).let { chartPrep.setUpLineData(it, color) }
         val xAxisValues: List<String> = chartLogic.prepareAxisData(dateArray)
 
         val minValue = chartLogic.calculateMinValue(caloriesArray)
 
-        chartPrep.setUpXAxis(bnd.chart, xAxisValues)
-        chartPrep.setUpYAxis(bnd.chart, minValue)
-        chartPrep.setUpChart(bnd.chart)
+        chartPrep.setUpXAxis(bnd.chart, xAxisValues, color)
+        chartPrep.setUpYAxis(bnd.chart, minValue, color)
+        chartPrep.setUpChart(bnd.chart, color)
         setUpChartMarker()
 
         lifecycleScope.launch(Dispatchers.Main) {

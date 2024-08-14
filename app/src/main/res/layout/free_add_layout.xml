@@ -20,11 +20,11 @@
             android:layout_marginStart="10dp"
             android:text="@string/add"
             android:textSize="20sp"
-            android:textColor="@color/cloudyWhite"
             android:padding="15dp"
             android:drawablePadding="10dp"
             android:background="@color/transparent"
-            app:drawableStartCompat="@drawable/baseline_add_meal_24"/>
+            app:drawableStartCompat="@drawable/baseline_add_meal_24"
+            app:drawableTint="?attr/icon_color" />
 
     </FrameLayout>
 
@@ -63,8 +63,8 @@
             android:layout_height="48dp"
             android:hint="@string/amountHint"
             android:inputType="numberDecimal"
-            android:textColor="@color/cloudyWhite"
-            android:textColorHint="@color/cloudyWhite"
+            android:textColor="?attr/text_color"
+            android:textColorHint="?attr/text_color"
             android:layout_centerInParent="true"
             android:autofillHints=""
             android:drawableStart="@drawable/baseline_add_circle_24"
@@ -87,9 +87,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="@string/additional_settings"
-            android:textColor="@color/cloudyWhite"
             android:drawablePadding="5dp"
-            app:drawableStartCompat="@drawable/baseline_keyboard_arrow_down_24" />
+            app:drawableStartCompat="@drawable/baseline_keyboard_arrow_down_24"
+            app:drawableTint="?attr/icon_color" />
 
     </LinearLayout>
 
@@ -109,11 +109,12 @@
             android:layout_height="48dp"
             android:hint="@string/amountHint"
             android:inputType="numberDecimal"
-            android:textColor="@color/cloudyWhite"
-            android:textColorHint="@color/cloudyWhite"
+            android:textColor="?attr/text_color"
+            android:textColorHint="?attr/text_color"
             android:autofillHints=""
             android:drawableStart="@drawable/baseline_data_saver_off_24"
-            android:background="@drawable/custom_edit_text"
+            android:drawableTint="?attr/icon_color"
+            android:background="?attr/custom_edit_text"
             android:drawablePadding="12dp"
             android:imeOptions="actionSend"
             android:paddingStart="12dp"
@@ -127,8 +128,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            android:text="@string/x"
-            android:textColor="@color/cloudyWhite"/>
+            android:text="@string/x" />
 
         <EditText
             android:id="@+id/gramm"
@@ -137,11 +137,12 @@
             android:layout_toEndOf="@+id/multiplicationSign"
             android:hint="@string/amountHint"
             android:inputType="numberDecimal"
-            android:textColor="@color/cloudyWhite"
-            android:textColorHint="@color/cloudyWhite"
+            android:textColor="?attr/text_color"
+            android:textColorHint="?attr/text_color"
             android:autofillHints=""
             android:drawableStart="@drawable/baseline_monitor_weight_24"
-            android:background="@drawable/custom_edit_text"
+            android:drawableTint="?attr/icon_color"
+            android:background="?attr/custom_edit_text"
             android:drawablePadding="12dp"
             android:imeOptions="actionSend"
             android:paddingStart="12dp"
@@ -152,7 +153,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/kcalDescription"
-            android:textColor="@color/cloudyWhite"
             android:layout_below="@+id/kcal"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"/>
@@ -161,7 +161,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/grammDescription"
-            android:textColor="@color/cloudyWhite"
             android:layout_alignStart="@+id/gramm"
             android:layout_below="@+id/gramm"
             android:layout_marginStart="20dp"
@@ -185,7 +184,7 @@
             android:paddingEnd="20dp"
             android:background="@drawable/button_states_1"
             android:text="@string/button_add_amount"
-            android:textColor="@color/cloudyWhite"
+            android:textColor="?attr/text_color"
             android:layout_centerInParent="true" />
 
     </RelativeLayout>

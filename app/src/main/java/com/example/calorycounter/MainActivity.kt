@@ -13,6 +13,7 @@ import com.example.calorycounter.data.DataHandler
 import com.example.calorycounter.helpers.FragmentPageAdapter
 import com.example.calorycounter.helpers.Keys
 import com.example.calorycounter.helpers.appLanguageFile
+import com.example.calorycounter.helpers.themesFile
 import com.google.android.material.tabs.TabLayout
 
 
@@ -24,7 +25,12 @@ class MainActivity : AppCompatActivity() {
     //    val CHANNEL_ID = "Channel_ID_1"
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.LightTheme)
+        val theme = dataHandler.loadData(this, themesFile)["Theme"].toString()
+        if (theme == "Dark") {
+            setTheme(R.style.DarkTheme)
+        } else {
+            setTheme(R.style.LightTheme)
+        }
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -52,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_settings_24))
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_home_24))
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_insert_chart_outlined_24))
-        tabLayout.setBackgroundColor(resources.getColor(R.color.pristineWhite, null))
+//        tabLayout.setBackgroundColor(resources.getColor(R.color.LightTheme_Elements_Background, null))
 
         viewPager2.adapter = adapter
         viewPager2.currentItem = 1

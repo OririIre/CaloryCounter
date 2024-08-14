@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- background color -->
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/transparent" />
-            <corners android:radius="4dp" />
-        </shape>
-    </item>
-    <!--  left shadow -->
+    <!--  right shadow -->
     <item>
         <shape android:shape="rectangle">
             <gradient
@@ -16,10 +9,16 @@
                 android:centerX="0.9"
                 android:endColor="#26000000"
                 android:startColor="#00FF0000" />
-            <corners android:radius="20dp" />
+<!--            <corners android:radius="20dp" />-->
+            <corners
+                android:topLeftRadius="0dp"
+                android:topRightRadius="8dp"
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="40dp"
+                />
         </shape>
     </item>
-    <!--  right shadow -->
+    <!--  left shadow -->
     <item>
         <shape android:shape="rectangle">
             <gradient
@@ -28,7 +27,13 @@
                 android:centerX="0.9"
                 android:endColor="#26000000"
                 android:startColor="#00FF0000" />
-            <corners android:radius="20dp" />
+<!--            <corners android:radius="20dp" />-->
+            <corners
+                android:topLeftRadius="0dp"
+                android:topRightRadius="8dp"
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="40dp"
+                />
         </shape>
     </item>
     <!--  top shadow -->
@@ -40,9 +45,16 @@
                 android:centerY="0.2"
                 android:endColor="#00FF0000"
                 android:startColor="#26000000" />
-            <corners android:radius="20dp" />
+<!--            <corners android:radius="20dp" />-->
+            <corners
+                android:topLeftRadius="0dp"
+                android:topRightRadius="8dp"
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="40dp"
+                />
         </shape>
     </item>
+    <!--  bottom shadow -->
     <item>
         <shape android:shape="rectangle">
             <gradient
@@ -51,7 +63,13 @@
                 android:centerY="0.2"
                 android:endColor="#00FF0000"
                 android:startColor="#26000000" />
-            <corners android:radius="20dp" />
+<!--            <corners android:radius="20dp" />-->
+            <corners
+                android:topLeftRadius="0dp"
+                android:topRightRadius="8dp"
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="40dp"
+                />
         </shape>
     </item>
 </layer-list>

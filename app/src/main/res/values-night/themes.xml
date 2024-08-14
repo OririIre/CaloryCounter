@@ -13,6 +13,9 @@
         <item name="custom_edit_text">@drawable/custom_edit_text</item>
         <item name="selection_box">@drawable/custom_textview_border</item>
         <item name="drop_shadow">@drawable/drop_shadow</item>
+        <item name="icon_color">@color/cloudyWhite</item>
+        <item name="text_color">@color/cloudyWhite</item>
+        <item name="element_background">@color/almostDarkestGrey</item>
     </style>
 
     <style name="BottomSheetDialogTheme.Dark" parent="Theme.Design.Light.BottomSheetDialog">
