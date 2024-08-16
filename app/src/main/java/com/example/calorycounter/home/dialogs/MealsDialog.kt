@@ -64,6 +64,7 @@ class MealsDialog (con: Context) {
 
         save.setOnClickListener{
             currentMeals = dataHandler.loadData(context, mealsFile)
+            println(selectedIcon)
             saveAtKey(mealNumber, selectedIcon, mealsDialog)
         }
         mealsDialog.show()

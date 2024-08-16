@@ -21,11 +21,12 @@
             android:layout_marginStart="10dp"
             android:text="@string/history"
             android:textSize="20sp"
-            android:textColor="@color/cloudyWhite"
+            android:textColor="?attr/text_color"
             android:padding="15dp"
             android:drawablePadding="10dp"
             android:background="@color/transparent"
-            app:drawableStartCompat="@drawable/baseline_history_24"/>
+            app:drawableStartCompat="@drawable/baseline_history_24"
+            app:drawableTint="?attr/icon_color" />
 
     </FrameLayout>
 
@@ -34,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp">
 
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 android:id="@+id/historyScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,6 +51,6 @@
 
                 </LinearLayout>
 
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
     </FrameLayout>
 </LinearLayout>

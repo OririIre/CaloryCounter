@@ -1,6 +1,8 @@
 package com.example.calorycounter
 
 import android.app.LocaleManager
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.LocaleList
@@ -58,7 +60,6 @@ class MainActivity : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_settings_24))
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_home_24))
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_insert_chart_outlined_24))
-//        tabLayout.setBackgroundColor(resources.getColor(R.color.LightTheme_Elements_Background, null))
 
         viewPager2.adapter = adapter
         viewPager2.currentItem = 1
@@ -87,14 +88,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
-        //ToDo get data from db and send it to other class check this again later
-//        val chartDataCalories = dataHandler.loadData(this, caloriesFile)
-//        val serMap = HashMap(chartDataCalories)
-////        val c = Chart::class
-//        val chartActivityIntent = Intent(this, Chart::class.java)
-//        chartActivityIntent.putExtra("caloriesData", serMap)
-//        startActivity(chartActivityIntent)
     }
 }
 

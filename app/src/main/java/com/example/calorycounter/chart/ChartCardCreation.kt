@@ -216,9 +216,13 @@ class ChartCardCreation (con: Context){
 
     private fun formatString(date: String): String{
         var newDateString = "19900101"
+        if(date!="0")
+        {
+            newDateString = date
+        }
         try {
             val formatString = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
-            val newDate = formatString.parse(date)
+            val newDate = formatString.parse(newDateString)
             newDateString = newDate?.toString()?.removeRange(11, 30).toString()
         }
         catch (e: Exception) {

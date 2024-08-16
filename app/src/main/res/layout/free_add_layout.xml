@@ -32,6 +32,7 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:layout_gravity="center">
 
         <TextView
@@ -55,6 +56,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:layout_marginTop="5dp">
 
         <EditText
@@ -79,6 +81,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:layout_gravity="center">
 
         <TextView
@@ -88,6 +91,7 @@
             android:layout_marginTop="5dp"
             android:text="@string/additional_settings"
             android:drawablePadding="5dp"
+            android:background="@color/transparent"
             app:drawableStartCompat="@drawable/baseline_keyboard_arrow_down_24"
             app:drawableTint="?attr/icon_color" />
 
@@ -100,7 +104,8 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:visibility="gone"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="@color/transparent">
 
 
         <EditText
@@ -128,7 +133,8 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            android:text="@string/x" />
+            android:text="@string/x"
+            android:background="@color/transparent"/>
 
         <EditText
             android:id="@+id/gramm"
@@ -155,7 +161,8 @@
             android:text="@string/kcalDescription"
             android:layout_below="@+id/kcal"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -164,7 +171,8 @@
             android:layout_alignStart="@+id/gramm"
             android:layout_below="@+id/gramm"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"/>
 
     </RelativeLayout>
 
@@ -174,7 +182,8 @@
         android:orientation="horizontal"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:background="@color/transparent">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_add2"

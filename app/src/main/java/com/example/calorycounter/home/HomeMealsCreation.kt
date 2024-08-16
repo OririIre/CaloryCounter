@@ -2,6 +2,7 @@ package com.example.calorycounter.home
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
@@ -53,8 +54,8 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
     private fun addMealLine (mealName: String, mealValue: String, mealProt: String, buttonID: Int, icon: String){
         val parentLayout = linearLayoutMeals
         val relativeLayout = createRelativeLayout()
-        val mealsName = createTextViewName(buttonID, mealName, icon)
         val mealsValue = createTextViewValue(mealValue)
+        val mealsName = createTextViewName(buttonID, mealName, icon, mealsValue.id)
         val divider = createDivider(mealsName)
 
         relativeLayout.addView(mealsValue)
@@ -109,6 +110,7 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
             )
             setPadding(20, 20, 20, 20)
             gravity = Gravity.CENTER
+            background = ColorDrawable(Color.TRANSPARENT)
         }
     }
 
@@ -127,6 +129,7 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
             text = valueText
             textSize = 15f
             isSingleLine = true
+            background = ColorDrawable(Color.TRANSPARENT)
             val iconDrawable: Drawable? = ResourcesCompat.getDrawable(context.resources, R.drawable.baseline_add_circle_24, null)
             if (iconDrawable != null) {
                 DrawableCompat.setTint(iconDrawable, MaterialColors.getColor(context, R.attr.icon_color, Color.BLACK))
@@ -142,7 +145,7 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
         }
     }
 
-    private fun createTextViewName(buttonID: Int, mealName: String, icon: String): TextView {
+    private fun createTextViewName(buttonID: Int, mealName: String, icon: String, valueID: Int): TextView {
         return TextView(context).apply {
             id = buttonID
             layoutParams = RelativeLayout.LayoutParams(
@@ -150,11 +153,14 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
                 RelativeLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 addRule(RelativeLayout.ALIGN_PARENT_START)
-                addRule(RelativeLayout.START_OF,id)
+                addRule(RelativeLayout.START_OF,valueID)
             }
             text = mealName
             textSize = 15f
+            isSingleLine = true
+            background = ColorDrawable(Color.TRANSPARENT)
             if (icon.isNotEmpty()) {
+                println(icon)
                 val iconDrawable = try {
                     ResourcesCompat.getDrawable(context.resources, icon.toInt(), null)
                 } catch (e: NumberFormatException) {

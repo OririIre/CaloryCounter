@@ -107,6 +107,7 @@ class SettingsFragment : Fragment() {
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 (bnd.languageDropdown.selectedView as? TextView)?.setTextColor(MaterialColors.getColor(requireContext(), R.attr.text_color, Color.BLACK))
+                (bnd.languageDropdown.selectedView as? TextView)?.setBackgroundColor(Color.TRANSPARENT)
                 selectedLanguage = parent?.getItemAtPosition(position).toString()
             }
         }
@@ -118,6 +119,7 @@ class SettingsFragment : Fragment() {
             }
             override fun onItemSelected( parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 (bnd.appLanguageDropdown.selectedView as? TextView)?.setTextColor(MaterialColors.getColor(requireContext(), R.attr.text_color, Color.BLACK))
+                (bnd.appLanguageDropdown.selectedView as? TextView)?.setBackgroundColor(Color.TRANSPARENT)
                 selectedAppLanguage = parent?.getItemAtPosition(position).toString()
             }
         }
@@ -133,6 +135,7 @@ class SettingsFragment : Fragment() {
             }
             override fun onItemSelected( parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 (bnd.themeDropdown.selectedView as? TextView)?.setTextColor(MaterialColors.getColor(requireContext(), R.attr.text_color, Color.BLACK))
+                (bnd.themeDropdown.selectedView as? TextView)?.setBackgroundColor(Color.TRANSPARENT)
                 selectedAppTheme = parent?.getItemAtPosition(position).toString()
             }
         }

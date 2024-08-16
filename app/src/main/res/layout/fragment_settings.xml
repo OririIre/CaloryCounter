@@ -12,7 +12,8 @@
         android:layout_marginStart="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true">
+        android:animateLayoutChanges="true"
+        android:background="@color/transparent">
 
         <TextView
             android:id="@+id/iconAndTextGoal"
@@ -24,6 +25,7 @@
             android:textSize="20sp"
             android:text="@string/setGoal"
             android:drawablePadding="5dp"
+            android:background="@color/transparent"
             app:drawableStartCompat="@drawable/baseline_how_to_reg_24" />
 
 
@@ -33,12 +35,14 @@
             android:layout_marginStart="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
             android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
+                android:background="@color/transparent"
                 android:text="@string/caloriesGoal" />
 
             <EditText
@@ -64,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
+                android:background="@color/transparent"
                 android:text="@string/proteinGoal" />
 
             <EditText
@@ -106,6 +111,7 @@
         android:layout_marginStart="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:animateLayoutChanges="true">
 
         <TextView
@@ -118,11 +124,13 @@
             android:textSize="20sp"
             android:text="@string/resetData"
             android:drawablePadding="5dp"
+            android:background="@color/transparent"
             app:drawableStartCompat="@drawable/baseline_clear_all_24" />
 
 
         <LinearLayout
             android:id="@+id/clearVisibility"
+            android:background="@color/transparent"
             android:orientation="vertical"
             android:layout_marginStart="10dp"
             android:layout_width="match_parent"
@@ -193,6 +201,7 @@
         android:layout_marginStart="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:animateLayoutChanges="true">
 
         <TextView
@@ -205,6 +214,7 @@
             android:textSize="20sp"
             android:text="@string/language"
             android:drawablePadding="5dp"
+            android:background="@color/transparent"
             app:drawableStartCompat="@drawable/baseline_language_24" />
 
         <LinearLayout
@@ -213,24 +223,28 @@
             android:layout_marginStart="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
             android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
+                android:background="@color/transparent"
                 android:text="@string/voiceLanguage" />
 
             <Spinner
                 android:id="@+id/languageDropdown"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
                 android:layout_marginStart="50dp"
                 android:spinnerMode="dropdown" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
                 android:layout_marginStart="50dp"
                 android:text="@string/appLanguage" />
 
@@ -238,6 +252,7 @@
                 android:id="@+id/appLanguageDropdown"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
                 android:layout_marginStart="50dp"
                 android:spinnerMode="dropdown"/>
 
@@ -261,6 +276,7 @@
         android:layout_marginStart="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:animateLayoutChanges="true">
 
         <TextView
@@ -273,6 +289,7 @@
             android:textSize="20sp"
             android:text="@string/theme"
             android:drawablePadding="5dp"
+            android:background="@color/transparent"
             app:drawableStartCompat="@drawable/baseline_color_lens_24" />
 
         <LinearLayout
@@ -281,12 +298,14 @@
             android:layout_marginStart="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
             android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
+                android:background="@color/transparent"
                 android:text="@string/themeDescription" />
 
             <Spinner
@@ -294,6 +313,7 @@
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
+                android:background="@color/transparent"
                 android:spinnerMode="dropdown" />
 
             <androidx.appcompat.widget.AppCompatButton

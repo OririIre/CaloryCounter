@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.core.widget.NestedScrollView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.example.calorycounter.helpers.MIN_SWIPE_DISTANCE
@@ -38,7 +39,7 @@ class HistoryDialog (con: Context) {
     fun showHistoryDialog(historyDialog : BottomSheetDialog) {
         
         val layoutHistoryCards: LinearLayout = historyDialog.findViewById(R.id.layoutHistoryCards)!!
-        val historyScrollView: ScrollView = historyDialog.findViewById(R.id.historyScrollView)!!
+        val historyScrollView: NestedScrollView = historyDialog.findViewById(R.id.historyScrollView)!!
 
         val historyValues = dataHandler.loadData(context, historyFile)
         if(historyValues.isNotEmpty()){
@@ -61,7 +62,7 @@ class HistoryDialog (con: Context) {
         historyDialog.show()
     }
 
-    private fun createCards(parent: LinearLayout, time: String, value: String, name: String, scrollView: ScrollView) {
+    private fun createCards(parent: LinearLayout, time: String, value: String, name: String, scrollView: NestedScrollView) {
         val card: View = inflater.inflate(R.layout.card_layout2, parent, false)
         val relLayout: RelativeLayout = card.findViewById(R.id.tempID)
         val descriptionText: TextView = card.findViewById(R.id.description)

@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/almostDarkestGrey"
     android:layout_marginStart="30dp"
     android:layout_marginEnd="30dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
+    android:background="?attr/element_background"
     app:cardElevation="10dp"
     app:cardCornerRadius="5dp"
     app:cardPreventCornerOverlap="true">
@@ -18,6 +18,7 @@
             android:id="@+id/tempID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/element_background"
             android:padding="10dp">
 
             <TextView
@@ -26,7 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/date"
-                android:textColor="@color/cloudyWhite"
+                android:textColor="?attr/text_color"
+                android:background="@color/transparent"
                 android:textSize="15sp" />
 
             <TextView
@@ -35,7 +37,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="@string/Calories"
-                android:textColor="@color/cloudyWhite"
+                android:textColor="?attr/text_color"
+                android:background="@color/transparent"
                 android:textSize="15sp" />
 
             <TextView
@@ -45,7 +48,8 @@
                 android:layout_alignStart="@+id/description"
                 android:layout_below="@+id/description"
                 android:text="@string/Name"
-                android:textColor="@color/cloudyWhite"
+                android:textColor="?attr/text_color"
+                android:background="@color/transparent"
                 android:textSize="11sp" />
 
             <TextView
@@ -55,7 +59,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:text="@string/usedKcal"
-                android:textColor="@color/cloudyWhite"
+                android:textColor="?attr/text_color"
+                android:background="@color/transparent"
                 android:textSize="15sp"
                 tools:ignore="RelativeOverlap" />
 

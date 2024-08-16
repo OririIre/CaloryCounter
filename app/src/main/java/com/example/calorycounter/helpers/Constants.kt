@@ -1,11 +1,14 @@
 package com.example.calorycounter.helpers
 
+import androidx.annotation.DrawableRes
+import com.example.calorycounter.R
+
 enum class Keys {
     Protein, Calories, Language
 }
 
-//ToDo Check out how this works? Do I pass Icon.Ramen(R.drawable.baseline_ramen_dining_24)?
-//ToDo Problem is that the resource IDs are probably not consistent, can be obfuscated
+//ToDo Use as Icon.Ramen.resourceId()
+//ToDo Problem is that the resource IDs are probably not consistent, can be obfuscated (only happens wehen adding/removing drawables so far)
 //enum class Icon(@DrawableRes val resourceId: Int) {
 //    RAMEN(R.drawable.baseline_ramen_dining_24),
 //    COFFEE(R.drawable.baseline_coffee_24),
@@ -14,7 +17,7 @@ enum class Keys {
 //    LUNCH(R.drawable.baseline_lunch_dining_24),
 //    WINE(R.drawable.baseline_wine_bar_24),
 //    BAKED(R.drawable.baseline_bakery_dining_24),
-//    BREAKFAST(R.drawable.baseline_breakfast_dining_24)
+//    WATER(R.drawable.baseline_local_drink_24)
 //}
 
 const val MIN_SWIPE_DISTANCE = 250
