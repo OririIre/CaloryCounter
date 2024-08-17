@@ -1,21 +1,25 @@
 <resources>
     <!-- Base application theme. -->
     <style name="DarkTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorAccent">@color/DarkTheme_Primary_Color</item>
         <item name="android:background">@color/darkestgrey</item>
-        <item name="colorAccent">@color/primaryColor</item>
+        <item name="header">@color/almostDarkestGrey</item>
+        <item name="icon_color">@color/cloudyWhite</item>
+        <item name="text_color">@color/cloudyWhite</item>
+        <item name="element_background">@color/almostDarkestGrey</item>
+        <item name="primary_color">@color/DarkTheme_Primary_Color</item>
+        <item name="secondary_color">@color/DarkTheme_Secondary_Color</item>
+        <item name="tab_background">@color/DarkTheme_Tab_Background</item>
         <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle.Dark</item>
         <item name="bottomSheetStyle">@style/BottomSheetDialogTheme.Dark</item>
         <item name="android:textViewStyle">@style/TextView_Dark</item>
         <item name="materialButtonStyle">@style/HistoryButton_Dark</item>
         <item name="progress_circular">@drawable/circle_shape_dark</item>
         <item name="progressbar">@drawable/progressbar_dark</item>
-        <item name="header">@color/almostDarkestGrey</item>
         <item name="custom_edit_text">@drawable/custom_edit_text</item>
         <item name="selection_box">@drawable/custom_textview_border</item>
         <item name="drop_shadow">@drawable/drop_shadow</item>
-        <item name="icon_color">@color/cloudyWhite</item>
-        <item name="text_color">@color/cloudyWhite</item>
-        <item name="element_background">@color/almostDarkestGrey</item>
+
     </style>
 
     <style name="BottomSheetDialogTheme.Dark" parent="Theme.Design.Light.BottomSheetDialog">

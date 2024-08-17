@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/transparent">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_selector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="?android:attr/actionBarSize"
+        android:hapticFeedbackEnabled="true"
+        android:contentDescription="@string/tabs_for_the_app"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/tabs_for_the_app">
+        app:layout_constraintStart_toStartOf="parent">
 
     </com.google.android.material.tabs.TabLayout>
 

@@ -33,18 +33,21 @@
     <FrameLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
+        android:background="@color/transparent"
         android:layout_height="400dp">
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/historyScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
                 tools:ignore="UselessParent"
                 android:contentDescription="@string/scroll_view_history">
 
                 <LinearLayout
                     android:id="@+id/layoutHistoryCards"
                     android:orientation="vertical"
+                    android:background="@color/transparent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp">

@@ -65,7 +65,7 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
         mealsValue.setOnClickListener{
             mealsValue.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             mealsDialogLogic.addMeal(mealValue, mealProt, mealName)
-            homeProgress.updateUI()
+            homeProgress.updateUI(true)
         }
 
         mealsName.setOnClickListener{
@@ -121,10 +121,11 @@ class HomeMealsCreation (con: Context, linearLMeals: LinearLayout, homeLayout: C
         return TextView(context).apply {
             id = View.generateViewId()
             layoutParams = RelativeLayout.LayoutParams(
-                280,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 addRule(RelativeLayout.ALIGN_PARENT_END)
+                setPadding(0, 0, 20, 0)
             }
             text = valueText
             textSize = 15f

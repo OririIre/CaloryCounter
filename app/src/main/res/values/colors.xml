@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="cloudyWhite">#F0F0F0</color>
-    <color name="LightTheme_Background">#EEF1F2</color>
-    <color name="LightTheme_Elements_Background">#FAFAFB</color>
+    <color name="LightTheme_Background">#F8F8F8</color>
+    <color name="LightTheme_Elements_Background">#FFFFFF</color>
     <color name="LightTheme_Header">#D1D7DE</color>
     <color name="LightTheme_Icon_Color">#B3000000</color>
     <color name="LightTheme_Text_Color">#B3000000</color>
+    <color name="LightTheme_Primary_Color">#C1DCED</color>
+    <color name="LightTheme_Secondary_Color">#333B119E</color>
+    <color name="LightTheme_Progressbar_Background">#E4E4EB</color>
+    <color name="LightTheme_Tab_Background">#CC737678</color>
+    <color name="LightTheme_Ripple_Color">#C1DCED</color>
+
     <color name="black">#000000</color>
     <color name="white_low_transparency">#66BABABF</color>
     <color name="darkestgrey">#151517</color>
@@ -13,7 +18,9 @@
     <color name="someDarkestGrey">#3B3B40</color>
     <color name="transparent">#00ffffff</color>
     <color name="progressBarBackground">#252529</color>
-    <color name="primaryColor">#280861</color>
-    <color name="secondaryColor2">#3B119E</color>
+    <color name="DarkTheme_Primary_Color">#280861</color>
+    <color name="DarkTheme_Secondary_Color">#3B119E</color>
+    <color name="DarkTheme_Tab_Background">#00FFFFFF</color>
+    <color name="cloudyWhite">#F0F0F0</color>
     <color name="transparentBlack">#80000000</color>
 </resources>

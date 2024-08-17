@@ -6,5 +6,3 @@
 - Check Translation wehn not removable in Chart History
 - Alle funktionen in mindestens deutsch englisch spanisch durchchecken
 - Icons als Konstante (bei update falsche icons drin)
-- Böser text soll nur kommen nach dem eintragen
-- böser text oben muss weiter nach unten

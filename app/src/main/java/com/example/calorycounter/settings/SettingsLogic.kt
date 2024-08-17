@@ -65,14 +65,14 @@ class SettingsLogic (con: Context){
     }
 
     fun setThemeDropdownSelected(dropdown: Spinner, themeList: Array<String>, actv: Activity) {
-        val currentAppLanguage = dataHandler.loadData(context, themesFile)["Theme"].toString()
-        val appLanguageIndex: Int = convertToInt(currentAppLanguage)
+        val currentAppTheme = dataHandler.loadData(context, themesFile)["Theme"].toString()
+        val appThemeIndex: Int = convertToThemeInt(currentAppTheme)
 
         val adapterLanguage: ArrayAdapter<String> =
             ArrayAdapter(actv, android.R.layout.simple_spinner_dropdown_item, themeList)
         adapterLanguage.setDropDownViewResource(R.layout.spinner_list)
         dropdown.adapter = adapterLanguage
-        dropdown.setSelection(appLanguageIndex)
+        dropdown.setSelection(appThemeIndex)
     }
 
     fun saveTheme(selectedTheme: String, actv: Activity){
@@ -90,6 +90,14 @@ class SettingsLogic (con: Context){
              context.resources.getString(R.string.language_spanish) -> "es"
              else -> "en"
          }
+    }
+
+    private fun convertToThemeInt(language: String): Int{
+        return when (language) {
+            "Light" -> 1
+            "Dark" -> 2
+            else -> 0
+        }
     }
 
     private fun convertToInt(language: String): Int {

@@ -9,4 +9,7 @@
     <attr name="icon_color" format="reference"/>
     <attr name="text_color" format="reference"/>
     <attr name="element_background" format="reference"/>
+    <attr name="primary_color" format="reference"/>
+    <attr name="tab_background" format="reference"/>
+    <attr name="secondary_color" format="reference"/>
 </resources>

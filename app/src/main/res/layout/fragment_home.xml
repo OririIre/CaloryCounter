@@ -278,7 +278,7 @@
         android:layout_marginTop="15dp"
         android:background="?attr/progress_circular"
         android:indeterminate="false"
-        android:progressDrawable="@drawable/circular_progress2"
+        android:progressDrawable="@drawable/circular_progress"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

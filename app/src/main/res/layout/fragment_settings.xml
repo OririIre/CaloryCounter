@@ -97,7 +97,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_states_1"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="?attr/primary_color"
                 android:text="@string/saveGoals"
                 android:textColor="?attr/text_color"/>
 
@@ -144,7 +144,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_states_1"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="?attr/primary_color"
                 android:text="@string/clearAll"
                 android:textColor="?attr/text_color"/>
 
@@ -155,7 +155,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_states_1"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="?attr/primary_color"
                 android:text="@string/clearGoals"
                 android:textColor="?attr/text_color"/>
 
@@ -166,7 +166,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_states_1"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="?attr/primary_color"
                 android:text="@string/clearCalories"
                 android:textColor="?attr/text_color"/>
 
@@ -177,7 +177,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_states_1"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="?attr/primary_color"
                 android:text="@string/clearProtein"
                 android:textColor="?attr/text_color"/>
 
@@ -187,7 +187,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="50dp"
                 android:background="@drawable/button_states_1"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="?attr/primary_color"
                 android:text="@string/clearMeals"
                 android:textColor="?attr/text_color"/>
 
@@ -262,7 +262,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="50dp"
                 android:background="@drawable/button_states_1"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="?attr/primary_color"
                 android:text="@string/saveLang"
                 android:textColor="?attr/text_color"/>
 
@@ -322,7 +322,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="50dp"
                 android:background="@drawable/button_states_1"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="?attr/primary_color"
                 android:text="@string/saveLang"
                 android:textColor="?attr/text_color"/>
 

@@ -9,6 +9,7 @@ import android.os.LocaleList
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.LocaleListCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.calorycounter.data.DataHandler
@@ -16,6 +17,7 @@ import com.example.calorycounter.helpers.FragmentPageAdapter
 import com.example.calorycounter.helpers.Keys
 import com.example.calorycounter.helpers.appLanguageFile
 import com.example.calorycounter.helpers.themesFile
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.tabs.TabLayout
 
 
@@ -55,11 +57,36 @@ class MainActivity : AppCompatActivity() {
         tabLayout = findViewById(R.id.tab_selector)
         viewPager2 = findViewById(R.id.viewPager)
 
+        val states = arrayOf(
+            intArrayOf(android.R.attr.state_selected),  // enabled
+            intArrayOf(-android.R.attr.state_selected),  // disabled
+        )
+
+        val colors = intArrayOf(
+            ResourcesCompat.getColor(resources, R.color.LightTheme_Primary_Color, null),
+            ResourcesCompat.getColor(resources, R.color.LightTheme_Tab_Background, null)
+        )
+
+        val colors2 = intArrayOf(
+            ResourcesCompat.getColor(resources, R.color.LightTheme_Tab_Background, null),
+            ResourcesCompat.getColor(resources, R.color.LightTheme_Primary_Color, null)
+        )
+
+        val myList = ColorStateList(states, colors)
+
         adapter = FragmentPageAdapter(supportFragmentManager, lifecycle)
 
+//        val tab1 = tabLayout.newTab().setIcon(R.drawable.baseline_settings_24)
+//        tab1.view.setBackgroundColor(MaterialColors.getColor(tab1.view, R.attr.tab_background))
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_settings_24))
+//        val tab2 = tabLayout.newTab().setIcon(R.drawable.baseline_home_24)
+//        tab2.view.setBackgroundColor(MaterialColors.getColor(tab2.view, R.attr.tab_background))
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_home_24))
+//        val tab3 = tabLayout.newTab().setIcon(R.drawable.baseline_insert_chart_outlined_24)
+//        tab3.view.setBackgroundColor(MaterialColors.getColor(tab3.view, R.attr.tab_background))
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.baseline_insert_chart_outlined_24))
+        tabLayout.tabIconTint = myList
+        tabLayout.tabRippleColor = ColorStateList(states, colors2)
 
         viewPager2.adapter = adapter
         viewPager2.currentItem = 1

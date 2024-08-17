@@ -134,7 +134,7 @@ class Home : Fragment(), UpdateListener {
         }
 
         bottomAddDialog.setOnDismissListener {
-            homeProgressBars.updateUI()
+            homeProgressBars.updateUI(true)
         }
 
         bnd.fbMeals.setOnClickListener {
@@ -178,7 +178,7 @@ class Home : Fragment(), UpdateListener {
         super.onResume()
         goals = homeLogic.updateGoals()
         println(goals)
-        homeProgressBars.updateUI()
+        homeProgressBars.updateUI(false)
         homeMealsCreation.updateMealsUI()
         clearHistoryOnNextDay()
     }
@@ -249,7 +249,7 @@ class Home : Fragment(), UpdateListener {
                 speechSearch.addFromSpeech(proteinValue, resultArray[1].trim(), resultArray[0].trim(), proteinFile)
             }.invokeOnCompletion {
                 requireActivity().runOnUiThread {
-                    homeProgressBars.updateUI()
+                    homeProgressBars.updateUI(true)
                 }
             }
         } catch (exp: Exception) {
@@ -285,6 +285,6 @@ class Home : Fragment(), UpdateListener {
     }
 
     override fun onStuffUpdated() {
-        homeProgressBars.updateUI()
+        homeProgressBars.updateUI(true)
     }
 }

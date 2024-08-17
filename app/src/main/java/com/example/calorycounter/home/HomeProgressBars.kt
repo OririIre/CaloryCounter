@@ -2,6 +2,7 @@ package com.example.calorycounter.home
 
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Color
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.ProgressBar
@@ -15,6 +16,7 @@ import com.example.calorycounter.helpers.Keys
 import com.example.calorycounter.helpers.caloriesFile
 import com.example.calorycounter.helpers.goalsFile
 import com.example.calorycounter.helpers.proteinFile
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import kotlin.math.round
 
@@ -52,7 +54,7 @@ class HomeProgressBars (con: Context, remainingCalories: ProgressBar, consumedCa
     private val leftKcal = leftCal
     private val leftProt = leftPro
 
-    fun updateUI(){
+    fun updateUI(snackCall: Boolean){
         goals = getGoals()
         val caloriesGoal = goals[Keys.Calories.toString()].toString()
         val proteinGoal = goals[Keys.Protein.toString()].toString()
@@ -74,7 +76,7 @@ class HomeProgressBars (con: Context, remainingCalories: ProgressBar, consumedCa
         updateReamainingUI(currentCalories, Keys.Calories)
         updateReamainingUI(currentProtein, Keys.Protein)
 
-        if (currentCalories > caloriesGoal.toDouble()) {
+        if (currentCalories > caloriesGoal.toDouble() && snackCall) {
             showSnackbar()
         }
     }
@@ -86,9 +88,10 @@ class HomeProgressBars (con: Context, remainingCalories: ProgressBar, consumedCa
         val params = snackView.layoutParams as FrameLayout.LayoutParams
         params.gravity = Gravity.TOP
         params.setMargins(20,30, 20,0)
+        params.topMargin = 150
         snackView.layoutParams = params
-        snackView.setBackgroundColor(context.resources.getColor(R.color.black, null))
-        snack.setBackgroundTint(context.resources.getColor(R.color.black, null))
+        snackView.setBackgroundColor(MaterialColors.getColor(context, R.attr.element_background, Color.BLACK))
+        snack.setBackgroundTint(MaterialColors.getColor(context, R.attr.element_background, Color.BLACK))
         snack.show()
     }
 
